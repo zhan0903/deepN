@@ -32,7 +32,7 @@ class SharedNoiseTable(object):
         print('Sampling {} random numbers with seed {}'.format(count, seed))
         self._shared_mem = multiprocessing.Array(ctypes.c_float, count)
         self.noise = np.ctypeslib.as_array(self._shared_mem.get_obj())
-        print("in sharednoisetable, self.noise:{}".format(self.noise))
+        print("in sharednoisetable, self.noise:{0},size of self.noise:{1}".format(self.noise, len(self.noise)))
         assert self.noise.dtype == np.float32
         self.noise[:] = np.random.RandomState(seed).randn(count)  # 64-bit to 32-bit conversion here
         print('Sampled {} bytes'.format(self.noise.size * 4))
