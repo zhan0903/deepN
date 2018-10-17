@@ -208,6 +208,8 @@ def main(**exp):
             if state.elite is not None:
                 validation_population = [state.elite] + validation_population[:-1]
 
+            logger.debug("cached_parents:{}".format(cached_parents))
+
             validation_tasks = [(worker.model.compute_weights_from_seeds(noise, validation_population[x].seeds, cache=cached_parents), validation_population[x].seeds)
                                            for x in range(exp['validation_threshold'])]
             _, population_validation, population_validation_len = zip(*worker.monitor_eval_repeated(validation_tasks, max_frames=state.tslimit * 4, num_episodes=exp['num_validation_episodes']))
@@ -219,6 +221,7 @@ def main(**exp):
 
             population_elite_idx = np.argmax(population_validation)
             state.elite = validation_population[population_elite_idx]
+
             elite_theta = worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents)
             _, population_elite_evals, population_elite_evals_timesteps = worker.monitor_eval_repeated([(elite_theta, state.elite.seeds)], max_frames=None, num_episodes=exp['num_test_episodes'])[0]
 

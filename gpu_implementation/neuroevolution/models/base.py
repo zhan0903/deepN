@@ -72,7 +72,6 @@ class BaseModel(object):
             ret = tf.reshape(ret, final_shape)
             self.description += "Convolution layer {} with input shape {} and output shape {}\n".format(name, x.get_shape(), ret.get_shape())
 
-
             if bias:
                 b = self.create_bias_variable('b', (1, 1, 1, num_outputs))
                 if self.indices is not None:
