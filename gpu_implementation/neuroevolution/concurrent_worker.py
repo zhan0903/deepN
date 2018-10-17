@@ -148,7 +148,6 @@ class ConcurrentWorkers(object):
             self.steps_counter = tf.constant(0)
             self.async_hub = AsyncTaskHub(input_queue, done_queue)
 
-
     def eval_async(self, theta, extras, max_frames=None, callback=None, error_callback=None):
         return self.async_hub.run_async((theta, extras, max_frames), callback=callback, error_callback=error_callback)
 

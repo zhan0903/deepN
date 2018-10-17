@@ -34,6 +34,19 @@ from neuroevolution.concurrent_worker import ConcurrentWorkers
 import neuroevolution.models
 import gym_tensorflow
 import tabular_logger as tlogger
+import logging
+
+logger = logging.getLogger(__name__)
+fh = logging.FileHandler('./logger.out')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
+logger.setLevel(level=logging.DEBUG)
 
 
 class TrainingState(object):
@@ -109,8 +122,10 @@ def main(**exp):
     tlogger.info('Logging to: {}'.format(log_dir))
     Model = neuroevolution.models.__dict__[exp['model']]
     all_tstart = time.time()
+
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
+
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
     with WorkerSession(worker) as sess:
         noise = SharedNoiseTable()
@@ -119,9 +134,9 @@ def main(**exp):
         cached_parents = []
         results = []
 
-
         def make_offspring():
             if len(cached_parents) == 0:
+                # init parents
                 return worker.model.randomize(rs, noise)
             else:
                 assert len(cached_parents) == exp['selection_threshold']
@@ -140,9 +155,11 @@ def main(**exp):
             tlogger.info('Failed to load snapshot')
             state = TrainingState(exp)
 
+        # False
         if 'load_population' in exp:
             state.copy_population(exp['load_population'])
 
+        # False
         # Cache first population if needed (on restart)
         if state.population and exp['selection_threshold'] > 0:
             tlogger.info("Caching parents")
@@ -164,6 +181,8 @@ def main(**exp):
 
             tasks = [make_offspring() for _ in range(exp['population_size'])]
             for seeds, episode_reward, episode_length in worker.monitor_eval(tasks, max_frames=state.tslimit * 4):
+                logger.debug("in main, seeds:{0},episode_reward:{1},episode_length:{2}".
+                             format(seeds, episode_reward, episode_length))
                 results.append(Offspring(seeds, [episode_reward], [episode_length]))
             state.num_frames += sess.run(worker.steps_counter) - frames_computed_so_far
 
