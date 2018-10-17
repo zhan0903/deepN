@@ -8,5 +8,5 @@
     "timesteps": 1.5e9,
     "validation_threshold": 10,
     "mutation_power": 0.002,
-    "selection_threshold": 20
+    "selection_threshold": 2
 }

@@ -38,7 +38,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 fh = logging.FileHandler('./logger.out')
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('In ga.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
@@ -208,7 +208,7 @@ def main(**exp):
             if state.elite is not None:
                 validation_population = [state.elite] + validation_population[:-1]
 
-            logger.debug("cached_parents:{}".format(cached_parents))
+            logger.debug("cached_parents:{0}, len of cached_parents:{1}".format(cached_parents, len(cached_parents)))
 
             validation_tasks = [(worker.model.compute_weights_from_seeds(noise, validation_population[x].seeds, cache=cached_parents), validation_population[x].seeds)
                                            for x in range(exp['validation_threshold'])]
