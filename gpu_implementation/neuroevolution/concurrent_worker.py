@@ -25,6 +25,21 @@ import tabular_logger as tlogger
 from queue import Queue
 from multiprocessing.pool import ApplyResult
 from .distributed_helpers import AsyncWorker, WorkerHub, AsyncTaskHub
+import logging
+
+
+logger = logging.getLogger(__name__)
+fh = logging.FileHandler('./logger.out')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
+logger.setLevel(level=logging.DEBUG)
+
 
 class RLEvalutionWorker(AsyncWorker):
     def __init__(self, make_env_f, model, batch_size, device='/cpu:0', ref_batch=None):
@@ -133,8 +148,10 @@ class ConcurrentWorkers(object):
         with tf.Session() as sess:
             import gym_tensorflow
             ref_batch = gym_tensorflow.get_ref_batch(make_env_f, sess, 128)
-            ref_batch=ref_batch[:, ...]
+            ref_batch = ref_batch[:, ...]
         if input_queue is None and done_queue is None:
+            logger.debug("input_queue is None, creating self.workers，len(gpus):{0},*args:{1},**kwwargs:{2}".
+                         format(len(gpus), *args, **kwargs))
             self.workers = [RLEvalutionWorker(make_env_f, *args, ref_batch=ref_batch, **dict(kwargs, device=gpus[i])) for i in range(len(gpus))]
             self.model = self.workers[0].model
             self.steps_counter = sum([w.steps_counter for w in self.workers])
