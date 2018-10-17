@@ -26,7 +26,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 fh = logging.FileHandler('./logger.out')
-formatter = logging.Formatter('In helper.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s- In helper.py - %(message)s')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
@@ -48,6 +48,7 @@ class SharedNoiseTable(object):
         logger.debug("in sharednoisetable, self.noise:{0},size of self.noise:{1}".format(self.noise, len(self.noise)))
         assert self.noise.dtype == np.float32
         self.noise[:] = np.random.RandomState(seed).randn(count)  # 64-bit to 32-bit conversion here
+        logger.debug("in sharednoisetable, after 64 to 32, self.noise:{0},size of self.noise:{1}".format(self.noise, len(self.noise)))
         print('Sampled {} bytes'.format(self.noise.size * 4))
 
     def get(self, i, dim):
