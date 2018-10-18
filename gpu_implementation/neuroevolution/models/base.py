@@ -154,7 +154,7 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
-            logger.debug("in compute_weights_from_seeds idx:{0},self.scale_by:{1},len of scale_by".
+            logger.debug("in compute_weights_from_seeds idx:{0},self.scale_by:{1},len of scale_by:{2}".
                          format(idx, self.scale_by, len(self.scale_by)))
             theta = noise.get(idx, self.num_params).copy() * self.scale_by
             logger.debug("in compute_weights_from_seeds,theta:{}".format(theta))
@@ -185,6 +185,7 @@ class BaseModel(object):
         self.num_params = 0
         self.batch_size = 0
         self.scale_by = []
+        logger.debug("come here in init scale_by!!!")
         shapes = []
         for var in self.variables:
             shape = [v.value for v in var.get_shape()]
