@@ -41,6 +41,7 @@ class Model(BaseModel):
     def create_weight_variable(self, name, shape, std):
         logger.debug("in create_weight_variable, 99999999999")
         scale_by = std / np.sqrt(np.prod(shape[:-1]))
+        logger.debug("in Model, create_weight_variable:{}".format(scale_by))
         return self.create_variable(name, shape, scale_by)
 
     def _make_net(self, x, num_actions):
