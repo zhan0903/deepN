@@ -117,6 +117,7 @@ class BaseModel(object):
 
     def make_net(self, x, num_actions, indices=None, batch_size=1, ref_batch=None):
         with tf.variable_scope('Model') as scope:
+            logger.debug("in make_net, why++++++++")
             self.description = "Input shape: {}. Number of actions: {}\n".format(x.get_shape(), num_actions)
             self.scope = scope
             self.num_actions = num_actions
