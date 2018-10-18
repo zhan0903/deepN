@@ -59,8 +59,12 @@ class BaseModel(object):
         return var
 
     def create_weight_variable(self, name, shape, std):
+        logger.debug("in create_weight_variable,shape:{0},name:{1},std:{2}".
+                     format(shape, name, std))
         factor = (shape[-2] + shape[-1]) * np.prod(shape[:-2]) / 2
         scale_by = std * np.sqrt(factor)
+        logger.debug("in create_weight_variable,factor:{0},scale_by:{1}".
+                     format(factor, scale_by))
         return self.create_variable(name, shape, scale_by)
 
     def create_bias_variable(self, name, shape):
