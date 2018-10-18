@@ -135,7 +135,7 @@ class BaseModel(object):
         self.make_weights()
 
     def randomize(self, rs, noise):
-        logger.debug("randomize:rs:{0},self.num_params:{1}".format(rs, self.num_params))
+        logger.debug("randomize:rs:{0},noise:{1}".format(rs, noise))
         seeds = (noise.sample_index(rs, self.num_params), )
         logger.debug("randomnize:seeds:{0}".format(seeds))
         return self.compute_weights_from_seeds(noise, seeds), seeds
@@ -154,7 +154,10 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
+            logger.debug("in compute_weights_from_seeds idx:{0},self.scale_by:{1}".
+                         format(idx, self.scale_by))
             theta = noise.get(idx, self.num_params).copy() * self.scale_by
+            logger.debug("in compute_weights_from_seeds,theta:{}".format(theta))
 
             for mutation in seeds[1:]:
                 idx, power = mutation
