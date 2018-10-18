@@ -59,7 +59,7 @@ class BaseModel(object):
         return var
 
     def create_weight_variable(self, name, shape, std):
-        logger.debug("in create_weight_variable,shape:{0},name:{1},std:{2}".
+        logger.debug("in create_weight_variable==========,shape:{0},name:{1},std:{2}".
                      format(shape, name, std))
         factor = (shape[-2] + shape[-1]) * np.prod(shape[:-2]) / 2
         scale_by = std * np.sqrt(factor)
