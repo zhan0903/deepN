@@ -75,7 +75,9 @@ class RLEvalutionWorker(AsyncWorker):
                     self.obs_op = self.env.observation(indices=self.placeholder_indices)
                     obs = tf.expand_dims(self.obs_op, axis=1)
                     self.action_op = self.model.make_net(obs, self.env.action_space, indices=self.placeholder_indices, batch_size=self.batch_size, ref_batch=ref_batch)
+                logger.debug("before make weights")
                 self.model.initialize()
+                logger.debug("after make weights")
 
                 if self.env.discrete_action:
                     self.action_op = tf.argmax(self.action_op[:tf.shape(self.placeholder_indices)[0]], axis=-1, output_type=tf.int32)
