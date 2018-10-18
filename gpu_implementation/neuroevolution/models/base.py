@@ -22,6 +22,21 @@ import numpy as np
 import math
 import tabular_logger as tlogger
 from gym_tensorflow.ops import indexed_matmul
+import logging
+
+
+logger = logging.getLogger(__name__)
+fh = logging.FileHandler('./logger.out')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
+logger.setLevel(level=logging.DEBUG)
+
 
 class BaseModel(object):
     def __init__(self):
@@ -120,7 +135,9 @@ class BaseModel(object):
         self.make_weights()
 
     def randomize(self, rs, noise):
+        logger.debug("randomize:rs:{0},self.num_params:{1}".format(rs, self.num_params))
         seeds = (noise.sample_index(rs, self.num_params), )
+        logger.debug("randomnize:seeds:{0}".format(seeds))
         return self.compute_weights_from_seeds(noise, seeds), seeds
 
     def compute_weights_from_seeds(self, noise, seeds, cache=None):

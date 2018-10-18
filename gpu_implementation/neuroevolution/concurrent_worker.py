@@ -61,6 +61,7 @@ class RLEvalutionWorker(AsyncWorker):
 
     def make_net(self, model_constructor, device, ref_batch=None):
         self.model = model_constructor()
+        logger.debug("self.model:{}".format(self.model))
 
         with tf.variable_scope(None, default_name='model'):
             with tf.device('/cpu:0'):
@@ -150,14 +151,16 @@ class ConcurrentWorkers(object):
             ref_batch = gym_tensorflow.get_ref_batch(make_env_f, sess, 128)
             ref_batch = ref_batch[:, ...]
         if input_queue is None and done_queue is None:
-            logger.debug("input_queue is None, creating self.workers，len(gpus):{0},args:{1},kwwargs:{2}".
-                         format(len(gpus), args, kwargs))
+            logger.debug("input_queue is None, creating self.workers，gpus:{0},args:{1},kwargs:{2}".
+                         format(gpus, args, kwargs))
             self.workers = [RLEvalutionWorker(make_env_f, *args, ref_batch=ref_batch, **dict(kwargs, device=gpus[i])) for i in range(len(gpus))]
             self.model = self.workers[0].model
             self.steps_counter = sum([w.steps_counter for w in self.workers])
             self.async_hub = AsyncTaskHub()
             self.hub = WorkerHub(self.workers, self.async_hub.input_queue, self.async_hub)
         else:
+            logger.debug("input_queue is Not None, creating self.workers，gpus:{0},args:{1},kwargs:{2}".
+                         format(gpus, args, kwargs))
             fake_worker = RLEvalutionWorker( * args, ** dict(kwargs, device=gpus[0]))
             self.model = fake_worker.model
             self.workers = []
