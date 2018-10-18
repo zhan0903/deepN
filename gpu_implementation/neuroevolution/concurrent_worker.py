@@ -154,8 +154,8 @@ class ConcurrentWorkers(object):
             ref_batch = gym_tensorflow.get_ref_batch(make_env_f, sess, 128)
             ref_batch = ref_batch[:, ...]
         if input_queue is None and done_queue is None:
-            logger.debug("input_queue is None, creating self.workers，gpus:{0},args:{1},kwargs:{2},ref_batch:{3}".
-                         format(gpus, args, kwargs, ref_batch))
+            logger.debug("input_queue is None, creating self.workers，gpus:{0},args:{1},kwargs:{2},ref_batch:{3}, shape of ref_batch:{4}".
+                         format(gpus, args, kwargs, ref_batch, ref_batch.shape))
             self.workers = [RLEvalutionWorker(make_env_f, *args, ref_batch=ref_batch, **dict(kwargs, device=gpus[i])) for i in range(len(gpus))]
             self.model = self.workers[0].model
             self.steps_counter = sum([w.steps_counter for w in self.workers])
