@@ -97,6 +97,7 @@ class BaseModel(object):
 
     def dense(self, x, size, name, bias=True, std=1.0):
         with tf.variable_scope(name):
+            logger.debug("in dense function------========")
             w = self.create_weight_variable('w', std=std, shape=(x.get_shape()[-1].value, size))
             if self.indices is None:
                 ret = tf.matmul(x, w)
