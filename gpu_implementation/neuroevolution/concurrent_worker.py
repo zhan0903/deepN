@@ -72,6 +72,7 @@ class RLEvalutionWorker(AsyncWorker):
                 self.reset_op = self.env.reset(indices=self.placeholder_indices, max_frames=self.placeholder_max_frames)
 
                 with tf.device(device):
+                    logger.debug("come here------------")
                     self.obs_op = self.env.observation(indices=self.placeholder_indices)
                     obs = tf.expand_dims(self.obs_op, axis=1)
                     self.action_op = self.model.make_net(obs, self.env.action_space, indices=self.placeholder_indices, batch_size=self.batch_size, ref_batch=ref_batch)
@@ -153,8 +154,8 @@ class ConcurrentWorkers(object):
             ref_batch = gym_tensorflow.get_ref_batch(make_env_f, sess, 128)
             ref_batch = ref_batch[:, ...]
         if input_queue is None and done_queue is None:
-            logger.debug("input_queue is None, creating self.workers，gpus:{0},args:{1},kwargs:{2}".
-                         format(gpus, args, kwargs))
+            logger.debug("input_queue is None, creating self.workers，gpus:{0},args:{1},kwargs:{2},ref_batch:{3}".
+                         format(gpus, args, kwargs, ref_batch))
             self.workers = [RLEvalutionWorker(make_env_f, *args, ref_batch=ref_batch, **dict(kwargs, device=gpus[i])) for i in range(len(gpus))]
             self.model = self.workers[0].model
             self.steps_counter = sum([w.steps_counter for w in self.workers])
