@@ -76,8 +76,10 @@ class BaseModel(object):
     def conv(self, x, kernel_size, num_outputs, name, stride=1, padding="SAME", bias=True, std=1.0):
         assert len(x.get_shape()) == 5 # Policies x Batch x Height x Width x Feature
         with tf.variable_scope(name):
+            logger.debug("in base conv88888888888")
             w = self.create_weight_variable('w', std=std,
                                             shape=(kernel_size, kernel_size, int(x.get_shape()[-1].value), num_outputs))
+            logger.debug("in conv,w:{}".format(w))
             w = tf.reshape(w, [-1, kernel_size *kernel_size * int(x.get_shape()[-1].value), num_outputs])
 
             x_reshape = tf.reshape(x, (-1, x.get_shape()[2], x.get_shape()[3], x.get_shape()[4]))
