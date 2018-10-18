@@ -75,6 +75,7 @@ class RLEvalutionWorker(AsyncWorker):
                     logger.debug("come here------------")
                     self.obs_op = self.env.observation(indices=self.placeholder_indices)
                     obs = tf.expand_dims(self.obs_op, axis=1)
+                    logger.debug("in make net, obs:{}".format(obs))
                     self.action_op = self.model.make_net(obs, self.env.action_space, indices=self.placeholder_indices, batch_size=self.batch_size, ref_batch=ref_batch)
                 logger.debug("before make weights")
                 self.model.initialize()
