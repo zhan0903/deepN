@@ -39,6 +39,7 @@ logger.setLevel(level=logging.DEBUG)
 
 class Model(BaseModel):
     def create_weight_variable(self, name, shape, std):
+        logger.debug("in create_weight_variable, 99999999999")
         scale_by = std / np.sqrt(np.prod(shape[:-1]))
         return self.create_variable(name, shape, scale_by)
 
