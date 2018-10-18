@@ -129,6 +129,7 @@ class BaseModel(object):
             return tf.reshape(a, (-1, num_actions))
 
     def _make_net(self, x, num_actions):
+        logger.debug("why come here")
         raise NotImplementedError()
 
     def initialize(self):
