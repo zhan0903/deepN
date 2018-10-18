@@ -59,6 +59,8 @@ class BaseModel(object):
         return var
 
     def create_weight_variable(self, name, shape, std):
+        logger.debug("come create_weight_variable````````````````")
+
         logger.debug("in create_weight_variable==========,shape:{0},name:{1},std:{2}".
                      format(shape, name, std))
         factor = (shape[-2] + shape[-1]) * np.prod(shape[:-2]) / 2
@@ -68,6 +70,7 @@ class BaseModel(object):
         return self.create_variable(name, shape, scale_by)
 
     def create_bias_variable(self, name, shape):
+        logger.debug("come create_bias_variable~~~~~~~~~~~~~~~~~")
         return self.create_variable(name, shape, 0.0)
 
     def conv(self, x, kernel_size, num_outputs, name, stride=1, padding="SAME", bias=True, std=1.0):
