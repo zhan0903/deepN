@@ -20,6 +20,21 @@ THE SOFTWARE.
 import numpy as np
 import tensorflow as tf
 from .base import BaseModel
+import logging
+
+logger = logging.getLogger(__name__)
+fh = logging.FileHandler('./logger.out')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
+logger.setLevel(level=logging.DEBUG)
+
+
 
 
 class Model(BaseModel):
@@ -38,6 +53,7 @@ class Model(BaseModel):
 
 class LargeModel(Model):
     def _make_net(self, x, num_actions):
+        logger.debug("in _make_net, come here is right=========")
         x = self.nonlin(self.conv(x, name='conv1', num_outputs=32, kernel_size=8, stride=4, std=1.0))
         x = self.nonlin(self.conv(x, name='conv2', num_outputs=64, kernel_size=4, stride=2, std=1.0))
         x = self.nonlin(self.conv(x, name='conv3', num_outputs=64, kernel_size=3, stride=1, std=1.0))
