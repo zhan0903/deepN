@@ -53,11 +53,14 @@ class BaseModel(object):
 
     def create_variable(self, name, shape, scale_by):
         logger.debug("come create_variable````````````````")
+        logger.debug("in create_variable,shape:{0},scale_by:{1},batch_size:{2}".
+                     format(shape, scale_by, self.batch_size))
 
         var = tf.get_variable(name, (self.batch_size, ) + shape, trainable=False)
         if not hasattr(var, 'scale_by'):
             var.scale_by = scale_by
             self.variables.append(var)
+            logger.debug("in create_variable,var:{0},self.variables:{1}".format(var,self.variables))
         return var
 
     def create_weight_variable(self, name, shape, std):
