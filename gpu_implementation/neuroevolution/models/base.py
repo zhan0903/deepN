@@ -60,7 +60,7 @@ class BaseModel(object):
         if not hasattr(var, 'scale_by'):
             var.scale_by = scale_by
             self.variables.append(var)
-            logger.debug("in create_variable,var:{0},self.variables:{1}".format(var,self.variables))
+            logger.debug("in create_variable,var:{0},self.variables:{1}".format(var, self.variables))
         return var
 
     def create_weight_variable(self, name, shape, std):
@@ -127,6 +127,10 @@ class BaseModel(object):
                 return ret
 
     def flattenallbut0(self, x):
+        logger.debug("in flattenallbut0, tf.shape(x)[1]:{0},np.prod(x.get_shape()[2:]:{1}".
+                     format(tf.shape(x)[1], np.prod(x.get_shape()[2:])))
+        logger.debug("in flattenallbut0, x:{}".format(x))
+
         return tf.reshape(x, [-1, tf.shape(x)[1], np.prod(x.get_shape()[2:])])
 
     def make_net(self, x, num_actions, indices=None, batch_size=1, ref_batch=None):
