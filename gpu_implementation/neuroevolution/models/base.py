@@ -127,8 +127,8 @@ class BaseModel(object):
                 return ret
 
     def flattenallbut0(self, x):
-        logger.debug("in flattenallbut0, tf.shape(x)[1]:{0},np.prod(x.get_shape()[2:]:{1}".
-                     format(tf.shape(x)[1], np.prod(x.get_shape()[2:])))
+        logger.debug("in flattenallbut0, tf.shape(x)[1]:{0},np.prod(x.get_shape()[2:]:{1}，x.get_shape():{2}".
+                     format(tf.shape(x)[1], np.prod(x.get_shape()[2:]), x.get_shape()))
         logger.debug("in flattenallbut0, x:{}".format(x))
 
         return tf.reshape(x, [-1, tf.shape(x)[1], np.prod(x.get_shape()[2:])])
