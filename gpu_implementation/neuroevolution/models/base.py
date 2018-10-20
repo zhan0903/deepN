@@ -211,7 +211,7 @@ class BaseModel(object):
             shape = [v.value for v in var.get_shape()]
             shapes.append(shape)
             self.num_params += np.prod(shape[1:])
-            logger.debug("in make_weights, var.scale:{}".format(var.scale_by))
+            logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
             self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
             self.batch_size = shape[0]
         self.seeds = [None] * self.batch_size
