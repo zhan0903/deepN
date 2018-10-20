@@ -93,6 +93,7 @@ class WorkerHub(object):
         self.input_queue.put(None)
         self.done_buffer.put(None)
 
+
 class AsyncTaskHub(object):
     def __init__(self, input_queue=None, results_queue=None):
         if input_queue is None:
@@ -130,6 +131,6 @@ class AsyncTaskHub(object):
         return result
 
     def put(self, result):
-        job, result=result
+        job, result = result
         self._cache[job]._set(0, (True, result))
 

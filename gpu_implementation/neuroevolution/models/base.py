@@ -211,10 +211,12 @@ class BaseModel(object):
             shape = [v.value for v in var.get_shape()]
             shapes.append(shape)
             self.num_params += np.prod(shape[1:])
+            logger.debug("in make_weights, var.scale:{}".format(var.scale_by))
             self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
             self.batch_size = shape[0]
         self.seeds = [None] * self.batch_size
         self.scale_by = np.concatenate(self.scale_by)
+        logger.debug("in make_weight, self.num_params:{}".format(self.num_params))
         assert self.scale_by.size == self.num_params
 
         # Make commit op
