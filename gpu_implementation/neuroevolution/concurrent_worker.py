@@ -82,6 +82,7 @@ class RLEvalutionWorker(AsyncWorker):
                 logger.debug("after make weights")
 
                 if self.env.discrete_action:
+                    logger.debug("self.env.discrete_action:{}".format(self.env.discrete_action))
                     self.action_op = tf.argmax(self.action_op[:tf.shape(self.placeholder_indices)[0]], axis=-1, output_type=tf.int32)
                 with tf.device(device):
                     self.rew_op, self.done_op = self.env.step(self.action_op, indices=self.placeholder_indices)
