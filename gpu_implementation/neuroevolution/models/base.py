@@ -103,7 +103,6 @@ class BaseModel(object):
                 b = self.create_bias_variable('b', (1, 1, 1, num_outputs))
                 if self.indices is not None:
                     b = tf.gather(b, self.indices)
-
                 ret =  ret + b
             return ret
 
@@ -181,6 +180,7 @@ class BaseModel(object):
 
             for mutation in seeds[1:]:
                 idx, power = mutation
+                logger.debug("come mutation")
                 theta = self.compute_mutation(noise, theta, idx, power)
             return theta
 
@@ -216,7 +216,8 @@ class BaseModel(object):
             self.batch_size = shape[0]
         self.seeds = [None] * self.batch_size
         self.scale_by = np.concatenate(self.scale_by)
-        logger.debug("in make_weight, self.num_params:{}".format(self.num_params))
+        logger.debug("in make_weight, self.num_params:{0},len of self.scale_by".
+                     format(self.num_params,len(self.scale_by)))
         assert self.scale_by.size == self.num_params
 
         # Make commit op
