@@ -111,9 +111,11 @@ class Offspring(object):
     def training_steps(self):
         return np.sum(self.ep_len)
 
+
 class OffspringCached(object):
     def __init__(self, seeds):
         self.seeds = seeds
+
 
 def main(**exp):
     log_dir = tlogger.log_dir()

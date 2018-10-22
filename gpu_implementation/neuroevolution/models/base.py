@@ -110,11 +110,12 @@ class BaseModel(object):
         with tf.variable_scope(name):
             logger.debug("in dense function------========")
             w = self.create_weight_variable('w', std=std, shape=(x.get_shape()[-1].value, size))
-            logger.debug("in dense after create_weight_variable000000000")
             if self.indices is None:
                 ret = tf.matmul(x, w)
+                logger.debug("in dense,indices is None,indices:{0},ret:{1}".format(self.indices, ret))
             else:
                 ret = indexed_matmul(x, w, self.indices)
+                logger.debug("in dense,indices is not None,indices:{0},ret:{1}".format(self.indices, ret))
             self.description += "Dense layer {} with input shape {} and output shape {}\n".format(name, x.get_shape(), ret.get_shape())
             if bias:
                 b = self.create_bias_variable('b', (1, size, ))
