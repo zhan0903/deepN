@@ -61,7 +61,7 @@ class RLEvalutionWorker(AsyncWorker):
 
     def make_net(self, model_constructor, device, ref_batch=None):
         self.model = model_constructor()
-        logger.debug("in make_net, self.model:{0}, device:{1},ref_batch:{2}".format(self.model, device,ref_batch))
+        logger.debug("in make_net, self.model:{0}, device:{1},ref_batch:{2}".format(self.model, device, ref_batch))
 
         with tf.variable_scope(None, default_name='model'):
             with tf.device('/cpu:0'):
