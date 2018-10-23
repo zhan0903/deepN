@@ -163,6 +163,7 @@ class BaseModel(object):
 
     def compute_weights_from_seeds(self, noise, seeds, cache=None):
         if cache:
+            logger.debug("in compute_weights_from_seeds,debug come cache12121212")
             cache_seeds = [o[1] for o in cache]
             if seeds in cache_seeds:
                 return cache[cache_seeds.index(seeds)][0]
