@@ -156,7 +156,7 @@ class ConcurrentWorkers(object):
             import gym_tensorflow
             ref_batch = gym_tensorflow.get_ref_batch(make_env_f, sess, 128)
             ref_batch = ref_batch[:, ...]
-            logger.debug("in concurrentWorkers,ref_batch")
+            logger.debug("in concurrentWorkers,ref_batch:{}".format(ref_batch))
         if input_queue is None and done_queue is None:
             logger.debug("input_queue is None, creating self.workers，gpus:{0},args:{1},kwargs:{2}, shape of ref_batch:{3}".
                          format(gpus, args, kwargs, ref_batch.shape))
