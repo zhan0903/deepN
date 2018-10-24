@@ -230,7 +230,7 @@ class BaseModel(object):
         self.scale_by = []
         logger.debug("come here in init scale_by!!!")
         shapes = []
-        ran_num = np.random.randint(1, 10)
+        ran_num = np.random.randint(1, 3)
 
         for var in self.variables:
             shape = [v.value for v in var.get_shape()]
