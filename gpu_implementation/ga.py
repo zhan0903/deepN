@@ -26,7 +26,6 @@ import pickle
 import tempfile
 import os
 from shutil import copyfile
-tf.keras.initializers.he_normal(seed=None)tf.keras.initializers.he_normal(seed=None)
 import numpy as np
 from neuroevolution.tf_util import get_available_gpus, WorkerSession
 from neuroevolution.helper import SharedNoiseTable, make_schedule

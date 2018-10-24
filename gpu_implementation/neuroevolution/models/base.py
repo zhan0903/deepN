@@ -205,7 +205,6 @@ class BaseModel(object):
         self.seeds[i] = seeds
         return True
 
-
     def initialize_parameters_he(self, layers_dims):
         """
         Arguments:
@@ -256,10 +255,6 @@ class BaseModel(object):
 
         # add He initialization
         ran_num = np.random.randint(1, 10)
-        if ran_num == 1:
-            W = tf.get_variable("W", shape=[1, self.num_params],
-                                initializer=tf.initializers.he_normal())
-            logger.debug("in make weights:W:{}".format(W))
 
 
         assert self.scale_by.size == self.num_params
