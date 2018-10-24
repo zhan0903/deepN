@@ -221,6 +221,8 @@ class BaseModel(object):
         if self.seeds[i] == seeds:
             return False
         sess.run(self.load_op, {self.theta: theta, self.theta_idx: i})
+        logger.debug("in load,theta:{0},self.theta_idx:{1},i:{2}".
+                     format(theta, self.theta_idx, i))
         self.seeds[i] = seeds
         return True
 
