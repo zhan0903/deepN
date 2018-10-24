@@ -261,14 +261,15 @@ class BaseModel(object):
 
 
         assert self.scale_by.size == self.num_params
-
         # Make commit op
-        assigns = []
+        # assigns = []
 
         self.theta = tf.placeholder(tf.float32, [self.num_params])
         self.theta_idx = tf.placeholder(tf.int32, ())
         offset = 0
         assigns = []
+        # reshape
+        logger.debug("in make_weight, self.theta:{0},self.theta_idx:{1}".format(self.theta, self.theta_idx))
         for (shape,v) in zip(shapes, self.variables):
             size = np.prod(shape[1:])
             assigns.append(tf.scatter_update(v, self.theta_idx, tf.reshape(self.theta[offset:offset+size], shape[1:])))
