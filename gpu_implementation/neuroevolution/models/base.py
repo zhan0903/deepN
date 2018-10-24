@@ -23,6 +23,7 @@ import math
 import tabular_logger as tlogger
 from gym_tensorflow.ops import indexed_matmul
 import logging
+from tensorflow.python.ops import random_ops
 
 
 logger = logging.getLogger(__name__)
@@ -204,15 +205,46 @@ class BaseModel(object):
         self.seeds[i] = seeds
         return True
 
+
+    def initialize_parameters_he(self, layers_dims):
+        """
+        Arguments:
+        layer_dims -- python array (list) containing the size of each layer.
+
+        Returns:
+        parameters -- python dictionary containing your parameters "W1", "b1", ..., "WL", "bL":
+                        W1 -- weight matrix of shape (layers_dims[1], layers_dims[0])
+                        b1 -- bias vector of shape (layers_dims[1], 1)
+                        ...
+                        WL -- weight matrix of shape (layers_dims[L], layers_dims[L-1])
+                        bL -- bias vector of shape (layers_dims[L], 1)
+        """
+
+        np.random.seed(3)
+        parameters = {}
+        L = len(layers_dims) - 1  # integer representing the number of layers
+
+        for l in range(1, L + 1):
+            ### START CODE HERE ### (≈ 2 lines of code)
+            parameters['W' + str(l)] = np.random.randn(layers_dims[l], layers_dims[l - 1]) * np.sqrt(
+                2.0 / layers_dims[l - 1])
+            parameters['b' + str(l)] = np.zeros((layers_dims[l], 1))
+            ### END CODE HERE ###
+
+        return parameters
+
+
     def make_weights(self):
         self.num_params = 0
         self.batch_size = 0
         self.scale_by = []
         logger.debug("come here in init scale_by!!!")
         shapes = []
+
         for var in self.variables:
             shape = [v.value for v in var.get_shape()]
             shapes.append(shape)
+            logger.debug("in make_weights,shape:{}".format(shape))
             self.num_params += np.prod(shape[1:])
             logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
             self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
@@ -221,6 +253,15 @@ class BaseModel(object):
         self.scale_by = np.concatenate(self.scale_by)
         logger.debug("in make_weight, self.num_params:{0},len of self.scale_by:{1}, self.scale_by:{2}".
                      format(self.num_params, len(self.scale_by), self.scale_by))
+
+        # add He initialization
+        ran_num = np.random.randint(1, 10)
+        if ran_num == 1:
+            W = tf.get_variable("W", shape=[1, self.num_params],
+                                initializer=tf.initializers.he_normal())
+            logger.debug("in make weights:W:{}".format(W))
+
+
         assert self.scale_by.size == self.num_params
 
         # Make commit op
