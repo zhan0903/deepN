@@ -39,6 +39,24 @@ logger.addHandler(console_handler)
 logger.setLevel(level=logging.DEBUG)
 
 
+def normal(shape, scale=0.05, name=None):
+    return np.random.normal(loc=0.0, scale=scale, size=shape)
+
+
+def get_fans(shape):
+    fan_in = shape[0] if len(shape) == 2 else np.prod(shape[1:])
+    fan_out = shape[1] if len(shape) == 2 else shape[0]
+    return fan_in, fan_out
+
+
+def he_normal(shape, name=None):
+    ''' Reference:  He et al., http://arxiv.org/abs/1502.01852
+    '''
+    fan_in, fan_out = get_fans(shape)
+    s = np.sqrt(2. / fan_in)
+    return normal(shape, s, name=name)
+
+
 class BaseModel(object):
     def __init__(self):
         self.nonlin = tf.nn.relu
@@ -205,33 +223,6 @@ class BaseModel(object):
         self.seeds[i] = seeds
         return True
 
-    def initialize_parameters_he(self, layers_dims):
-        """
-        Arguments:
-        layer_dims -- python array (list) containing the size of each layer.
-
-        Returns:
-        parameters -- python dictionary containing your parameters "W1", "b1", ..., "WL", "bL":
-                        W1 -- weight matrix of shape (layers_dims[1], layers_dims[0])
-                        b1 -- bias vector of shape (layers_dims[1], 1)
-                        ...
-                        WL -- weight matrix of shape (layers_dims[L], layers_dims[L-1])
-                        bL -- bias vector of shape (layers_dims[L], 1)
-        """
-
-        np.random.seed(3)
-        parameters = {}
-        L = len(layers_dims) - 1  # integer representing the number of layers
-
-        for l in range(1, L + 1):
-            ### START CODE HERE ### (≈ 2 lines of code)
-            parameters['W' + str(l)] = np.random.randn(layers_dims[l], layers_dims[l - 1]) * np.sqrt(
-                2.0 / layers_dims[l - 1])
-            parameters['b' + str(l)] = np.zeros((layers_dims[l], 1))
-            ### END CODE HERE ###
-
-        return parameters
-
 
     def make_weights(self):
         self.num_params = 0
@@ -239,22 +230,28 @@ class BaseModel(object):
         self.scale_by = []
         logger.debug("come here in init scale_by!!!")
         shapes = []
+        ran_num = np.random.randint(1, 10)
 
         for var in self.variables:
             shape = [v.value for v in var.get_shape()]
             shapes.append(shape)
             logger.debug("in make_weights,shape:{}".format(shape))
             self.num_params += np.prod(shape[1:])
+            if ran_num == 1:
+                # add He initialization
+                parameters = he_normal(shape)
+            else:
+                parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
+            logger.debug("in make_weights, parameters:{}".format(parameters))
+
             logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
-            self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
+            # self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
+            self.scale_by.append(parameters)
             self.batch_size = shape[0]
         self.seeds = [None] * self.batch_size
         self.scale_by = np.concatenate(self.scale_by)
         logger.debug("in make_weight, self.num_params:{0},len of self.scale_by:{1}, self.scale_by:{2}".
                      format(self.num_params, len(self.scale_by), self.scale_by))
-
-        # add He initialization
-        ran_num = np.random.randint(1, 10)
 
 
         assert self.scale_by.size == self.num_params
