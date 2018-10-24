@@ -232,17 +232,17 @@ class BaseModel(object):
         self.scale_by = []
         logger.debug("come here in init scale_by!!!")
         shapes = []
-        ran_num = np.random.randint(1, 30)
+        ran_num = np.random.randint(1, 2)
 
         for var in self.variables:
             shape = [v.value for v in var.get_shape()]
             shapes.append(shape)
             logger.debug("in make_weights,shape:{}".format(shape))
             self.num_params += np.prod(shape[1:])
-            if ran_num == 0:
+            if ran_num == 1:
                 # add He initialization
                 parameters = he_normal(shape)
-                logger.debug("in make_weights, he init:parameters:{}".format(parameters))
+                logger.debug("in make_weights, he init:parameters:{0},shape:{1}".format(parameters, shape))
 
             else:
                 parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
