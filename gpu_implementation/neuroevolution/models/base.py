@@ -223,7 +223,6 @@ class BaseModel(object):
         self.seeds[i] = seeds
         return True
 
-
     def make_weights(self):
         self.num_params = 0
         self.batch_size = 0
@@ -237,7 +236,7 @@ class BaseModel(object):
             shapes.append(shape)
             logger.debug("in make_weights,shape:{}".format(shape))
             self.num_params += np.prod(shape[1:])
-            if ran_num == 1:
+            if ran_num == 0:
                 # add He initialization
                 parameters = he_normal(shape)
                 logger.debug("in make_weights, he init:parameters:{}".format(parameters))
