@@ -138,7 +138,8 @@ class RLEvalutionWorker(AsyncWorker):
         return range(self.batch_size)
 
     def run_async(self, task_id, task, callback):
-        theta, extras, max_frames=task
+        theta, extras, max_frames = task
+        logger.debug("come here in RLEvalutionWorker")
         self.model.load(self.sess, task_id, theta, extras)
         if max_frames is None:
             max_frames = self.env.env_default_timestep_cutoff
@@ -189,7 +190,7 @@ class ConcurrentWorkers(object):
 
         tasks = []
         for t in it:
-            logger.debug("in concurrentworker, t:{0}, type of t:{1}".format(t, type(t)))
+            logger.debug("in concurrentworker, t:{0}, type of t:{1},size of t:{2}".format(t, type(t), len(t)))
             tasks.append(self.eval_async(*t, max_frames=max_frames))
             if time.time() - tstart > logging_interval:
                 cur_timesteps = self.sess.run(self.steps_counter)
