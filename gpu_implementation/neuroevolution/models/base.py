@@ -240,9 +240,13 @@ class BaseModel(object):
             if ran_num == 1:
                 # add He initialization
                 parameters = he_normal(shape)
+                logger.debug("in make_weights, he init:parameters:{}".format(parameters))
+
             else:
                 parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
-            logger.debug("in make_weights, parameters:{}".format(parameters))
+                logger.debug("in make_weights, not he init parameters:{}".format(parameters))
+
+            # logger.debug("in make_weights, parameters:{}".format(parameters))
 
             logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
             # self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
