@@ -44,8 +44,9 @@ def normal(shape, scale=0.05, name=None):
 
 
 def get_fans(shape):
-    fan_in = shape[0] if len(shape) == 2 else np.prod(shape[1:])
-    fan_out = shape[1] if len(shape) == 2 else shape[0]
+    # if len shape == 2 mean fc connection
+    fan_in = shape[0] if len(shape) == 2 else np.prod(shape[:-1])
+    fan_out = shape[1] if len(shape) == 2 else shape[-1]
     return fan_in, fan_out
 
 
@@ -241,8 +242,8 @@ class BaseModel(object):
             self.num_params += np.prod(shape[1:])
             if ran_num == 1:
                 # add He initialization
-                parameters = he_normal(shape)
-                logger.debug("in make_weights, he init shape:{0}".format(shape))
+                parameters = tf.reshape(he_normal(shape[1:]), [-1])
+                logger.debug("in make_weights, he init shape:{0}".format(shape[1:]))
 
             else:
                 parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
