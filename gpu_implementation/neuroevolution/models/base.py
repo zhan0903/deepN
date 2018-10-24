@@ -217,6 +217,7 @@ class BaseModel(object):
         return parent_theta + mutation_power * noise.get(idx, self.num_params)
 
     def load(self, sess, i, theta, seeds):
+        logger.debug("come in load")
         if self.seeds[i] == seeds:
             return False
         sess.run(self.load_op, {self.theta: theta, self.theta_idx: i})

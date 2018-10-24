@@ -139,7 +139,7 @@ class RLEvalutionWorker(AsyncWorker):
 
     def run_async(self, task_id, task, callback):
         theta, extras, max_frames = task
-        logger.debug("come here in RLEvalutionWorker")
+        logger.debug("come here in RLEvalutionWorker run_async")
         self.model.load(self.sess, task_id, theta, extras)
         if max_frames is None:
             max_frames = self.env.env_default_timestep_cutoff
