@@ -242,11 +242,11 @@ class BaseModel(object):
             if ran_num == 1:
                 # add He initialization
                 parameters = he_normal(shape)
-                logger.debug("in make_weights, he init:parameters:{0},shape:{1}".format(parameters, shape))
+                logger.debug("in make_weights, he init shape:{0}".format(shape))
 
             else:
                 parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
-                logger.debug("in make_weights, not he init parameters:{}".format(parameters))
+                # logger.debug("in make_weights, not he init parameters:{}".format(parameters))
 
             # logger.debug("in make_weights, parameters:{}".format(parameters))
 
@@ -272,6 +272,7 @@ class BaseModel(object):
         logger.debug("in make_weight, self.theta:{0},self.theta_idx:{1}".format(self.theta, self.theta_idx))
         for (shape,v) in zip(shapes, self.variables):
             size = np.prod(shape[1:])
+            logger.debug("in make_weight, before reshape shape:{}".format(shape))
             assigns.append(tf.scatter_update(v, self.theta_idx, tf.reshape(self.theta[offset:offset+size], shape[1:])))
             offset += size
         self.load_op = tf.group( * assigns)

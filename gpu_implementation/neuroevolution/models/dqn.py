@@ -55,7 +55,7 @@ class Model(BaseModel):
 
 class LargeModel(Model):
     def _make_net(self, x, num_actions):
-        logger.debug("in _make_net, come here is right=========")
+        logger.debug("in _make_net, come here is right,shape of x:{}".format(x.shape))
         x = self.nonlin(self.conv(x, name='conv1', num_outputs=32, kernel_size=8, stride=4, std=1.0))
         x = self.nonlin(self.conv(x, name='conv2', num_outputs=64, kernel_size=4, stride=2, std=1.0))
         x = self.nonlin(self.conv(x, name='conv3', num_outputs=64, kernel_size=3, stride=1, std=1.0))
