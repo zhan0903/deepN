@@ -244,6 +244,8 @@ class BaseModel(object):
                 # add He initialization
                 parameters = tf.reshape(he_normal(shape[1:]), [-1])
                 logger.debug("in make_weights, he init shape:{0}".format(shape[1:]))
+                logger.debug("in make_weights, he init parameters:{0}".format(parameters))
+
 
             else:
                 parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
