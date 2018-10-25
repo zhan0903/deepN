@@ -104,34 +104,34 @@ class BaseModel(object):
         return False
 
     def create_variable(self, name, shape, scale_by):
-        logger.debug("come create_variable````````````````")
-        logger.debug("in create_variable,shape:{0},scale_by:{1},batch_size:{2}".
-                     format(shape, scale_by, self.batch_size))
+        # logger.debug("come create_variable````````````````")
+        # logger.debug("in create_variable,shape:{0},scale_by:{1},batch_size:{2}".
+        #              format(shape, scale_by, self.batch_size))
 
         var = tf.get_variable(name, (self.batch_size, ) + shape, trainable=False)
         if not hasattr(var, 'scale_by'):
             var.scale_by = scale_by
             self.variables.append(var)
-            logger.debug("in create_variable,var:{0},self.variables:{1}".format(var, self.variables))
+            # logger.debug("in create_variable,var:{0},self.variables:{1}".format(var, self.variables))
         return var
 
     def create_weight_variable(self, name, shape, std):
-        logger.debug("in create_weight_variable==========,shape:{0},name:{1},std:{2}".
-                     format(shape, name, std))
+        # logger.debug("in create_weight_variable==========,shape:{0},name:{1},std:{2}".
+        #              format(shape, name, std))
         factor = (shape[-2] + shape[-1]) * np.prod(shape[:-2]) / 2
         scale_by = std * np.sqrt(factor)
-        logger.debug("in create_weight_variable,factor:{0},scale_by:{1}".
-                     format(factor, scale_by))
+        # logger.debug("in create_weight_variable,factor:{0},scale_by:{1}".
+        #              format(factor, scale_by))
         return self.create_variable(name, shape, scale_by)
 
     def create_bias_variable(self, name, shape):
-        logger.debug("come create_bias_variable~~~~~~~~~~~~~~~~~")
+        # logger.debug("come create_bias_variable~~~~~~~~~~~~~~~~~")
         return self.create_variable(name, shape, 0.0)
 
     def conv(self, x, kernel_size, num_outputs, name, stride=1, padding="SAME", bias=True, std=1.0):
         assert len(x.get_shape()) == 5 # Policies x Batch x Height x Width x Feature
         with tf.variable_scope(name):
-            logger.debug("in base conv88888888888")
+            # logger.debug("in base conv88888888888")
             w = self.create_weight_variable('w', std=std,
                                             shape=(kernel_size, kernel_size, int(x.get_shape()[-1].value), num_outputs))
             logger.debug("in conv,w:{}".format(w))
@@ -271,6 +271,12 @@ class BaseModel(object):
         logger.debug("in make_weight87~~~~~~~~~~_____, shape_out:{}".format(shape_out))
         if ran_num == 0:
             net = Net((4, 84, 84), shape_out)
+            for p in net.parameters():
+                self.num_params += np.prod(p.data.size())
+
+                self.scale_by.append(p.data.numpy().flatten())
+
+
 
 
         for var in self.variables:
