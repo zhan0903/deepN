@@ -242,7 +242,7 @@ class BaseModel(object):
             self.num_params += np.prod(shape[1:])
             if ran_num == 1:
                 # add He initialization
-                parameters = tf.reshape(he_normal(shape[1:]), [-1])
+                parameters = he_normal(shape[1:]).flatten()
                 logger.debug("in make_weights, he init shape:{0}".format(shape[1:]))
                 logger.debug("in make_weights, he init parameters:{0}".format(parameters))
 
