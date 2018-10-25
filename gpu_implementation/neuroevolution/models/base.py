@@ -45,8 +45,8 @@ def normal(shape, scale=0.05, name=None):
 
 def get_fans(shape):
     # if len shape == 2 mean fc connection
-    fan_in = shape[0] if len(shape) == 2 else np.prod(shape[1:])
-    fan_out = shape[1] if len(shape) == 2 else shape[0]
+    fan_in = shape[0] if len(shape) == 2 else np.prod(shape[:-1])
+    fan_out = shape[1] if len(shape) == 2 else shape[-1]
     return fan_in, fan_out
 
 
@@ -218,7 +218,7 @@ class BaseModel(object):
         return parent_theta + mutation_power * noise.get(idx, self.num_params)
 
     def load(self, sess, i, theta, seeds):
-        # logger.debug("come in load")
+        logger.debug("come in load,theta:{}".format(theta))
         if self.seeds[i] == seeds:
             return False
         sess.run(self.load_op, {self.theta: theta, self.theta_idx: i})
