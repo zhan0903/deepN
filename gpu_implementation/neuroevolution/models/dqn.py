@@ -59,6 +59,7 @@ class LargeModel(Model):
         x = self.nonlin(self.conv(x, name='conv1', num_outputs=32, kernel_size=8, stride=4, std=1.0))
         x = self.nonlin(self.conv(x, name='conv2', num_outputs=64, kernel_size=4, stride=2, std=1.0))
         x = self.nonlin(self.conv(x, name='conv3', num_outputs=64, kernel_size=3, stride=1, std=1.0))
+        logger.debug("in _make_net, before flatten:x:{}".format(x))
         x = self.flattenallbut0(x)
         logger.debug("in _make_net, after flatten:x:{}".format(x))
         x = self.nonlin(self.dense(x, 512, 'fc'))

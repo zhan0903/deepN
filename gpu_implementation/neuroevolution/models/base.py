@@ -269,6 +269,9 @@ class BaseModel(object):
         ran_num = np.random.randint(1, 2)
         shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
         logger.debug("in make_weight87~~~~~~~~~~_____, shape_out:{}".format(shape_out))
+        if ran_num == 0:
+            net = Net((4, 84, 84), shape_out)
+
 
         for var in self.variables:
             shape = [v.value for v in var.get_shape()]
@@ -278,10 +281,10 @@ class BaseModel(object):
             if ran_num == 0:
                 # add He initialization
                 parameters = he_normal(shape[1:]).flatten()
+
+
                 logger.debug("in make_weights, he init shape:{0}".format(shape[1:]))
                 # logger.debug("in make_weights, he init parameters:{0}".format(parameters))
-
-
             else:
                 parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
                 # logger.debug("in make_weights, not he init parameters:{}".format(parameters))
