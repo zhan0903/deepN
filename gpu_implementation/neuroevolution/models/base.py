@@ -218,8 +218,9 @@ class BaseModel(object):
         return parent_theta + mutation_power * noise.get(idx, self.num_params)
 
     def load(self, sess, i, theta, seeds):
-        logger.debug("come in load,theta:{}".format(theta))
+        # logger.debug("come in load,theta:{}".format(theta))
         if self.seeds[i] == seeds:
+            logger.debug("in load, return false!!!!!!!!!!!!!~~~~~~~~~~~~")
             return False
         sess.run(self.load_op, {self.theta: theta, self.theta_idx: i})
         # logger.debug("in load,theta:{0},self.theta_idx:{1},i:{2}".
@@ -273,10 +274,10 @@ class BaseModel(object):
         assigns = []
         # reshape
         logger.debug("in make_weight, self.theta:{0},self.theta_idx:{1}".format(self.theta, self.theta_idx))
-        for (shape,v) in zip(shapes, self.variables):
+        for (shape, v) in zip(shapes, self.variables):
             size = np.prod(shape[1:])
-            logger.debug("in make_weight, before reshape shape:{}".format(shape))
+            logger.debug("in make_weight, before reshape shape:{0},v:{1}".format(shape, v))
             assigns.append(tf.scatter_update(v, self.theta_idx, tf.reshape(self.theta[offset:offset+size], shape[1:])))
             offset += size
-        self.load_op = tf.group( * assigns)
+        self.load_op = tf.group(* assigns)
         self.description += "Number of parameteres: {}".format(self.num_params)
