@@ -190,7 +190,7 @@ class ConcurrentWorkers(object):
 
         tasks = []
         for t in it:
-            logger.debug("in concurrentworker, t:{0}, type of t:{1},size of t:{2}".format(t, type(t), len(t)))
+            # logger.debug("in concurrentworker, t:{0}, type of t:{1},size of t:{2}".format(t, type(t), len(t)))
             tasks.append(self.eval_async(*t, max_frames=max_frames))
             if time.time() - tstart > logging_interval:
                 cur_timesteps = self.sess.run(self.steps_counter)

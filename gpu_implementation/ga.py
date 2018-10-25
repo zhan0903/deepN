@@ -127,6 +127,9 @@ def main(**exp):
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
 
+    env = make_env(4)
+    logger.debug("in make, make_env:{}".format(env.observation_space.shape))
+
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
     with WorkerSession(worker) as sess:
         noise = SharedNoiseTable()
@@ -181,7 +184,6 @@ def main(**exp):
             assert (len(cached_parents) == 0 and state.it == 0) or len(cached_parents) == exp['selection_threshold']
 
             tasks = [make_offspring() for _ in range(exp['population_size'])]
-            # logger.debug("000000000=========9919919199191919191tasks:{}".format(tasks))
             for seeds, episode_reward, episode_length in worker.monitor_eval(tasks, max_frames=state.tslimit * 4):
                 logger.debug("in main, seeds:{0},episode_reward:{1},episode_length:{2}".
                              format(seeds, episode_reward, episode_length))
