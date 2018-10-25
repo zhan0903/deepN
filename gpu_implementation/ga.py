@@ -128,7 +128,7 @@ def main(**exp):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
 
     env = make_env(4)
-    logger.debug("in make, make_env:{}".format(env.observation_space.shape))
+    logger.debug("in make, make_env:{}".format(env.observation_space))
 
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
     with WorkerSession(worker) as sess:
