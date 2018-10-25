@@ -267,7 +267,7 @@ class BaseModel(object):
         logger.debug("come here in init scale_by!!!")
         shapes = []
         ran_num = np.random.randint(1, 2)
-        shape_out = [v.value for v in self.variables[-1].get_shape()]
+        shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
         logger.debug("in make_weight, shape_out:{}".format(shape_out))
 
         for var in self.variables:
