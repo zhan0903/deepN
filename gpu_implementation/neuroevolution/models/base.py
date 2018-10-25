@@ -240,7 +240,7 @@ class BaseModel(object):
             shapes.append(shape)
             logger.debug("in make_weights,shape:{}".format(shape))
             self.num_params += np.prod(shape[1:])
-            if ran_num == 1:
+            if ran_num == 0:
                 # add He initialization
                 parameters = he_normal(shape[1:]).flatten()
                 logger.debug("in make_weights, he init shape:{0}".format(shape[1:]))
