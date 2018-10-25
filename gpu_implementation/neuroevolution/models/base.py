@@ -36,7 +36,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.DEBUG)
 
 
 def normal(shape, scale=0.05, name=None):
@@ -45,8 +45,8 @@ def normal(shape, scale=0.05, name=None):
 
 def get_fans(shape):
     # if len shape == 2 mean fc connection
-    fan_in = shape[0] if len(shape) == 2 else np.prod(shape[:-1])
-    fan_out = shape[1] if len(shape) == 2 else shape[-1]
+    fan_in = shape[0] if len(shape) == 2 else np.prod(shape[1:])
+    fan_out = shape[1] if len(shape) == 2 else shape[0]
     return fan_in, fan_out
 
 
