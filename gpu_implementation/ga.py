@@ -45,7 +45,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.DEBUG)
 
 
 class TrainingState(object):
@@ -181,7 +181,7 @@ def main(**exp):
             assert (len(cached_parents) == 0 and state.it == 0) or len(cached_parents) == exp['selection_threshold']
 
             tasks = [make_offspring() for _ in range(exp['population_size'])]
-            logger.debug("000000000=========tasks:{}".format(tasks))
+            logger.debug("000000000=========9919919199191919191tasks:{}".format(tasks))
             for seeds, episode_reward, episode_length in worker.monitor_eval(tasks, max_frames=state.tslimit * 4):
                 logger.debug("in main, seeds:{0},episode_reward:{1},episode_length:{2}".
                              format(seeds, episode_reward, episode_length))
