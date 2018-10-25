@@ -38,7 +38,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.DEBUG)
+logger.setLevel(level=logging.INFO)
 
 
 class RLEvalutionWorker(AsyncWorker):
@@ -61,7 +61,7 @@ class RLEvalutionWorker(AsyncWorker):
 
     def make_net(self, model_constructor, device, ref_batch=None):
         self.model = model_constructor()
-        logger.debug("in make_net, self.model:{0}, device:{1}".format(self.model, device))
+        # logger.debug("in make_net, self.model:{0}, device:{1}".format(self.model, device))
 
         with tf.variable_scope(None, default_name='model'):
             with tf.device('/cpu:0'):
@@ -72,15 +72,15 @@ class RLEvalutionWorker(AsyncWorker):
                 self.reset_op = self.env.reset(indices=self.placeholder_indices, max_frames=self.placeholder_max_frames)
 
                 with tf.device(device):
-                    logger.debug("come here------------")
+                    # logger.debug("come here------------")
                     self.obs_op = self.env.observation(indices=self.placeholder_indices)
                     obs = tf.expand_dims(self.obs_op, axis=1)
-                    logger.debug("in make net, obs:{}".format(obs))
+                    # logger.debug("in make net, obs:{}".format(obs))
                     self.action_op = self.model.make_net(obs, self.env.action_space, indices=self.placeholder_indices, batch_size=self.batch_size, ref_batch=ref_batch)
-                    logger.debug("in make_net,self.action_op:{}".format(self.action_op))
-                logger.debug("before make weights")
+                    # logger.debug("in make_net,self.action_op:{}".format(self.action_op))
+                # logger.debug("before make weights")
                 self.model.initialize()
-                logger.debug("after make weights")
+                # logger.debug("after make weights")
 
                 if self.env.discrete_action:
                     logger.debug("self.env.discrete_action:{}".format(self.env.discrete_action))
@@ -139,7 +139,7 @@ class RLEvalutionWorker(AsyncWorker):
 
     def run_async(self, task_id, task, callback):
         theta, extras, max_frames = task
-        logger.debug("come here in RLEvalutionWorker run_async")
+        # logger.debug("come here in RLEvalutionWorker run_async")
         self.model.load(self.sess, task_id, theta, extras)
         if max_frames is None:
             max_frames = self.env.env_default_timestep_cutoff
