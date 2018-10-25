@@ -126,7 +126,6 @@ class AsyncTaskHub(object):
             raise
 
     def run_async(self, task, callback=None, error_callback=None):
-        print("nolajdkjfla0=========================")
         result = ApplyResult(self._cache, callback, error_callback)
         self.input_queue.put((result._job, task))
         return result

@@ -218,12 +218,12 @@ class BaseModel(object):
         return parent_theta + mutation_power * noise.get(idx, self.num_params)
 
     def load(self, sess, i, theta, seeds):
-        logger.debug("come in load")
+        # logger.debug("come in load")
         if self.seeds[i] == seeds:
             return False
         sess.run(self.load_op, {self.theta: theta, self.theta_idx: i})
-        logger.debug("in load,theta:{0},self.theta_idx:{1},i:{2}".
-                     format(theta, self.theta_idx, i))
+        # logger.debug("in load,theta:{0},self.theta_idx:{1},i:{2}".
+        #              format(theta, self.theta_idx, i))
         self.seeds[i] = seeds
         return True
 
@@ -240,7 +240,7 @@ class BaseModel(object):
             shapes.append(shape)
             logger.debug("in make_weights,shape:{}".format(shape))
             self.num_params += np.prod(shape[1:])
-            if ran_num == 0:
+            if ran_num == 1:
                 # add He initialization
                 parameters = he_normal(shape[1:]).flatten()
                 logger.debug("in make_weights, he init shape:{0}".format(shape[1:]))
