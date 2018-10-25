@@ -127,7 +127,7 @@ def main(**exp):
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
 
-    env = make_env(4)
+    env = make_env(64)
     logger.debug("in make, make_env:{}".format(env.observation_space))
 
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
