@@ -327,7 +327,7 @@ class BaseModel(object):
 
     def compute_weights_from_seeds(self, noise, seeds, cache=None):
         if cache:
-            logger.debug("in compute_weights_from_seeds,debug come cache12121212")
+            # logger.debug("in compute_weights_from_seeds,debug come cache12121212")
             cache_seeds = [o[1] for o in cache]
             if seeds in cache_seeds:
                 return cache[cache_seeds.index(seeds)][0]
@@ -364,7 +364,7 @@ class BaseModel(object):
     def load(self, sess, i, theta, seeds):
         # logger.debug("come in load,theta:{}".format(theta))
         if self.seeds[i] == seeds:
-            logger.debug("in load, return false!!!!!!!!!!!!!~~~~~~~~~~~~")
+            # logger.debug("in load, return false!!!!!!!!!!!!!~~~~~~~~~~~~")
             return False
         sess.run(self.load_op, {self.theta: theta, self.theta_idx: i})
         # logger.debug("in load,theta:{0},self.theta_idx:{1},i:{2}".
@@ -376,7 +376,7 @@ class BaseModel(object):
         self.num_params = 0
         self.batch_size = 0
         self.scale_by = []
-        logger.debug("come here in init scale_by!!!")
+        # logger.debug("come here in init scale_by!!!")
         shapes = []
         ran_num = np.random.randint(1, 2)
         # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
