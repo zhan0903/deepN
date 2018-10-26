@@ -380,7 +380,7 @@ class BaseModel(object):
         shapes = []
         ran_num = np.random.randint(1, 2)
         # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
-        logger.debug("in make_weight87~~~~~~~~~~_____, shape_out:{}".format(shape_out))
+        # logger.debug("in make_weight87~~~~~~~~~~_____, shape_out:{}".format(shape_out))
         # if ran_num == 0:
         #     net = Net((4, 84, 84), shape_out)
         #     for p in net.parameters():
@@ -396,7 +396,7 @@ class BaseModel(object):
             if ran_num == 1:
                 # add He initialization
                 w = torch.empty(shape[1:])
-                kaiming_normal_(w,mode='fan_in', nonlinearity='relu')
+                kaiming_normal_(w, mode='fan_in', nonlinearity='relu')
                 parameters = w.numpy().flatten()
                 # parameters = he_normal(shape[1:]).flatten()
                 logger.debug("in make_weights, he init shape:{0}".format(shape[1:]))
