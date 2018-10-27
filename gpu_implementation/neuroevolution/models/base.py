@@ -48,9 +48,9 @@ class Net(nn.Module):
         self.conv = nn.Sequential(
             nn.Conv2d(input_shape[0], 32, kernel_size=8, stride=4),
             nn.ReLU(),
-            nn.Conv2d(32, 64, kernel_size=4, stride=2),
+            nn.Conv2d(32, 64, kernel_size=4, padding=2, stride=2),
             nn.ReLU(),
-            nn.Conv2d(64, 64, kernel_size=3, stride=1),
+            nn.Conv2d(64, 64, kernel_size=3, padding=1, stride=1),
             nn.ReLU()
         )
 
@@ -242,6 +242,7 @@ class BaseModel(object):
 
     def conv(self, x, kernel_size, num_outputs, name, stride=1, padding="SAME", bias=True, std=1.0):
         assert len(x.get_shape()) == 5 # Policies x Batch x Height x Width x Feature
+        logger.debug("in conv, x.shape".format(x.get_shape))
         with tf.variable_scope(name):
             # logger.debug("in base conv88888888888")
             w = self.create_weight_variable('w', std=std,
@@ -376,41 +377,43 @@ class BaseModel(object):
         self.num_params = 0
         self.batch_size = 0
         self.scale_by = []
-        # logger.debug("come here in init scale_by!!!")
+        logger.debug("in make_weight````````````````````````")
         shapes = []
         ran_num = np.random.randint(1, 2)
-        # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
-        # logger.debug("in make_weight87~~~~~~~~~~_____, shape_out:{}".format(shape_out))
-        # if ran_num == 0:
-        #     net = Net((4, 84, 84), shape_out)
-        #     for p in net.parameters():
-        #         self.num_params += np.prod(p.data.size())
-        #
-        #         self.scale_by.append(p.data.numpy().flatten())
+        shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
 
-        for var in self.variables:
-            shape = [v.value for v in var.get_shape()]
-            shapes.append(shape)
-            logger.debug("in make_weights,shape:{}".format(shape))
-            self.num_params += np.prod(shape[1:])
-            if ran_num == 1:
-                # add He initialization
-                w = torch.empty(shape[1:])
-                kaiming_normal_(w, mode='fan_in', nonlinearity='relu')
-                parameters = w.numpy().flatten()
-                # parameters = he_normal(shape[1:]).flatten()
-                logger.debug("in make_weights, he init shape:{0}".format(shape[1:]))
-                # logger.debug("in make_weights, he init parameters:{0}".format(parameters))
-            else:
+        logger.debug("in make_weight87~~~~~~~~~~_____, shape_out:{}".format(shape_out))
+        if ran_num == 1:
+            net = Net((4, 84, 84), shape_out)
+            for p in net.parameters():
+                self.num_params += np.prod(p.data.size())
+                self.scale_by.append(p.data.numpy().flatten())
+            self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
+            logger.debug("in make weight, heming init batch_size:{0},shape_out:{1}".format(self.batch_size, shape_out))
+        else:
+            for var in self.variables:
+                shape = [v.value for v in var.get_shape()]
+                shapes.append(shape)
+                logger.debug("in make_weights,shape:{}".format(shape))
+                self.num_params += np.prod(shape[1:])
+                # if ran_num == 1:
+                #     # add He initialization
+                #     w = torch.empty(shape[1:])
+                #     kaiming_normal_(w, mode='fan_in', nonlinearity='relu')
+                #     parameters = w.numpy().flatten()
+                #     # parameters = he_normal(shape[1:]).flatten()
+                #     logger.debug("in make_weights, he init shape:{0}".format(shape[1:]))
+                #     # logger.debug("in make_weights, he init parameters:{0}".format(parameters))
+                # else:
                 parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
-                # logger.debug("in make_weights, not he init parameters:{}".format(parameters))
+                    # logger.debug("in make_weights, not he init parameters:{}".format(parameters))
 
-            # logger.debug("in make_weights, parameters:{}".format(parameters))
+                # logger.debug("in make_weights, parameters:{}".format(parameters))
 
-            logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
-            # self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
-            self.scale_by.append(parameters)
-            self.batch_size = shape[0]
+                logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
+                # self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
+                self.scale_by.append(parameters)
+                self.batch_size = shape[0]
         self.seeds = [None] * self.batch_size
         self.scale_by = np.concatenate(self.scale_by)
         logger.debug("in make_weight, self.num_params:{0},len of self.scale_by:{1}, self.scale_by:{2}".

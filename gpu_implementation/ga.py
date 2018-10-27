@@ -187,8 +187,8 @@ def main(**exp):
 
             tasks = [make_offspring() for _ in range(exp['population_size'])]
             for seeds, episode_reward, episode_length in worker.monitor_eval(tasks, max_frames=state.tslimit * 4):
-                logger.debug("in main, seeds:{0},episode_reward:{1},episode_length:{2}".
-                             format(seeds, episode_reward, episode_length))
+                # logger.debug("in main, seeds:{0},episode_reward:{1},episode_length:{2}".
+                #              format(seeds, episode_reward, episode_length))
                 results.append(Offspring(seeds, [episode_reward], [episode_length]))
             state.num_frames += sess.run(worker.steps_counter) - frames_computed_so_far
 
