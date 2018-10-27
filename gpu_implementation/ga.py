@@ -45,7 +45,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.DEBUG)
 
 
 class TrainingState(object):
