@@ -344,8 +344,7 @@ class BaseModel(object):
             logger.debug("in compute_weights_from_seeds idx:{0},self.scale_by[-100:]:{1}".
                          format(idx, self.scale_by[-100:]))
             theta = noise.get(idx, self.num_params).copy() * self.scale_by
-            logger.debug("in compute_weights_from_seeds,theta:{}".format(theta))
-
+            logger.debug("in compute_weights_from_seeds,theta[-100:]:{}".format(theta[-100:]))
             for mutation in seeds[1:]:
                 idx, power = mutation
                 logger.debug("come mutation")
