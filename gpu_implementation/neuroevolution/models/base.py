@@ -268,7 +268,7 @@ class BaseModel(object):
                 b = self.create_bias_variable('b', (1, 1, 1, num_outputs))
                 if self.indices is not None:
                     b = tf.gather(b, self.indices)
-                ret =  ret + b
+                ret = ret + b
             return ret
 
     def dense(self, x, size, name, bias=True, std=1.0):
@@ -375,43 +375,47 @@ class BaseModel(object):
 
     def make_weights(self):
         self.num_params = 0
+        self.num_params_test = 0
         self.batch_size = 0
+        self.batch_size_test = 0
         self.scale_by = []
+        self.scale_by_test = []
         logger.debug("in make_weight````````````````````````")
         shapes = []
         ran_num = np.random.randint(1, 2)
         shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
 
         # logger.debug("in make_weight87~~~~~~~~~~_____, shape_out:{}".format(shape_out))
-        if ran_num == 0:
-            net = Net((4, 84, 84), shape_out)
-            for p in net.parameters():
-                # logger
-                logger.debug("in make_weights:.data.size{}".format(np.prod(p.data.size())))
-                if len(torch.tensor(p.data.size()).numpy()) == 10:
-                    logger.debug("p in make_weights:{}".format(p))
-                self.num_params += np.prod(p.data.size())
-                self.scale_by.append(p.data.numpy().flatten().copy())
-            self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
-            logger.debug("in make weight, heming init batch_size:{0},shape_out:{1}".format(self.batch_size, shape_out))
-        else:
-            for var in self.variables:
-                shape = [v.value for v in var.get_shape()]
-                shapes.append(shape)
-                logger.debug("in make_weights,shape:{0},np.prod shape[1:]:{1}".format(shape, np.prod(shape[1:])))
-                self.num_params += np.prod(shape[1:])
-                parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
-                # logger.debug("in make_weights, not he init parameters:{}".format(parameters))
-                # logger.debug("in make_weights, parameters:{}".format(parameters))
-                logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
-                # self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
-                self.scale_by.append(parameters)
-                self.batch_size = shape[0]
+        # if ran_num == 0:
+        net = Net((4, 84, 84), shape_out)
+        for p in net.parameters():
+            # logger
+            logger.debug("in make_weights:.data.size{}".format(np.prod(p.data.size())))
+            if len(torch.tensor(p.data.size()).numpy()) == 10:
+                logger.debug("p in make_weights:{}".format(p))
+            self.num_params_test += np.prod(p.data.size())
+            self.scale_by_test.append(p.data.numpy().flatten().copy())
+        self.batch_size_test = [v.value for v in self.variables[-1].get_shape()][0]
+        logger.debug("in make weight, heming init batch_size_test:{0},shape_out:{1}".format(self.batch_size_test, shape_out))
+        # else:
+        for var in self.variables:
+            shape = [v.value for v in var.get_shape()]
+            shapes.append(shape)
+            logger.debug("in make_weights,shape:{0},np.prod shape[1:]:{1}".format(shape, np.prod(shape[1:])))
+            self.num_params += np.prod(shape[1:])
+            parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
+            # logger.debug("in make_weights, not he init parameters:{}".format(parameters))
+            # logger.debug("in make_weights, parameters:{}".format(parameters))
+            logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
+            # self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
+            self.scale_by.append(parameters)
+            self.batch_size = shape[0]
         self.seeds = [None] * self.batch_size
         self.scale_by = np.concatenate(self.scale_by)
         logger.debug("in make_weight, self.num_params:{0},len of self.scale_by:{1}, self.scale_by:{2}".
-                     format(self.num_params, len(self.scale_by), self.scale_by))
-
+                     format(self.num_params, len(self.scale_by), self.scale_by[-100:]))
+        logger.debug("in make_weight, self.num_params_test:{0},len of self.scale_by_test:{1}, self.scale_by_test:{2}".
+                     format(self.num_params_test, len(self.scale_by_test), self.scale_by_test[-100:]))
         assert self.scale_by.size == self.num_params
         # Make commit op
         # assigns = []
