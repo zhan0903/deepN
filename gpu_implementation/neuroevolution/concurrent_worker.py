@@ -143,7 +143,7 @@ class RLEvalutionWorker(AsyncWorker):
         # logger.debug("come here in RLEvalutionWorker run_async")
         self.model.load(self.sess, task_id, theta, extras)
         if max_frames is None:
-            assert max_frames is not None
+            assert max_frames is None
             logger.debug("in run_async, max_frames is  None")
             max_frames = self.env.env_default_timestep_cutoff
         self.sess.run(self.reset_op, {self.placeholder_indices:[task_id], self.placeholder_max_frames:[max_frames]})
