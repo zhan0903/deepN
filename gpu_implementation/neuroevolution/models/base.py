@@ -210,6 +210,7 @@ class BaseModel(object):
         self.indices = None
         self.variables = []
         self.description = ""
+        self.count = 0
 
     @property
     def requires_ref_batch(self):
@@ -327,6 +328,8 @@ class BaseModel(object):
         return self.compute_weights_from_seeds(noise, seeds), seeds
 
     def compute_weights_from_seeds(self, noise, seeds, cache=None):
+        self.count = self.count+1
+        logger.debug("in compute_weight:self.count:{}".format(self.count))
         if cache:
             logger.debug("in compute_weights_from_seeds,cache:{0},seeds:{1}".format(cache, seeds))
             cache_seeds = [o[1] for o in cache]
@@ -388,8 +391,8 @@ class BaseModel(object):
         shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
 
         # logger.debug("in make_weight87~~~~~~~~~~_____, shape_out:{}".format(shape_out))
-        if ran_num == 0:
-            torch.manual_seed(123)
+        if ran_num == 1:
+            torch.manual_seed(12345)
             net = Net((4, 84, 84), shape_out)
             for p in net.parameters():
                 # logger
