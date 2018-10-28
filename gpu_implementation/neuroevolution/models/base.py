@@ -387,6 +387,7 @@ class BaseModel(object):
             net = Net((4, 84, 84), shape_out)
             for p in net.parameters():
                 # logger
+                logger.debug("in make_weights:.data.size{}".format(p.data.size()))
                 if len(torch.tensor(p.data.size()).numpy()) == 1:
                     logger.debug("p in make_weights:{}".format(p))
                 self.num_params += np.prod(p.data.size())
