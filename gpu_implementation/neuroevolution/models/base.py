@@ -28,6 +28,9 @@ import logging
 from tensorflow.python.ops import random_ops
 
 
+MAX_SEED = 2**32 - 1
+
+
 logger = logging.getLogger(__name__)
 fh = logging.FileHandler('./logger.out')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -347,9 +350,32 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
-            logger.debug("in compute_weights_from_seeds idx:{0},self.scale_by[-100:]:{1}".
+            logger.debug("in compute_weights_from_seeds else~~~~ idx:{0},self.scale_by[-100:]:{1}".
                          format(idx, self.scale_by[-100:]))
-            theta = noise.get(idx, self.num_params).copy() * self.scale_by
+
+            # seed = np.random.randint(MAX_SEED)
+            # torch.manual_seed(idx)
+            # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
+            if True:
+                scale_by = []
+                torch.manual_seed(idx)
+                shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
+                net = Net((4, 84, 84), shape_out)
+                for p in net.parameters():
+                    # logger
+                    logger.debug("in make_weights:.data.size{}".format(np.prod(p.data.size())))
+                    if len(torch.tensor(p.data.size()).numpy()) == 10:
+                        logger.debug("p in make_weights:{}".format(p))
+                    self.num_params += np.prod(p.data.size())
+                    scale_by.append(p.data.numpy().flatten().copy())
+                # self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
+                scale_by = np.concatenate(scale_by)
+                # self.scale_by = scale_by
+                logger.debug(
+                    "in make weight, heming init batch_size_test:{0},shape_out:{1}".format(self.batch_size_test,
+                                                                                           shape_out))
+
+            theta = noise.get(idx, self.num_params).copy() * scale_by # self.scale_by
             logger.debug("in compute_weights_from_seeds,theta[-100:]:{}".format(theta[-100:]))
             for mutation in seeds[1:]:
                 idx, power = mutation
