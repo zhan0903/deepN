@@ -413,7 +413,7 @@ class BaseModel(object):
         #     self.scale_by.append(parameters)
         #     self.batch_size = shape[0]
         self.seeds = [None] * self.batch_size
-        self.scale_by = np.concatenate(self.scale_by)
+        # self.scale_by = np.concatenate(self.scale_by)
         logger.debug("in make_weight, self.num_params:{0},len of self.scale_by:{1}, self.scale_by:{2}".
                      format(self.num_params, len(self.scale_by), self.scale_by[-200:]))
         # logger.debug("in make_weight, self.num_params_test:{0},len of self.scale_by_test:{1}, self.scale_by_test:{2}".
