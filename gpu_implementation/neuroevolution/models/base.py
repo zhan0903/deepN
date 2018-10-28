@@ -390,7 +390,7 @@ class BaseModel(object):
                 if len(torch.tensor(p.data.size()).numpy()) == 1:
                     logger.debug("p in make_weights:{}".format(p))
                 self.num_params += np.prod(p.data.size())
-                self.scale_by.append(p.data.numpy().flatten())
+                self.scale_by.append(p.data.numpy().flatten().copy())
             self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
             logger.debug("in make weight, heming init batch_size:{0},shape_out:{1}".format(self.batch_size, shape_out))
         else:

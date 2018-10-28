@@ -114,7 +114,7 @@ class RLEvalutionWorker(AsyncWorker):
 
             indices = np.nonzero(running)[0]
             rews, is_done, _ = self.sess.run([self.rew_op, self.done_op, self.incr_counter], {self.placeholder_indices: indices})
-            logger.debug("in _loop I think this is the reward:{}".format(rews))
+            # logger.debug("in _loop I think this is the reward:{}".format(rews))
             cumrews[running] += rews
             cumlen[running] += 1
             if any(is_done):
