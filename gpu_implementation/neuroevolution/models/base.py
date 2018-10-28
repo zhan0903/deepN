@@ -371,9 +371,8 @@ class BaseModel(object):
                 # self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
                 scale_by = np.concatenate(scale_by)
                 # self.scale_by = scale_by
-                logger.debug(
-                    "in make weight, heming init batch_size_test:{0},shape_out:{1}".format(self.batch_size_test,
-                                                                                           shape_out))
+                logger.debug("in compute_weights_from_seeds else~~~~ idx:{0},scale_by[-100:]:{1}".
+                             format(idx, scale_by[-100:]))
 
             theta = noise.get(idx, self.num_params).copy() * scale_by # self.scale_by
             logger.debug("in compute_weights_from_seeds,theta[-100:]:{}".format(theta[-100:]))
