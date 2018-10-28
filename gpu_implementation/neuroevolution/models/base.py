@@ -397,7 +397,7 @@ class BaseModel(object):
             self.num_params += np.prod(p.data.size())
             self.scale_by.append(p.data.numpy().flatten().copy())
         self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
-        self.scale_by = np.concatenate(self.scale_by_test)
+        self.scale_by = np.concatenate(self.scale_by)
         logger.debug("in make weight, heming init batch_size_test:{0},shape_out:{1}".format(self.batch_size_test, shape_out))
         # else:
         # for var in self.variables:
