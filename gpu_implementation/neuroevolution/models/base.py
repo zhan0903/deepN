@@ -388,7 +388,7 @@ class BaseModel(object):
         shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
 
         # logger.debug("in make_weight87~~~~~~~~~~_____, shape_out:{}".format(shape_out))
-        if ran_num == 0:
+        if ran_num == 1:
             torch.manual_seed(123)
             net = Net((4, 84, 84), shape_out)
             for p in net.parameters():
