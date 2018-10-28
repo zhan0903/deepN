@@ -350,8 +350,8 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
-            logger.debug("in compute_weights_from_seeds else~~~~ idx:{0},self.scale_by[-100:]:{1}".
-                         format(idx, self.scale_by[-100:]))
+            logger.debug("in compute_weights_from_seeds else idx:{0},self.scale_by[-100:]:{1}, len self.scale_by:{2}".
+                         format(idx, self.scale_by[-100:], len(self.scale_by)))
 
             # seed = np.random.randint(MAX_SEED)
             # torch.manual_seed(idx)
@@ -361,6 +361,7 @@ class BaseModel(object):
                 torch.manual_seed(idx)
                 shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
                 net = Net((4, 84, 84), shape_out)
+                logger.debug("in compute_weight_from_seeds:shape_out:{}".format(shape_out))
                 for p in net.parameters():
                     # logger
                     logger.debug("in make_weights:.data.size{}".format(np.prod(p.data.size())))
@@ -371,8 +372,8 @@ class BaseModel(object):
                 # self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
                 scale_by = np.concatenate(scale_by)
                 # self.scale_by = scale_by
-                logger.debug("in compute_weights_from_seeds else~~~~ idx:{0},scale_by[-100:]:{1}".
-                             format(idx, scale_by[-100:]))
+                logger.debug("in compute_weights_from_seeds else~~~~ idx:{0},scale_by[-100:]:{1}, len scale_by:{2}".
+                             format(idx, scale_by[-100:], len(scale_by)))
 
             theta = noise.get(idx, self.num_params).copy() * scale_by # self.scale_by
             logger.debug("in compute_weights_from_seeds,theta[-100:]:{}".format(theta[-100:]))
