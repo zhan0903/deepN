@@ -387,8 +387,8 @@ class BaseModel(object):
             net = Net((4, 84, 84), shape_out)
             for p in net.parameters():
                 # logger
-                logger.debug("in make_weights:.data.size{}".format(p.data.size()))
-                if len(torch.tensor(p.data.size()).numpy()) == 1:
+                logger.debug("in make_weights:.data.size{}".format(np.prod(p.data.size())))
+                if len(torch.tensor(p.data.size()).numpy()) == 10:
                     logger.debug("p in make_weights:{}".format(p))
                 self.num_params += np.prod(p.data.size())
                 self.scale_by.append(p.data.numpy().flatten().copy())
@@ -398,7 +398,7 @@ class BaseModel(object):
             for var in self.variables:
                 shape = [v.value for v in var.get_shape()]
                 shapes.append(shape)
-                logger.debug("in make_weights,shape:{}".format(shape))
+                logger.debug("in make_weights,shape:{0},np.prod shape[1:]:{1}".format(shape, np.prod(shape[1:])))
                 self.num_params += np.prod(shape[1:])
                 parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
                 # logger.debug("in make_weights, not he init parameters:{}".format(parameters))
