@@ -214,7 +214,7 @@ def main(**exp):
             if state.elite is not None:
                 validation_population = [state.elite] + validation_population[:-1]
 
-            logger.debug("cached_parents:{0}, len of cached_parents:{1}".format(cached_parents, len(cached_parents)))
+            # logger.debug("cached_parents:{0}, len of cached_parents:{1}".format(cached_parents, len(cached_parents)))
 
             validation_tasks = [(worker.model.compute_weights_from_seeds(noise, validation_population[x].seeds, cache=cached_parents), validation_population[x].seeds)
                                            for x in range(exp['validation_threshold'])]
@@ -298,6 +298,7 @@ def main(**exp):
                 cached_parents.extend(new_parents)
                 tlogger.info("Done caching parents")
     return float(state.curr_solution_test), {'val': float(state.curr_solution_val)}
+
 
 if __name__ == "__main__":
     with open(sys.argv[-1], 'r') as f:

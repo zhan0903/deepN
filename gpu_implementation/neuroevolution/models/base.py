@@ -38,7 +38,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.DEBUG)
 
 
 class Net(nn.Module):
@@ -341,8 +341,8 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
-            logger.debug("in compute_weights_from_seeds idx:{0},self.scale_by:{1},len of scale_by:{2}".
-                         format(idx, self.scale_by, len(self.scale_by)))
+            logger.debug("in compute_weights_from_seeds idx:{0},self.scale_by[-100:]:{1}".
+                         format(idx, self.scale_by[-100:]))
             theta = noise.get(idx, self.num_params).copy() * self.scale_by
             logger.debug("in compute_weights_from_seeds,theta:{}".format(theta))
 
@@ -415,9 +415,9 @@ class BaseModel(object):
         self.seeds = [None] * self.batch_size
         # self.scale_by = np.concatenate(self.scale_by)
         logger.debug("in make_weight, self.num_params:{0},len of self.scale_by:{1}, self.scale_by:{2}".
-                     format(self.num_params, len(self.scale_by), self.scale_by[-200:]))
+                     format(self.num_params, len(self.scale_by), self.scale_by[-100:]))
         # logger.debug("in make_weight, self.num_params_test:{0},len of self.scale_by_test:{1}, self.scale_by_test:{2}".
-        #              format(self.num_params_test, len(self.scale_by_test), self.scale_by_test[-200:]))
+        #              format(self.num_params_test, len(self.scale_by_test), self.scale_by_test[-100:]))
         assert self.scale_by.size == self.num_params
         # Make commit op
         # assigns = []
