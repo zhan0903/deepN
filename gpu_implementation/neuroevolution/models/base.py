@@ -379,7 +379,6 @@ class BaseModel(object):
                              format(idx, scale_by[-100:], len(scale_by), type(scale_by)))
             else:
                 scale_by = self.scale_by
-
             theta = noise.get(idx, self.num_params).copy() * scale_by  # self.scale_by
             logger.debug("in compute_weights_from_seeds,theta[-100:]:{}".format(theta[-100:]))
             for mutation in seeds[1:]:
