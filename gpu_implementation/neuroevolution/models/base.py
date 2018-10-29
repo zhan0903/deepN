@@ -358,7 +358,7 @@ class BaseModel(object):
             # torch.manual_seed(idx)
             # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             scale_by = []
-            if True:
+            if False:
                 # scale_by = []
                 torch.manual_seed(idx)
                 shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
