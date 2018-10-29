@@ -350,8 +350,9 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
-            logger.debug("in compute_weights_from_seeds else idx:{0},self.scale_by[-100:]:{1}, len self.scale_by:{2}".
-                         format(idx, self.scale_by[-100:], len(self.scale_by)))
+            logger.debug("in compute_weights_from_seeds else idx:{0},self.scale_by[-100:]:{1}, "
+                         "len self.scale_by:{2}, type self.scale_by:{3}".
+                         format(idx, self.scale_by[-100:], len(self.scale_by), type(self.scale_by)))
 
             # seed = np.random.randint(MAX_SEED)
             # torch.manual_seed(idx)
@@ -372,10 +373,11 @@ class BaseModel(object):
                 # self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
                 scale_by = np.concatenate(scale_by)
                 # self.scale_by = scale_by
-                logger.debug("in compute_weights_from_seeds else~~~~ idx:{0},scale_by[-100:]:{1}, len scale_by:{2}".
-                             format(idx, scale_by[-100:], len(scale_by)))
+                logger.debug("in compute_weights_from_seeds else~~~~ idx:{0},scale_by[-100:]:{1}, "
+                             "len scale_by:{2}, type scale_by:{3}".
+                             format(idx, scale_by[-100:], len(scale_by), type(scale_by)))
 
-            theta = noise.get(idx, self.num_params).copy() * scale_by # self.scale_by
+            theta = noise.get(idx, self.num_params).copy() * scale_by  # self.scale_by
             logger.debug("in compute_weights_from_seeds,theta[-100:]:{}".format(theta[-100:]))
             for mutation in seeds[1:]:
                 idx, power = mutation
