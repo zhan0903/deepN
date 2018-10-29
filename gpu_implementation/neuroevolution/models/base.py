@@ -41,7 +41,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.DEBUG)
+logger.setLevel(level=logging.INFO)
 
 
 class Net(nn.Module):
@@ -213,7 +213,7 @@ class BaseModel(object):
         self.indices = None
         self.variables = []
         self.description = ""
-        self.count = 0
+        # self.count = 0
 
     @property
     def requires_ref_batch(self):
@@ -331,8 +331,8 @@ class BaseModel(object):
         return self.compute_weights_from_seeds(noise, seeds), seeds
 
     def compute_weights_from_seeds(self, noise, seeds, cache=None):
-        self.count = self.count+1
-        logger.debug("in compute_weight:self.count:{}".format(self.count))
+        # self.count = self.count+1
+        # logger.debug("in compute_weight:self.count:{}".format(self.count))
         if cache:
             logger.debug("in compute_weights_from_seeds,cache:{0},seeds:{1}".format(cache, seeds))
             cache_seeds = [o[1] for o in cache]
