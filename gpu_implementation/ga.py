@@ -131,7 +131,6 @@ def main(**exp):
     logger.debug("in make, make_env observation_space:{}".format(env.observation_space))
     logger.debug("in make, make_env action_space:{}".format(env.action_space))
 
-
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
     with WorkerSession(worker) as sess:
         noise = SharedNoiseTable()
@@ -211,6 +210,7 @@ def main(**exp):
 
             tlogger.info('Evaluate population')
             validation_population = state.population[:exp['validation_threshold']]
+            logger.debug()
             if state.elite is not None:
                 validation_population = [state.elite] + validation_population[:-1]
 

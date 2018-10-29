@@ -357,8 +357,9 @@ class BaseModel(object):
             # seed = np.random.randint(MAX_SEED)
             # torch.manual_seed(idx)
             # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
+            scale_by = []
             if True:
-                scale_by = []
+                # scale_by = []
                 torch.manual_seed(idx)
                 shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
                 net = Net((4, 84, 84), shape_out)
@@ -376,6 +377,8 @@ class BaseModel(object):
                 logger.debug("in compute_weights_from_seeds else~~~~ idx:{0},scale_by[-100:]:{1}, "
                              "len scale_by:{2}, type scale_by:{3}".
                              format(idx, scale_by[-100:], len(scale_by), type(scale_by)))
+            else:
+                scale_by = self.scale_by
 
             theta = noise.get(idx, self.num_params).copy() * scale_by  # self.scale_by
             logger.debug("in compute_weights_from_seeds,theta[-100:]:{}".format(theta[-100:]))
