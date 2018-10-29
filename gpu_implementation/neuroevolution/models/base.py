@@ -368,7 +368,7 @@ class BaseModel(object):
                     logger.debug("in make_weights:.data.size{}".format(np.prod(p.data.size())))
                     if len(torch.tensor(p.data.size()).numpy()) == 10:
                         logger.debug("p in make_weights:{}".format(p))
-                    self.num_params += np.prod(p.data.size())
+                    # self.num_params += np.prod(p.data.size())
                     scale_by.append(p.data.numpy().flatten().copy())
                 # self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
                 scale_by = np.concatenate(scale_by)
