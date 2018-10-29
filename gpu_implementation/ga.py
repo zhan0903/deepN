@@ -210,7 +210,7 @@ def main(**exp):
 
             tlogger.info('Evaluate population')
             validation_population = state.population[:exp['validation_threshold']]
-            logger.debug()
+            # logger.debug()
             if state.elite is not None:
                 validation_population = [state.elite] + validation_population[:-1]
 
