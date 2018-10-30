@@ -218,7 +218,7 @@ class BaseModel(object):
 
     def compute_weights_from_seeds(self, noise, seeds, cache=None):
         # self.count = self.count+1
-        logger.debug("in compute_weight_from_seeds".format(self.count))
+        logger.error("in compute_weight_from_seeds".format(cache))
         if cache:
             logger.debug("in compute_weights_from_seeds,cache:{0},seeds:{1}".format(cache, seeds))
             cache_seeds = [o[1] for o in cache]
