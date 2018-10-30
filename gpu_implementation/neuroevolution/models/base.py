@@ -241,7 +241,7 @@ class BaseModel(object):
             # torch.manual_seed(idx)
             # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             # add 5 particle
-            ran_num = np.random.randint(1, 7)
+            ran_num = np.random.randint(1, 6)
 
             scale_by = []
             shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
@@ -268,12 +268,6 @@ class BaseModel(object):
             elif ran_num == 4:  # kaiming_normal
                 for p in net.parameters():
                     nn.init.kaiming_normal_(p.data, mode='fan_out', nonlinearity='relu')
-                    # p.bias.data.zero_()
-                    scale_by.append(p.data.numpy().flatten().copy())
-                scale_by = np.concatenate(scale_by)
-            elif ran_num == 5:  # orthonal
-                for p in net.parameters():
-                    nn.init.orthogonal_(p.data)
                     # p.bias.data.zero_()
                     scale_by.append(p.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
