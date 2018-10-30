@@ -91,7 +91,6 @@ def init_weight(shape, type):
     return w.numpy().flatten()
 
 
-
 class BaseModel(object):
     def __init__(self):
         self.nonlin = tf.nn.relu
@@ -255,7 +254,8 @@ class BaseModel(object):
                     if isinstance(p, nn.Linear):
                         nn.init.xavier_normal_(p.weight.data)
                         p.bias.data.zero_()
-                    scale_by.append(p.data.numpy().flatten().copy())
+                    scale_by.append(p.weight.data.numpy().flatten().copy())
+                    scale_by.append(p.bias.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 2:  # xavier_uniform
                 for p in net.modules():
@@ -266,7 +266,8 @@ class BaseModel(object):
                         nn.init.xavier_uniform_(p.weight.data, gain=nn.init.calculate_gain('relu'))
                         p.bias.data.zero_()
                     # p.bias.data.zero_()
-                    scale_by.append(p.data.numpy().flatten().copy())
+                    scale_by.append(p.weight.data.numpy().flatten().copy())
+                    scale_by.append(p.bias.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 3:  # kaiming_uniform
                 for p in net.modules():
@@ -278,7 +279,8 @@ class BaseModel(object):
                         p.bias.data.zero_()
                     # nn.init.kaiming_uniform_(p.data, mode='fan_in', nonlinearity='relu')
                     # p.bias.data.zero_()
-                    scale_by.append(p.data.numpy().flatten().copy())
+                    scale_by.append(p.weight.data.numpy().flatten().copy())
+                    scale_by.append(p.bias.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 4:  # kaiming_normal
                 for p in net.modules():
@@ -290,7 +292,8 @@ class BaseModel(object):
                         p.bias.data.zero_()
                     # nn.init.kaiming_normal_(p.data, mode='fan_out', nonlinearity='relu')
                     # p.bias.data.zero_()
-                    scale_by.append(p.data.numpy().flatten().copy())
+                    scale_by.append(p.weight.data.numpy().flatten().copy())
+                    scale_by.append(p.bias.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             else: # default
                 scale_by = self.scale_by
