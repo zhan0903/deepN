@@ -241,15 +241,15 @@ class BaseModel(object):
             # torch.manual_seed(idx)
             # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             # add 5 particle
-            ran_num = np.random.randint(1, 6)
+            ran_num = np.random.randint(1, 2)
 
             scale_by = []
             shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             net = Net((4, 84, 84), shape_out)
 
             if ran_num == 1:  # xavier_normal
-                for p in net.parameters():
-                    nn.init.xavier_normal_(p.data)
+                for p in net.modules():
+                    nn.init.xavier_normal_(p.weight.data)
                     # p.bias.data.zero_()
                     scale_by.append(p.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
