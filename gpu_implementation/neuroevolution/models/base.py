@@ -249,32 +249,32 @@ class BaseModel(object):
 
             if ran_num == 1:  # xavier_normal
                 for p in net.modules():
-                    nn.init.xavier_normal_(p.weight.data)
-                    p.bias.data.zero_()
+                    nn.init.xavier_normal_(p.data)
+                    # p.bias.data.zero_()
                     scale_by.append(p.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 2:  # xavier_uniform
                 for p in net.modules():
-                    nn.init.xavier_uniform_(p.weight.data, gain=nn.init.calculate_gain('relu'))
-                    p.bias.data.zero_()
+                    nn.init.xavier_uniform_(p.data, gain=nn.init.calculate_gain('relu'))
+                    # p.bias.data.zero_()
                     scale_by.append(p.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 3:  # kaiming_uniform
                 for p in net.modules():
-                    nn.init.kaiming_uniform_(p.weight.data, mode='fan_in', nonlinearity='relu')
-                    p.bias.data.zero_()
+                    nn.init.kaiming_uniform_(p.data, mode='fan_in', nonlinearity='relu')
+                    # p.bias.data.zero_()
                     scale_by.append(p.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 4:  # kaiming_normal
                 for p in net.modules():
-                    nn.init.kaiming_normal_(p.weight.data, mode='fan_out', nonlinearity='relu')
-                    p.bias.data.zero_()
+                    nn.init.kaiming_normal_(p.data, mode='fan_out', nonlinearity='relu')
+                    # p.bias.data.zero_()
                     scale_by.append(p.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 5:  # orthonal
                 for p in net.modules():
-                    nn.init.orthogonal_(p.weight.data)
-                    p.bias.data.zero_()
+                    nn.init.orthogonal_(p.data)
+                    # p.bias.data.zero_()
                     scale_by.append(p.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             else: # default
