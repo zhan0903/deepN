@@ -218,7 +218,7 @@ class BaseModel(object):
 
     def compute_weights_from_seeds(self, noise, seeds, cache=None):
         # self.count = self.count+1
-        # logger.debug("in compute_weight:self.count:{}".format(self.count))
+        logger.debug("in compute_weight_from_seeds".format(self.count))
         if cache:
             logger.debug("in compute_weights_from_seeds,cache:{0},seeds:{1}".format(cache, seeds))
             cache_seeds = [o[1] for o in cache]
@@ -236,14 +236,13 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
-            logger.error("in compute_weight_from_seeds else, idx:{}".format(idx))
             # seed = np.random.randint(MAX_SEED)
             torch.manual_seed(idx)
             # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             # add 5 particle
             ran_num = idx % 6  # np.random.randint(1, 7)
-            logger.error("in compute_weight_from_seeds else, idx:{0}, ran_num:{1}".format(idx,ran_num))
-
+            logger.error("in compute_weight_from_seeds else, idx:{0}, ran_num:{1}, seeds:{2}".
+                         format(idx, ran_num, seeds))
 
             scale_by = []
             shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
