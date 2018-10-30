@@ -236,12 +236,14 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
-            logger.error("in compute_weight_from_seeds else")
+            logger.error("in compute_weight_from_seeds else, idx:{}".format(idx))
             # seed = np.random.randint(MAX_SEED)
             torch.manual_seed(idx)
             # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             # add 5 particle
             ran_num = idx % 6  # np.random.randint(1, 7)
+            logger.error("in compute_weight_from_seeds else, idx:{0}, ran_num:{1}".format(idx,ran_num))
+
 
             scale_by = []
             shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
