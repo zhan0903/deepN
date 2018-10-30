@@ -24,7 +24,7 @@ import numpy as np
 import gym
 import tabular_logger as tlogger
 import gym_tensorflow
-from neuroevolution.helper import SharedNoiseTable, make_schedule
+from euroevolution.helper import SharedNoiseTable, make_schedule
 from PIL import Image
 from neuroevolution.models import LargeModel as Model
 game = 'frostbite'

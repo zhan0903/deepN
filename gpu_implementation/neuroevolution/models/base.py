@@ -26,6 +26,7 @@ import tabular_logger as tlogger
 from gym_tensorflow.ops import indexed_matmul
 import logging
 from tensorflow.python.ops import random_ops
+from tensorflow.contrib.layers.python.layers import initializers
 
 
 MAX_SEED = 2**32 - 1
@@ -74,135 +75,21 @@ class Net(nn.Module):
         return self.fc(conv_out)
 
 
-def normal(shape, scale=0.05, name=None):
-    return np.random.normal(loc=0.0, scale=scale, size=shape)
+def init_weight(shape, type):
+    w = torch.empty(shape)
+    if type == "xavier_normal":
+        nn.init.xavier_normal_(w)
+    if type == "xavier_uniform":
+        nn.init.xavier_uniform_(w, gain=nn.init.calculate_gain('relu'))
+    if type == "kaiming_uniform":
+        nn.init.kaiming_uniform_(w, mode='fan_in', nonlinearity='relu')
+    if type == "kaiming_normal":
+        nn.init.kaiming_normal_(w, mode='fan_out', nonlinearity='relu')
+    if type == "orthogonal":
+        nn.init.orthogonal_(w)
 
+    return w.numpy().flatten()
 
-def get_fans(shape):
-    # if len shape == 2 mean fc connection
-    fan_in = shape[0] if len(shape) == 2 else np.prod(shape[:-1])
-    fan_out = shape[1] if len(shape) == 2 else shape[-1]
-    return fan_in, fan_out
-
-
-def he_normal(shape, name=None):
-    ''' Reference:  He et al., http://arxiv.org/abs/1502.01852
-    '''
-    fan_in, fan_out = get_fans(shape)
-    s = np.sqrt(2. / fan_in)
-    return normal(shape, s, name=name)
-
-
-def calculate_gain(nonlinearity, param=None):
-    r"""Return the recommended gain value for the given nonlinearity function.
-    The values are as follows:
-
-    ================= ====================================================
-    nonlinearity      gain
-    ================= ====================================================
-    Linear / Identity :math:`1`
-    Conv{1,2,3}D      :math:`1`
-    Sigmoid           :math:`1`
-    Tanh              :math:`\frac{5}{3}`
-    ReLU              :math:`\sqrt{2}`
-    Leaky Relu        :math:`\sqrt{\frac{2}{1 + \text{negative_slope}^2}}`
-    ================= ====================================================
-
-    Args:
-        nonlinearity: the non-linear function (`nn.functional` name)
-        param: optional parameter for the non-linear function
-
-    Examples:
-        >>> gain = nn.init.calculate_gain('leaky_relu')
-    """
-    linear_fns = ['linear', 'conv1d', 'conv2d', 'conv3d', 'conv_transpose1d', 'conv_transpose2d', 'conv_transpose3d']
-    if nonlinearity in linear_fns or nonlinearity == 'sigmoid':
-        return 1
-    elif nonlinearity == 'tanh':
-        return 5.0 / 3
-    elif nonlinearity == 'relu':
-        return math.sqrt(2.0)
-    elif nonlinearity == 'leaky_relu':
-        if param is None:
-            negative_slope = 0.01
-        elif not isinstance(param, bool) and isinstance(param, int) or isinstance(param, float):
-            # True/False are instances of int, hence check above
-            negative_slope = param
-        else:
-            raise ValueError("negative_slope {} not a valid number".format(param))
-        return math.sqrt(2.0 / (1 + negative_slope ** 2))
-    else:
-        raise ValueError("Unsupported nonlinearity {}".format(nonlinearity))
-
-
-
-def _calculate_fan_in_and_fan_out(tensor):
-    dimensions = tensor.ndimension()
-    print("dimension:",dimensions)
-    if dimensions < 2:
-        raise ValueError("Fan in and fan out can not be computed for tensor with less than 2 dimensions")
-
-    if dimensions == 2:  # Linear
-        fan_in = tensor.size(1)
-        fan_out = tensor.size(0)
-    else:
-        num_input_fmaps = tensor.size(1)
-        print("num_input_fmaps:",num_input_fmaps)
-        num_output_fmaps = tensor.size(0)
-        print("num_output_fmaps:",num_output_fmaps)
-        receptive_field_size = 1
-        if tensor.dim() > 2:
-            receptive_field_size = tensor[0][0].numel()
-        fan_in = num_input_fmaps * receptive_field_size
-        fan_out = num_output_fmaps * receptive_field_size
-
-    return fan_in, fan_out
-
-
-def _calculate_correct_fan(tensor, mode):
-    mode = mode.lower()
-    valid_modes = ['fan_in', 'fan_out']
-    if mode not in valid_modes:
-        raise ValueError("Mode {} not supported, please use one of {}".format(mode, valid_modes))
-
-    fan_in, fan_out = _calculate_fan_in_and_fan_out(tensor)
-    return fan_in if mode == 'fan_in' else fan_out
-
-
-def kaiming_normal_(tensor, a=0, mode='fan_in', nonlinearity='leaky_relu'):
-    r"""Fills the input `Tensor` with values according to the method
-    described in "Delving deep into rectifiers: Surpassing human-level
-    performance on ImageNet classification" - He, K. et al. (2015), using a
-    normal distribution. The resulting tensor will have values sampled from
-    :math:`\mathcal{N}(0, \text{std})` where
-
-    .. math::
-        \text{std} = \sqrt{\frac{2}{(1 + a^2) \times \text{fan_in}}}
-
-    Also known as He initialization.
-
-    Args:
-        tensor: an n-dimensional `torch.Tensor`
-        a: the negative slope of the rectifier used after this layer (0 for ReLU
-            by default)
-        mode: either 'fan_in' (default) or 'fan_out'. Choosing `fan_in`
-            preserves the magnitude of the variance of the weights in the
-            forward pass. Choosing `fan_out` preserves the magnitudes in the
-            backwards pass.
-        nonlinearity: the non-linear function (`nn.functional` name),
-            recommended to use only with 'relu' or 'leaky_relu' (default).
-
-    Examples:
-        >>> w = torch.empty(3, 5)
-        >>> nn.init.kaiming_normal_(w, mode='fan_out', nonlinearity='relu')
-    """
-    fan = _calculate_correct_fan(tensor, mode)
-    print()
-    gain = calculate_gain(nonlinearity, a)
-    std = gain / math.sqrt(fan)
-    print("std in kaiming", std)
-    with torch.no_grad():
-        return tensor.normal_(0, std)
 
 
 class BaseModel(object):
@@ -350,37 +237,52 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
-            logger.debug("in compute_weights_from_seeds else idx:{0},self.scale_by[-100:]:{1}, "
-                         "len self.scale_by:{2}, type self.scale_by:{3}".
-                         format(idx, self.scale_by[-100:], len(self.scale_by), type(self.scale_by)))
-
             # seed = np.random.randint(MAX_SEED)
             # torch.manual_seed(idx)
             # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
+            # add 5 particle
+            ran_num = np.random.randint(1, 7)
+
             scale_by = []
-            if False:
-                # scale_by = []
-                torch.manual_seed(idx)
-                shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
-                net = Net((4, 84, 84), shape_out)
-                logger.debug("in compute_weight_from_seeds:shape_out:{}".format(shape_out))
+            shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
+            net = Net((4, 84, 84), shape_out)
+
+            if ran_num == 1:  # xavier_normal
                 for p in net.parameters():
-                    # logger
-                    logger.debug("in make_weights:.data.size{}".format(np.prod(p.data.size())))
-                    if len(torch.tensor(p.data.size()).numpy()) == 10:
-                        logger.debug("p in make_weights:{}".format(p))
-                    # self.num_params += np.prod(p.data.size())
+                    nn.init.xavier_normal_(p.weight.data)
+                    p.bias.data.zero_()
                     scale_by.append(p.data.numpy().flatten().copy())
-                # self.batch_size = [v.value for v in self.variables[-1].get_shape()][0]
                 scale_by = np.concatenate(scale_by)
-                # self.scale_by = scale_by
-                logger.debug("in compute_weights_from_seeds else~~~~ idx:{0},scale_by[-100:]:{1}, "
-                             "len scale_by:{2}, type scale_by:{3}".
-                             format(idx, scale_by[-100:], len(scale_by), type(scale_by)))
-            else:
+            elif ran_num == 2:  # xavier_uniform
+                for p in net.parameters():
+                    nn.init.xavier_uniform_(p.weight.data, gain=nn.init.calculate_gain('relu'))
+                    p.bias.data.zero_()
+                    scale_by.append(p.data.numpy().flatten().copy())
+                scale_by = np.concatenate(scale_by)
+            elif ran_num == 3:  # kaiming_uniform
+                for p in net.parameters():
+                    nn.init.kaiming_uniform_(p.weight.data, mode='fan_in', nonlinearity='relu')
+                    p.bias.data.zero_()
+                    scale_by.append(p.data.numpy().flatten().copy())
+                scale_by = np.concatenate(scale_by)
+            elif ran_num == 4:  # kaiming_normal
+                for p in net.parameters():
+                    nn.init.kaiming_normal_(p.weight.data, mode='fan_out', nonlinearity='relu')
+                    p.bias.data.zero_()
+                    scale_by.append(p.data.numpy().flatten().copy())
+                scale_by = np.concatenate(scale_by)
+            elif ran_num == 5:  # orthonal
+                for p in net.parameters():
+                    nn.init.orthogonal_(p.weight.data)
+                    p.bias.data.zero_()
+                    scale_by.append(p.data.numpy().flatten().copy())
+                scale_by = np.concatenate(scale_by)
+            else: # default
                 scale_by = self.scale_by
+
             theta = noise.get(idx, self.num_params).copy() * scale_by  # self.scale_by
-            logger.debug("in compute_weights_from_seeds,theta[-100:]:{}".format(theta[-100:]))
+            logger.debug("in compute_weights_from_seeds,ran_num:{0},theta[-100:]:{1}".format(ran_num, theta[-100:]))
+
             for mutation in seeds[1:]:
                 idx, power = mutation
                 logger.debug("come mutation")
