@@ -42,7 +42,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.ERROR)
 
 
 class Net(nn.Module):
@@ -236,17 +236,18 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
+            logger.error("in compute_weight_from_seeds else")
             # seed = np.random.randint(MAX_SEED)
-            # torch.manual_seed(idx)
+            torch.manual_seed(idx)
             # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             # add 5 particle
-            ran_num = np.random.randint(1, 6)
+            ran_num = idx % 6  # np.random.randint(1, 7)
 
             scale_by = []
             shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             net = Net((4, 84, 84), shape_out)
 
-            if ran_num == 1:  # xavier_normal
+            if ran_num == 0:  # xavier_normal
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
                         nn.init.xavier_normal_(p.weight.data)
@@ -259,7 +260,7 @@ class BaseModel(object):
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
-            elif ran_num == 2:  # xavier_uniform
+            elif ran_num == 1:  # xavier_uniform
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
                         nn.init.xavier_uniform_(p.weight.data, gain=nn.init.calculate_gain('relu'))
@@ -273,7 +274,7 @@ class BaseModel(object):
                         scale_by.append(p.bias.data.numpy().flatten().copy())
                     # p.bias.data.zero_()
                 scale_by = np.concatenate(scale_by)
-            elif ran_num == 3:  # kaiming_uniform
+            elif ran_num == 1:  # kaiming_uniform
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
                         nn.init.kaiming_uniform_(p.weight.data, mode='fan_in', nonlinearity='relu')
@@ -288,7 +289,7 @@ class BaseModel(object):
                     # nn.init.kaiming_uniform_(p.data, mode='fan_in', nonlinearity='relu')
                     # p.bias.data.zero_()
                 scale_by = np.concatenate(scale_by)
-            elif ran_num == 4:  # kaiming_normal
+            elif ran_num == 3:  # kaiming_normal
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
                         nn.init.kaiming_normal_(p.weight.data, mode='fan_out', nonlinearity='relu')
@@ -297,6 +298,21 @@ class BaseModel(object):
                         scale_by.append(p.bias.data.numpy().flatten().copy())
                     if isinstance(p, nn.Linear):
                         nn.init.kaiming_normal_(p.weight.data, mode='fan_out', nonlinearity='relu')
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                    # nn.init.kaiming_normal_(p.data, mode='fan_out', nonlinearity='relu')
+                    # p.bias.data.zero_()
+                scale_by = np.concatenate(scale_by)
+            elif ran_num == 4: # orthogonal
+                for p in net.modules():
+                    if isinstance(p, nn.Conv2d):
+                        nn.init.orthogonal_(p.weight.data)
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                    if isinstance(p, nn.Linear):
+                        nn.init.orthogonal_(p.weight.data)
                         p.bias.data.zero_()
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
