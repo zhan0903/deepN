@@ -125,9 +125,8 @@ def main(**exp):
     tlogger.info('Logging to: {}'.format(log_dir))
     Model = neuroevolution.models.__dict__[exp['model']]
     all_tstart = time.time()
-    best_value = float('-inf')
-    writer = SummaryWriter(comment="-pong-5-particles")
-
+    # best_value = float('-inf')
+    writer = SummaryWriter(comment="-gravitar-5-particles")
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
@@ -315,4 +314,7 @@ def main(**exp):
 if __name__ == "__main__":
     with open(sys.argv[-1], 'r') as f:
         exp = json.loads(f.read())
+
+    games = exp["games"].split(',')
+
     main(**exp)
