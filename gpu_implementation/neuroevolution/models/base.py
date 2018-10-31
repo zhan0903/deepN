@@ -218,7 +218,7 @@ class BaseModel(object):
 
     def compute_weights_from_seeds(self, noise, seeds, cache=None):
         # self.count = self.count+1
-        logger.error("in compute_weight_from_seeds".format(cache))
+        logger.error("in compute_weight_from_seeds:cache:{0},seeds:{1}".format(cache,seeds))
         if cache:
             logger.debug("in compute_weights_from_seeds,cache:{0},seeds:{1}".format(cache, seeds))
             cache_seeds = [o[1] for o in cache]
@@ -240,7 +240,7 @@ class BaseModel(object):
             torch.manual_seed(idx)
             # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             # add 5 particle
-            ran_num = idx % 6  # np.random.randint(1, 7)
+            ran_num = idx % 5  # np.random.randint(1, 7)
             logger.error("in compute_weight_from_seeds else, idx:{0}, ran_num:{1}, seeds:{2}".
                          format(idx, ran_num, seeds))
 
@@ -305,21 +305,21 @@ class BaseModel(object):
                     # nn.init.kaiming_normal_(p.data, mode='fan_out', nonlinearity='relu')
                     # p.bias.data.zero_()
                 scale_by = np.concatenate(scale_by)
-            elif ran_num == 4: # orthogonal
-                for p in net.modules():
-                    if isinstance(p, nn.Conv2d):
-                        nn.init.orthogonal_(p.weight.data)
-                        p.bias.data.zero_()
-                        scale_by.append(p.weight.data.numpy().flatten().copy())
-                        scale_by.append(p.bias.data.numpy().flatten().copy())
-                    if isinstance(p, nn.Linear):
-                        nn.init.orthogonal_(p.weight.data)
-                        p.bias.data.zero_()
-                        scale_by.append(p.weight.data.numpy().flatten().copy())
-                        scale_by.append(p.bias.data.numpy().flatten().copy())
-                    # nn.init.kaiming_normal_(p.data, mode='fan_out', nonlinearity='relu')
-                    # p.bias.data.zero_()
-                scale_by = np.concatenate(scale_by)
+            # elif ran_num == 4: # orthogonal
+            #     for p in net.modules():
+            #         if isinstance(p, nn.Conv2d):
+            #             nn.init.orthogonal_(p.weight.data)
+            #             p.bias.data.zero_()
+            #             scale_by.append(p.weight.data.numpy().flatten().copy())
+            #             scale_by.append(p.bias.data.numpy().flatten().copy())
+            #         if isinstance(p, nn.Linear):
+            #             nn.init.orthogonal_(p.weight.data)
+            #             p.bias.data.zero_()
+            #             scale_by.append(p.weight.data.numpy().flatten().copy())
+            #             scale_by.append(p.bias.data.numpy().flatten().copy())
+            #         # nn.init.kaiming_normal_(p.data, mode='fan_out', nonlinearity='relu')
+            #         # p.bias.data.zero_()
+            #     scale_by = np.concatenate(scale_by)
             else: # default
                 scale_by = self.scale_by
 
