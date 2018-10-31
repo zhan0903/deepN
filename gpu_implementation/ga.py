@@ -188,6 +188,7 @@ def main(**exp):
                 tstart_iteration = time.time()
                 if state.timesteps_so_far >= exp['timesteps']:
                     tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
+                    sess.close()
                     break
                 frames_computed_so_far = sess.run(worker.steps_counter)
                 assert (len(cached_parents) == 0 and state.it == 0) or len(cached_parents) == exp['selection_threshold']
@@ -317,9 +318,6 @@ def main(**exp):
                     cached_parents.clear()
                     cached_parents.extend(new_parents)
                     tlogger.info("Done caching parents")
-                if state.num_frames > 1e+8:
-                    break
-
 
     return float(state.curr_solution_test), {'val': float(state.curr_solution_val)}
 
