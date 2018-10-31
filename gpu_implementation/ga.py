@@ -260,7 +260,10 @@ def main(**exp):
                 tlogger.record_tabular('TruncatedPopulationEliteTestEpCount', len(population_elite_evals))
                 tlogger.record_tabular('TruncatedPopulationEliteTestEpLenSum', np.sum(population_elite_evals_timesteps))
 
-                writer.add_scalar("best_agent %s" % game, np.mean(population_elite_evals), state.num_frames)
+                writer.add_scalar("best_agent %s" % game, np.mean(population_elite_evals), state.timesteps_so_far)
+                writer.add_scalar("best_agent %s" % game, state.num_frames, state.timesteps_so_far)
+
+
                 # writer.add_scalar("frames", state.num_frames, state.it)
                 # writer.add_scalar("gen_seconds", (time.time()-all_tstart)/3600, state.it)
 
