@@ -34,6 +34,8 @@ import neuroevolution.models
 import gym_tensorflow
 import tabular_logger as tlogger
 import logging
+from tensorboardX import SummaryWriter
+
 
 logger = logging.getLogger(__name__)
 fh = logging.FileHandler('./logger.out')
@@ -124,6 +126,8 @@ def main(**exp):
     Model = neuroevolution.models.__dict__[exp['model']]
     all_tstart = time.time()
     best_value = float('-inf')
+    writer = SummaryWriter(comment="-pong-5-particles")
+
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
@@ -225,15 +229,15 @@ def main(**exp):
             state.time_elapsed += time_elapsed_this_iter
 
             population_elite_idx = np.argmax(population_validation)
-            elite_temp = validation_population[population_elite_idx]
+            state.elite = validation_population[population_elite_idx]
 
-            elite_theta = worker.model.compute_weights_from_seeds(noise, elite_temp.seeds, cache=cached_parents)
+            elite_theta = worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents)
             _, population_elite_evals, population_elite_evals_timesteps = worker.monitor_eval_repeated([(elite_theta,
-                    elite_temp.seeds)], max_frames=None, num_episodes=exp['num_test_episodes'])[0]
+                         state.elite.seeds)], max_frames=None, num_episodes=exp['num_test_episodes'])[0]
 
-            if np.mean(population_elite_evals) > best_value:
-                state.elite = validation_population[population_elite_idx]
-                best_value = np.mean(population_elite_evals)
+            # if np.mean(population_elite_evals) > best_value:
+            #     state.elite = validation_population[population_elite_idx]
+            #     best_value = np.mean(population_elite_evals)
 
             # Log Results
             validation_timesteps = sum(population_validation_len)
@@ -250,6 +254,10 @@ def main(**exp):
             tlogger.record_tabular('TruncatedPopulationEliteTestRewMean', np.mean(population_elite_evals))
             tlogger.record_tabular('TruncatedPopulationEliteTestEpCount', len(population_elite_evals))
             tlogger.record_tabular('TruncatedPopulationEliteTestEpLenSum', np.sum(population_elite_evals_timesteps))
+
+            writer.add_scalar("best_agent", np.mean(population_elite_evals), state.it)
+            writer.add_scalar("frames", state.num_frames, state.it)
+            writer.add_scalar("gen_seconds", (time.time()-all_tstart)/3600, state.it)
 
             if np.mean(population_validation) > state.curr_solution_val:
                 state.curr_solution = state.elite.seeds

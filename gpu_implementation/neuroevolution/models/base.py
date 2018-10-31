@@ -249,6 +249,7 @@ class BaseModel(object):
             net = Net((4, 84, 84), shape_out)
 
             if ran_num == 0:  # xavier_normal
+                logger.error("in compute_weight_from_seeds,idx:{0}->xavier_normal".format(idx))
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
                         nn.init.xavier_normal_(p.weight.data)
@@ -262,6 +263,7 @@ class BaseModel(object):
                         scale_by.append(p.bias.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 1:  # xavier_uniform
+                logger.error("in compute_weight_from_seeds,idx:{0}->xavier_uniform".format(idx))
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
                         nn.init.xavier_uniform_(p.weight.data, gain=nn.init.calculate_gain('relu'))
@@ -276,6 +278,7 @@ class BaseModel(object):
                     # p.bias.data.zero_()
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 1:  # kaiming_uniform
+                logger.error("in compute_weight_from_seeds,idx:{0}->kaiming_uniform".format(idx))
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
                         nn.init.kaiming_uniform_(p.weight.data, mode='fan_in', nonlinearity='relu')
@@ -291,6 +294,8 @@ class BaseModel(object):
                     # p.bias.data.zero_()
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 3:  # kaiming_normal
+                logger.error("in compute_weight_from_seeds,idx:{0}->kaiming_normal".format(idx))
+
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
                         nn.init.kaiming_normal_(p.weight.data, mode='fan_out', nonlinearity='relu')
@@ -321,6 +326,7 @@ class BaseModel(object):
             #         # p.bias.data.zero_()
             #     scale_by = np.concatenate(scale_by)
             else: # default
+                logger.error("in compute_weight_from_seeds,idx:{0}->default".format(idx))
                 scale_by = self.scale_by
 
             theta = noise.get(idx, self.num_params).copy() * scale_by  # self.scale_by
