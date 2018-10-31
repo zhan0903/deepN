@@ -315,6 +315,5 @@ if __name__ == "__main__":
     with open(sys.argv[-1], 'r') as f:
         exp = json.loads(f.read())
 
-    games = exp["games"].split(',')
-
+    # games = exp["games"].split(',')
     main(**exp)
