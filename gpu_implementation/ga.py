@@ -125,189 +125,199 @@ def main(**exp):
     tlogger.info('Logging to: {}'.format(log_dir))
     Model = neuroevolution.models.__dict__[exp['model']]
     all_tstart = time.time()
-    # best_value = float('-inf')
-    writer = SummaryWriter(comment="-gravitar-5-particles")
 
-    def make_env(b):
-        return gym_tensorflow.make(game=exp["game"], batch_size=b)
+    games = exp["games"].split(',')
 
-    # env = make_env(64)
+    for game in games:
+        writer = SummaryWriter(comment="-test 5 particle game-%s" % game)
 
-    worker = ConcurrentWorkers(make_env, Model, batch_size=64)
-    with WorkerSession(worker) as sess:
-        noise = SharedNoiseTable()
-        rs = np.random.RandomState()
+        def make_env(b):
+            return gym_tensorflow.make(game=game, batch_size=b)
 
-        cached_parents = []
-        results = []
+        worker = ConcurrentWorkers(make_env, Model, batch_size=64)
+        with WorkerSession(worker) as sess:
+            noise = SharedNoiseTable()
+            rs = np.random.RandomState()
 
-        def make_offspring():
-            if len(cached_parents) == 0:
-                # init parents
-                return worker.model.randomize(rs, noise)
-            else:
-                assert len(cached_parents) == exp['selection_threshold']
-                parent = cached_parents[rs.randint(len(cached_parents))]
-                return worker.model.mutate(parent, rs, noise, mutation_power=state.sample(state.mutation_power))
+            cached_parents = []
+            results = []
 
-        tlogger.info('Start timing')
-        tstart = time.time()
-
-        try:
-            load_file = os.path.join(log_dir, 'snapshot.pkl')
-            with open(load_file, 'rb+') as file:
-                state = pickle.load(file)
-            tlogger.info("Loaded iteration {} from {}".format(state.it, load_file))
-        except FileNotFoundError:
-            tlogger.info('Failed to load snapshot')
-            state = TrainingState(exp)
-
-        # False
-        if 'load_population' in exp:
-            state.copy_population(exp['load_population'])
-
-        # False
-        # Cache first population if needed (on restart)
-        if state.population and exp['selection_threshold'] > 0:
-            tlogger.info("Caching parents")
-            cached_parents.clear()
-            if state.elite in state.population[:exp['selection_threshold']]:
-                cached_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds), o.seeds) for o in state.population[:exp['selection_threshold']]])
-            else:
-                cached_parents.append((worker.model.compute_weights_from_seeds(noise, state.elite.seeds), state.elite.seeds))
-                cached_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds), o.seeds) for o in state.population[:exp['selection_threshold']-1]])
-            tlogger.info("Done caching parents")
-
-        while True:
-            tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps']:
-                tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
-                break
-            frames_computed_so_far = sess.run(worker.steps_counter)
-            assert (len(cached_parents) == 0 and state.it == 0) or len(cached_parents) == exp['selection_threshold']
-
-            tasks = [make_offspring() for _ in range(exp['population_size'])]
-            for seeds, episode_reward, episode_length in worker.monitor_eval(tasks, max_frames=state.tslimit * 4):
-                # logger.debug("in main, seeds:{0},episode_reward:{1},episode_length:{2}".
-                #              format(seeds, episode_reward, episode_length))
-                results.append(Offspring(seeds, [episode_reward], [episode_length]))
-            state.num_frames += sess.run(worker.steps_counter) - frames_computed_so_far
-
-            state.it += 1
-            tlogger.record_tabular('Iteration', state.it)
-            tlogger.record_tabular('MutationPower', state.sample(state.mutation_power))
-
-            # Trim unwanted results
-            results = results[:exp['population_size']]
-            assert len(results) == exp['population_size']
-            rewards = np.array([a.fitness for a in results])
-            population_timesteps = sum([a.training_steps for a in results])
-
-            state.population = sorted(results, key=lambda x:x.fitness, reverse=True)
-            tlogger.record_tabular('PopulationEpRewMax', np.max(rewards))
-            tlogger.record_tabular('PopulationEpRewMean', np.mean(rewards))
-            tlogger.record_tabular('PopulationEpCount', len(rewards))
-            tlogger.record_tabular('PopulationTimesteps', population_timesteps)
-            tlogger.record_tabular('NumSelectedIndividuals', exp['selection_threshold'])
-
-            tlogger.info('Evaluate population')
-            validation_population = state.population[:exp['validation_threshold']]
-            # logger.debug()
-            if state.elite is not None:
-                validation_population = [state.elite] + validation_population[:-1]
-
-            # logger.debug("cached_parents:{0}, len of cached_parents:{1}".format(cached_parents, len(cached_parents)))
-
-            validation_tasks = [(worker.model.compute_weights_from_seeds(noise, validation_population[x].seeds, cache=cached_parents), validation_population[x].seeds)
-                                           for x in range(exp['validation_threshold'])]
-            _, population_validation, population_validation_len = zip(*worker.monitor_eval_repeated(validation_tasks, max_frames=state.tslimit * 4, num_episodes=exp['num_validation_episodes']))
-            population_validation = [np.mean(x) for x in population_validation]
-            population_validation_len = [np.sum(x) for x in population_validation_len]
-
-            time_elapsed_this_iter = time.time() - tstart_iteration
-            state.time_elapsed += time_elapsed_this_iter
-
-            population_elite_idx = np.argmax(population_validation)
-            state.elite = validation_population[population_elite_idx]
-
-            elite_theta = worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents)
-            _, population_elite_evals, population_elite_evals_timesteps = worker.monitor_eval_repeated([(elite_theta,
-                         state.elite.seeds)], max_frames=None, num_episodes=exp['num_test_episodes'])[0]
-
-            # if np.mean(population_elite_evals) > best_value:
-            #     state.elite = validation_population[population_elite_idx]
-            #     best_value = np.mean(population_elite_evals)
-
-            # Log Results
-            validation_timesteps = sum(population_validation_len)
-            timesteps_this_iter = population_timesteps + validation_timesteps
-            state.timesteps_so_far += timesteps_this_iter
-            state.validation_timesteps_so_far += validation_timesteps
-
-            # Log
-            tlogger.record_tabular('TruncatedPopulationRewMean', np.mean([a.fitness for a in validation_population]))
-            tlogger.record_tabular('TruncatedPopulationValidationRewMean', np.mean(population_validation))
-            tlogger.record_tabular('TruncatedPopulationEliteValidationRewMean', np.max(population_validation))
-            tlogger.record_tabular("TruncatedPopulationEliteIndex", population_elite_idx)
-            tlogger.record_tabular('TruncatedPopulationEliteSeeds', state.elite.seeds)
-            tlogger.record_tabular('TruncatedPopulationEliteTestRewMean', np.mean(population_elite_evals))
-            tlogger.record_tabular('TruncatedPopulationEliteTestEpCount', len(population_elite_evals))
-            tlogger.record_tabular('TruncatedPopulationEliteTestEpLenSum', np.sum(population_elite_evals_timesteps))
-
-            writer.add_scalar("best_agent", np.mean(population_elite_evals), state.it)
-            writer.add_scalar("frames", state.num_frames, state.it)
-            writer.add_scalar("gen_seconds", (time.time()-all_tstart)/3600, state.it)
-
-            if np.mean(population_validation) > state.curr_solution_val:
-                state.curr_solution = state.elite.seeds
-                state.curr_solution_val = np.mean(population_validation)
-                state.curr_solution_test = np.mean(population_elite_evals)
-
-            tlogger.record_tabular('ValidationTimestepsThisIter', validation_timesteps)
-            tlogger.record_tabular('ValidationTimestepsSoFar', state.validation_timesteps_so_far)
-            tlogger.record_tabular('TimestepsThisIter', timesteps_this_iter)
-            tlogger.record_tabular('TimestepsPerSecondThisIter', timesteps_this_iter/(time.time()-tstart_iteration))
-            tlogger.record_tabular('TimestepsComputed', state.num_frames)
-            tlogger.record_tabular('TimestepsSoFar', state.timesteps_so_far)
-            tlogger.record_tabular('TimeElapsedThisIter', time_elapsed_this_iter)
-            tlogger.record_tabular('TimeElapsedThisIterTotal', time.time()-tstart_iteration)
-            tlogger.record_tabular('TimeElapsed', state.time_elapsed)
-            tlogger.record_tabular('TimeElapsedTotal', time.time()-all_tstart)
-
-            tlogger.dump_tabular()
-            tlogger.info('Current elite: {}'.format(state.elite.seeds))
-            fps = state.timesteps_so_far/(time.time() - tstart)
-            tlogger.info('Timesteps Per Second: {:.0f}. Elapsed: {:.2f}h ETA {:.2f}h'.format(fps, (time.time()-all_tstart)/3600, (exp['timesteps'] - state.timesteps_so_far)/fps/3600))
-
-            if state.adaptive_tslimit:
-                if np.mean([a.training_steps >= state.tslimit for a in results]) > state.incr_tslimit_threshold:
-                    state.tslimit = min(state.tslimit * state.tslimit_incr_ratio, state.tslimit_max)
-                    tlogger.info('Increased threshold to {}'.format(state.tslimit))
-
-            os.makedirs(log_dir, exist_ok=True)
-            save_file = os.path.join(log_dir, 'snapshot.pkl')
-            with open(save_file, 'wb+') as file:
-                pickle.dump(state, file)
-            #copyfile(save_file, os.path.join(log_dir, 'snapshot_gen{:04d}.pkl'.format(state.it)))
-            tlogger.info("Saved iteration {} to {}".format(state.it, save_file))
-
-            if state.timesteps_so_far >= exp['timesteps']:
-                tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
-                break
-            results.clear()
-
-            if exp['selection_threshold'] > 0:
-                tlogger.info("Caching parents")
-                new_parents = []
-                if state.elite in state.population[:exp['selection_threshold']]:
-                    new_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds, cache=cached_parents), o.seeds) for o in state.population[:exp['selection_threshold']]])
+            def make_offspring():
+                if len(cached_parents) == 0:
+                    # init parents
+                    return worker.model.randomize(rs, noise)
                 else:
-                    new_parents.append((worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents), state.elite.seeds))
-                    new_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds, cache=cached_parents), o.seeds) for o in state.population[:exp['selection_threshold']-1]])
+                    assert len(cached_parents) == exp['selection_threshold']
+                    parent = cached_parents[rs.randint(len(cached_parents))]
+                    return worker.model.mutate(parent, rs, noise, mutation_power=state.sample(state.mutation_power))
 
+            tlogger.info('Start timing')
+            tstart = time.time()
+
+            try:
+                load_file = os.path.join(log_dir, 'snapshot.pkl')
+                with open(load_file, 'rb+') as file:
+                    state = pickle.load(file)
+                tlogger.info("Loaded iteration {} from {}".format(state.it, load_file))
+            except FileNotFoundError:
+                tlogger.info('Failed to load snapshot')
+                state = TrainingState(exp)
+
+            # False
+            if 'load_population' in exp:
+                state.copy_population(exp['load_population'])
+
+            # False
+            # Cache first population if needed (on restart)
+            if state.population and exp['selection_threshold'] > 0:
+                tlogger.info("Caching parents")
                 cached_parents.clear()
-                cached_parents.extend(new_parents)
+                if state.elite in state.population[:exp['selection_threshold']]:
+                    cached_parents.extend(
+                        [(worker.model.compute_weights_from_seeds(noise, o.seeds), o.seeds) for o in
+                         state.population[:exp['selection_threshold']]])
+                else:
+                    cached_parents.append(
+                        (worker.model.compute_weights_from_seeds(noise, state.elite.seeds), state.elite.seeds))
+                    cached_parents.extend(
+                        [(worker.model.compute_weights_from_seeds(noise, o.seeds), o.seeds) for o in
+                         state.population[:exp['selection_threshold'] - 1]])
                 tlogger.info("Done caching parents")
+
+            while True:
+                tstart_iteration = time.time()
+                if state.timesteps_so_far >= exp['timesteps']:
+                    tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
+                    break
+                frames_computed_so_far = sess.run(worker.steps_counter)
+                assert (len(cached_parents) == 0 and state.it == 0) or len(cached_parents) == exp['selection_threshold']
+
+                tasks = [make_offspring() for _ in range(exp['population_size'])]
+                for seeds, episode_reward, episode_length in worker.monitor_eval(tasks, max_frames=state.tslimit * 4):
+                    # logger.debug("in main, seeds:{0},episode_reward:{1},episode_length:{2}".
+                    #              format(seeds, episode_reward, episode_length))
+                    results.append(Offspring(seeds, [episode_reward], [episode_length]))
+                state.num_frames += sess.run(worker.steps_counter) - frames_computed_so_far
+
+                state.it += 1
+                tlogger.record_tabular('Iteration', state.it)
+                tlogger.record_tabular('MutationPower', state.sample(state.mutation_power))
+
+                # Trim unwanted results
+                results = results[:exp['population_size']]
+                assert len(results) == exp['population_size']
+                rewards = np.array([a.fitness for a in results])
+                population_timesteps = sum([a.training_steps for a in results])
+
+                state.population = sorted(results, key=lambda x:x.fitness, reverse=True)
+                tlogger.record_tabular('PopulationEpRewMax', np.max(rewards))
+                tlogger.record_tabular('PopulationEpRewMean', np.mean(rewards))
+                tlogger.record_tabular('PopulationEpCount', len(rewards))
+                tlogger.record_tabular('PopulationTimesteps', population_timesteps)
+                tlogger.record_tabular('NumSelectedIndividuals', exp['selection_threshold'])
+
+                tlogger.info('Evaluate population')
+                validation_population = state.population[:exp['validation_threshold']]
+                # logger.debug()
+                if state.elite is not None:
+                    validation_population = [state.elite] + validation_population[:-1]
+
+                # logger.debug("cached_parents:{0}, len of cached_parents:{1}".format(cached_parents, len(cached_parents)))
+
+                validation_tasks = [(worker.model.compute_weights_from_seeds(noise, validation_population[x].seeds, cache=cached_parents), validation_population[x].seeds)
+                                               for x in range(exp['validation_threshold'])]
+                _, population_validation, population_validation_len = zip(*worker.monitor_eval_repeated(validation_tasks, max_frames=state.tslimit * 4, num_episodes=exp['num_validation_episodes']))
+                population_validation = [np.mean(x) for x in population_validation]
+                population_validation_len = [np.sum(x) for x in population_validation_len]
+
+                time_elapsed_this_iter = time.time() - tstart_iteration
+                state.time_elapsed += time_elapsed_this_iter
+
+                population_elite_idx = np.argmax(population_validation)
+                state.elite = validation_population[population_elite_idx]
+
+                elite_theta = worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents)
+                _, population_elite_evals, population_elite_evals_timesteps = worker.monitor_eval_repeated([(elite_theta,
+                             state.elite.seeds)], max_frames=None, num_episodes=exp['num_test_episodes'])[0]
+
+                # if np.mean(population_elite_evals) > best_value:
+                #     state.elite = validation_population[population_elite_idx]
+                #     best_value = np.mean(population_elite_evals)
+
+                # Log Results
+                validation_timesteps = sum(population_validation_len)
+                timesteps_this_iter = population_timesteps + validation_timesteps
+                state.timesteps_so_far += timesteps_this_iter
+                state.validation_timesteps_so_far += validation_timesteps
+
+                # Log
+                tlogger.record_tabular('TruncatedPopulationRewMean', np.mean([a.fitness for a in validation_population]))
+                tlogger.record_tabular('TruncatedPopulationValidationRewMean', np.mean(population_validation))
+                tlogger.record_tabular('TruncatedPopulationEliteValidationRewMean', np.max(population_validation))
+                tlogger.record_tabular("TruncatedPopulationEliteIndex", population_elite_idx)
+                tlogger.record_tabular('TruncatedPopulationEliteSeeds', state.elite.seeds)
+                tlogger.record_tabular('TruncatedPopulationEliteTestRewMean', np.mean(population_elite_evals))
+                tlogger.record_tabular('TruncatedPopulationEliteTestEpCount', len(population_elite_evals))
+                tlogger.record_tabular('TruncatedPopulationEliteTestEpLenSum', np.sum(population_elite_evals_timesteps))
+
+                writer.add_scalar("best_agent %s" % game, np.mean(population_elite_evals), state.num_frames)
+                # writer.add_scalar("frames", state.num_frames, state.it)
+                # writer.add_scalar("gen_seconds", (time.time()-all_tstart)/3600, state.it)
+
+                if np.mean(population_validation) > state.curr_solution_val:
+                    state.curr_solution = state.elite.seeds
+                    state.curr_solution_val = np.mean(population_validation)
+                    state.curr_solution_test = np.mean(population_elite_evals)
+
+                tlogger.record_tabular('ValidationTimestepsThisIter', validation_timesteps)
+                tlogger.record_tabular('ValidationTimestepsSoFar', state.validation_timesteps_so_far)
+                tlogger.record_tabular('TimestepsThisIter', timesteps_this_iter)
+                tlogger.record_tabular('TimestepsPerSecondThisIter', timesteps_this_iter/(time.time()-tstart_iteration))
+                tlogger.record_tabular('TimestepsComputed', state.num_frames)
+                tlogger.record_tabular('TimestepsSoFar', state.timesteps_so_far)
+                tlogger.record_tabular('TimeElapsedThisIter', time_elapsed_this_iter)
+                tlogger.record_tabular('TimeElapsedThisIterTotal', time.time()-tstart_iteration)
+                tlogger.record_tabular('TimeElapsed', state.time_elapsed)
+                tlogger.record_tabular('TimeElapsedTotal', time.time()-all_tstart)
+
+                tlogger.dump_tabular()
+                tlogger.info('Current elite: {}'.format(state.elite.seeds))
+                fps = state.timesteps_so_far/(time.time() - tstart)
+                tlogger.info('Timesteps Per Second: {:.0f}. Elapsed: {:.2f}h ETA {:.2f}h'.format(fps, (time.time()-all_tstart)/3600, (exp['timesteps'] - state.timesteps_so_far)/fps/3600))
+
+                if state.adaptive_tslimit:
+                    if np.mean([a.training_steps >= state.tslimit for a in results]) > state.incr_tslimit_threshold:
+                        state.tslimit = min(state.tslimit * state.tslimit_incr_ratio, state.tslimit_max)
+                        tlogger.info('Increased threshold to {}'.format(state.tslimit))
+
+                os.makedirs(log_dir, exist_ok=True)
+                save_file = os.path.join(log_dir, 'snapshot.pkl')
+                with open(save_file, 'wb+') as file:
+                    pickle.dump(state, file)
+                #copyfile(save_file, os.path.join(log_dir, 'snapshot_gen{:04d}.pkl'.format(state.it)))
+                tlogger.info("Saved iteration {} to {}".format(state.it, save_file))
+
+                if state.timesteps_so_far >= exp['timesteps']:
+                    tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
+                    break
+                results.clear()
+
+                if exp['selection_threshold'] > 0:
+                    tlogger.info("Caching parents")
+                    new_parents = []
+                    if state.elite in state.population[:exp['selection_threshold']]:
+                        new_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds, cache=cached_parents), o.seeds) for o in state.population[:exp['selection_threshold']]])
+                    else:
+                        new_parents.append((worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents), state.elite.seeds))
+                        new_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds, cache=cached_parents), o.seeds) for o in state.population[:exp['selection_threshold']-1]])
+
+                    cached_parents.clear()
+                    cached_parents.extend(new_parents)
+                    tlogger.info("Done caching parents")
+                if state.num_frames > 1e+8:
+                    break
+
+
     return float(state.curr_solution_test), {'val': float(state.curr_solution_val)}
 
 
