@@ -1,0 +1,12 @@
+{
+    "game": "gravitar",
+    "model": "LargeModel",
+    "num_validation_episodes": 30,
+    "num_test_episodes": 200,
+    "population_size": 100,
+    "episode_cutoff_mode": 5000,
+    "timesteps": 1.5e4,
+    "validation_threshold": 10,
+    "mutation_power": 0.002,
+    "selection_threshold": 10
+}
