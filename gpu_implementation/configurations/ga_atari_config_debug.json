@@ -1,5 +1,5 @@
 {
-    "games": "pong,gravitar",
+    "games": "pong",
     "model": "LargeModel",
     "num_validation_episodes": 30,
     "num_test_episodes": 200,
