@@ -29,10 +29,10 @@ import logging
 
 
 logger = logging.getLogger(__name__)
-fh = logging.FileHandler('./logger.out')
+# fh = logging.FileHandler('./logger.out')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter)
-logger.addHandler(fh)
+# fh.setFormatter(formatter)
+# logger.addHandler(fh)
 
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)

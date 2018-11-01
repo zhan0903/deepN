@@ -33,10 +33,10 @@ MAX_SEED = 2**32 - 1
 
 
 logger = logging.getLogger(__name__)
-fh = logging.FileHandler('./logger.out')
+# fh = logging.FileHandler('./logger.out')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter)
-logger.addHandler(fh)
+# fh.setFormatter(formatter)
+# logger.addHandler(fh)
 
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
@@ -275,7 +275,6 @@ class BaseModel(object):
                         p.bias.data.zero_()
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
-                    # p.bias.data.zero_()
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 1:  # kaiming_uniform
                 logger.error("in compute_weight_from_seeds,idx:{0}->kaiming_uniform".format(idx))

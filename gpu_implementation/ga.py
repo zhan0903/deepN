@@ -130,7 +130,7 @@ def main(**exp):
     game = exp["game"]
 
     # for game in games:
-    writer = SummaryWriter(comment="-test 5 particle game-%s" % game)
+    writer = SummaryWriter(comment="-test 5 particle 1-11version game-%s" % game)
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
@@ -186,10 +186,8 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps']:
+            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 >= 5:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
-                sess.close()
-                # tf.reset_default_graph()
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
             assert (len(cached_parents) == 0 and state.it == 0) or len(cached_parents) == exp['selection_threshold']
@@ -262,12 +260,8 @@ def main(**exp):
             tlogger.record_tabular('TruncatedPopulationEliteTestEpCount', len(population_elite_evals))
             tlogger.record_tabular('TruncatedPopulationEliteTestEpLenSum', np.sum(population_elite_evals_timesteps))
 
-            writer.add_scalar("best_agent %s" % game, np.mean(population_elite_evals), state.timesteps_so_far)
-            writer.add_scalar("best_agent %s" % game, state.num_frames, state.timesteps_so_far)
-
-
-            # writer.add_scalar("frames", state.num_frames, state.it)
-            # writer.add_scalar("gen_seconds", (time.time()-all_tstart)/3600, state.it)
+            writer.add_scalar("best_agent_score", np.mean(population_elite_evals), state.timesteps_so_far)
+            writer.add_scalar("total_frames", state.num_frames, state.timesteps_so_far)
 
             if np.mean(population_validation) > state.curr_solution_val:
                 state.curr_solution = state.elite.seeds
