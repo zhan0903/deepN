@@ -35,6 +35,7 @@ import gym_tensorflow
 import tabular_logger as tlogger
 import logging
 from tensorboardX import SummaryWriter
+import tensorflow as tf
 
 
 logger = logging.getLogger(__name__)
@@ -138,7 +139,6 @@ def main(**exp):
         with WorkerSession(worker) as sess:
             noise = SharedNoiseTable()
             rs = np.random.RandomState()
-
             cached_parents = []
             results = []
 
@@ -189,6 +189,7 @@ def main(**exp):
                 if state.timesteps_so_far >= exp['timesteps']:
                     tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                     sess.close()
+                    tf.reset_default_graph()
                     break
                 frames_computed_so_far = sess.run(worker.steps_counter)
                 assert (len(cached_parents) == 0 and state.it == 0) or len(cached_parents) == exp['selection_threshold']
