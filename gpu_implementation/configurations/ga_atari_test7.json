@@ -1,5 +1,5 @@
 {
-    "game": "pong",
+    "game": "atlantis",
     "model": "LargeModel",
     "num_validation_episodes": 30,
     "num_test_episodes": 200,
