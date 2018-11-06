@@ -36,7 +36,7 @@ import tabular_logger as tlogger
 import logging
 from tensorboardX import SummaryWriter
 import tensorflow as tf
-
+import csv
 
 logger = logging.getLogger(__name__)
 fh = logging.FileHandler('./logger.out')
@@ -262,6 +262,9 @@ def main(**exp):
 
             writer.add_scalar("best_agent_score_%s" % game, np.mean(population_elite_evals), state.timesteps_so_far)
             writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
+            with open('%s.csv' % game, mode='w') as input_file:
+                input_writer = csv.writer(input_file, delimiter=',')
+                input_writer.writerow([state.timesteps_so_far, np.mean(population_elite_evals), state.it])
 
             if np.mean(population_validation) > state.curr_solution_val:
                 state.curr_solution = state.elite.seeds
@@ -300,7 +303,6 @@ def main(**exp):
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                 break
             results.clear()
-
 
             if exp['selection_threshold'] > 0:
                 tlogger.info("Caching parents")
