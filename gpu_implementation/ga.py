@@ -130,7 +130,7 @@ def main(**exp):
     game = exp["game"]
 
     # for game in games:
-    writer = SummaryWriter(comment="-test 5 particle 2-11version game-%s" % game)
+    writer = SummaryWriter(comment="-test_original_version_game-%s" % game)
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
