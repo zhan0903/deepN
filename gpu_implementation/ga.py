@@ -209,7 +209,7 @@ def main(**exp):
             rewards = np.array([a.fitness for a in results])
             population_timesteps = sum([a.training_steps for a in results])
 
-            state.population = sorted(results, key=lambda x:x.fitness, reverse=True)
+            state.population = sorted(results, key=lambda x: x.fitness, reverse=True)
             tlogger.record_tabular('PopulationEpRewMax', np.max(rewards))
             tlogger.record_tabular('PopulationEpRewMean', np.mean(rewards))
             tlogger.record_tabular('PopulationEpCount', len(rewards))
@@ -261,7 +261,7 @@ def main(**exp):
             tlogger.record_tabular('TruncatedPopulationEliteTestEpLenSum', np.sum(population_elite_evals_timesteps))
 
             writer.add_scalar("best_agent_score_%s" % game, np.mean(population_elite_evals), state.timesteps_so_far)
-            # writer.add_scalar("total_frames", state.num_frames, state.timesteps_so_far)
+            writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
 
             if np.mean(population_validation) > state.curr_solution_val:
                 state.curr_solution = state.elite.seeds

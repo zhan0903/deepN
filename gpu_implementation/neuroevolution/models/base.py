@@ -247,6 +247,7 @@ class BaseModel(object):
             scale_by = []
             shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             net = Net((4, 84, 84), shape_out)
+            ran_num = 10  # test original version
 
             if ran_num == 0:  # xavier_normal
                 logger.error("in compute_weight_from_seeds,idx:{0}->xavier_normal".format(idx))
@@ -276,16 +277,16 @@ class BaseModel(object):
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
-            elif ran_num == 1:  # kaiming_uniform
+            elif ran_num == 2:  # kaiming_uniform
                 logger.error("in compute_weight_from_seeds,idx:{0}->kaiming_uniform".format(idx))
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
-                        nn.init.kaiming_uniform_(p.weight.data, mode='fan_in', nonlinearity='relu')
+                        nn.init.kaiming_uniform_(p.weight.data)
                         p.bias.data.zero_()
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
                     if isinstance(p, nn.Linear):
-                        nn.init.kaiming_uniform_(p.weight.data, mode='fan_in', nonlinearity='relu')
+                        nn.init.kaiming_uniform_(p.weight.data)
                         p.bias.data.zero_()
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
@@ -294,22 +295,19 @@ class BaseModel(object):
                 scale_by = np.concatenate(scale_by)
             elif ran_num == 3:  # kaiming_normal
                 logger.error("in compute_weight_from_seeds,idx:{0}->kaiming_normal".format(idx))
-                for p in net.parameters():
-                    scale_by.append(p.data.numpy().flatten().copy())
-
-                # for p in net.modules():
-                #     if isinstance(p, nn.Conv2d):
-                #         nn.init.kaiming_normal_(p.weight.data, mode='fan_out', nonlinearity='relu')
-                #         p.bias.data.zero_()
-                #         scale_by.append(p.weight.data.numpy().flatten().copy())
-                #         scale_by.append(p.bias.data.numpy().flatten().copy())
-                #     if isinstance(p, nn.Linear):
-                #         nn.init.kaiming_normal_(p.weight.data, mode='fan_out', nonlinearity='relu')
-                #         p.bias.data.zero_()
-                #         scale_by.append(p.weight.data.numpy().flatten().copy())
-                #         scale_by.append(p.bias.data.numpy().flatten().copy())
-                    # nn.init.kaiming_normal_(p.data, mode='fan_out', nonlinearity='relu')
-                    # p.bias.data.zero_()
+                # for p in net.parameters():
+                #     scale_by.append(p.data.numpy().flatten().copy())
+                for p in net.modules():
+                    if isinstance(p, nn.Conv2d):
+                        nn.init.kaiming_normal_(p.weight.data)
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                    if isinstance(p, nn.Linear):
+                        nn.init.kaiming_normal_(p.weight.data)
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
                 scale_by = np.concatenate(scale_by)
             # elif ran_num == 4: # orthogonal
             #     for p in net.modules():
