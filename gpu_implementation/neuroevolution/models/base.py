@@ -42,7 +42,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.ERROR)
+logger.setLevel(level=logging.CRITICAL)
 
 
 class Net(nn.Module):

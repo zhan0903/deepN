@@ -121,16 +121,14 @@ class OffspringCached(object):
 
 def main(**exp):
     log_dir = tlogger.log_dir()
-
     tlogger.info(json.dumps(exp, indent=4, sort_keys=True))
     tlogger.info('Logging to: {}'.format(log_dir))
     Model = neuroevolution.models.__dict__[exp['model']]
     all_tstart = time.time()
-
     game = exp["game"]
 
     # for game in games:
-    writer = SummaryWriter(comment="-test_original_version_game-%s" % game)
+    writer = SummaryWriter(comment="-test_species_version_game-%s" % game)
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
@@ -186,7 +184,7 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 1:
+            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 8:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
@@ -261,8 +259,8 @@ def main(**exp):
             tlogger.record_tabular('TruncatedPopulationEliteTestEpLenSum', np.sum(population_elite_evals_timesteps))
 
             writer.add_scalar("best_agent_score_%s" % game, np.mean(population_elite_evals), state.timesteps_so_far)
-            writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
-            with open('%s.csv' % game, mode='a') as input_file:
+            # writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
+            with open('./results/%s.csv' % game, mode='a') as input_file:
                 input_writer = csv.writer(input_file, delimiter=',')
                 input_writer.writerow([state.timesteps_so_far, np.mean(population_elite_evals), state.it])
 
