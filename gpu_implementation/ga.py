@@ -261,7 +261,7 @@ def main(**exp):
 
             writer.add_scalar("best_agent_score_%s" % game, np.mean(population_elite_evals), state.timesteps_so_far)
             # writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
-            with open('./results/%s.csv' % game, mode='a') as input_file:
+            with open('./runs/%s.csv' % game, mode='a') as input_file:
                 input_writer = csv.writer(input_file, delimiter=',')
                 input_writer.writerow([state.timesteps_so_far, state.time_elapsed/3600,
                                        np.mean(population_elite_evals), state.it])
