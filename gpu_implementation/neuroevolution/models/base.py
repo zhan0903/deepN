@@ -127,7 +127,6 @@ class BaseModel(object):
         return self.create_variable(name, shape, scale_by)
 
     def create_bias_variable(self, name, shape):
-        # logger.debug("come create_bias_variable~~~~~~~~~~~~~~~~~")
         return self.create_variable(name, shape, 0.0)
 
     def conv(self, x, kernel_size, num_outputs, name, stride=1, padding="SAME", bias=True, std=1.0):
@@ -163,7 +162,6 @@ class BaseModel(object):
 
     def dense(self, x, size, name, bias=True, std=1.0):
         with tf.variable_scope(name):
-            logger.debug("in dense function------========")
             w = self.create_weight_variable('w', std=std, shape=(x.get_shape()[-1].value, size))
             if self.indices is None:
                 ret = tf.matmul(x, w)
@@ -247,7 +245,7 @@ class BaseModel(object):
             scale_by = []
             shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             net = Net((4, 84, 84), shape_out)
-            # ran_num = 10  # test original version
+            ran_num = 10  # test original version
 
             if ran_num == 0:  # xavier_normal
                 logger.error("in compute_weight_from_seeds,idx:{0}->xavier_normal".format(idx))
