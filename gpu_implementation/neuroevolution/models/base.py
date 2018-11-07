@@ -247,7 +247,7 @@ class BaseModel(object):
             scale_by = []
             shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
             net = Net((4, 84, 84), shape_out)
-            ran_num = 10  # test original version
+            # ran_num = 10  # test original version
 
             if ran_num == 0:  # xavier_normal
                 logger.error("in compute_weight_from_seeds,idx:{0}->xavier_normal".format(idx))
