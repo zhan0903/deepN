@@ -184,8 +184,9 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 2:
+            if state.timesteps_so_far >= exp['timesteps'] or state.time_elapsed/3600 > 2:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
+                # sess.close()
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
             assert (len(cached_parents) == 0 and state.it == 0) or len(cached_parents) == exp['selection_threshold']
@@ -262,7 +263,8 @@ def main(**exp):
             # writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
             with open('./runs/%s.csv' % game, mode='a') as input_file:
                 input_writer = csv.writer(input_file, delimiter=',')
-                input_writer.writerow([state.timesteps_so_far, np.mean(population_elite_evals), state.it])
+                input_writer.writerow([state.timesteps_so_far, state.time_elapsed/3600,
+                                       np.mean(population_elite_evals), state.it])
 
             if np.mean(population_validation) > state.curr_solution_val:
                 state.curr_solution = state.elite.seeds
