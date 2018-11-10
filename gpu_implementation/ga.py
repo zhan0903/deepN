@@ -128,7 +128,7 @@ def main(**exp):
     game = exp["game"]
 
     # for game in games:
-    writer = SummaryWriter(comment="-test_original_version_2hours_game-%s" % game)
+    writer = SummaryWriter(comment="-test_particle_version_2hours_game-%s" % game)
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
@@ -186,15 +186,12 @@ def main(**exp):
             tstart_iteration = time.time()
             if state.timesteps_so_far >= exp['timesteps'] or state.time_elapsed/3600 > 2:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
-                # sess.close()
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
             assert (len(cached_parents) == 0 and state.it == 0) or len(cached_parents) == exp['selection_threshold']
 
             tasks = [make_offspring() for _ in range(exp['population_size'])]
             for seeds, episode_reward, episode_length in worker.monitor_eval(tasks, max_frames=state.tslimit * 4):
-                # logger.debug("in main, seeds:{0},episode_reward:{1},episode_length:{2}".
-                #              format(seeds, episode_reward, episode_length))
                 results.append(Offspring(seeds, [episode_reward], [episode_length]))
             state.num_frames += sess.run(worker.steps_counter) - frames_computed_so_far
 

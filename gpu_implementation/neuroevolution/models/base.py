@@ -28,9 +28,7 @@ import logging
 from tensorflow.python.ops import random_ops
 from tensorflow.contrib.layers.python.layers import initializers
 
-
 MAX_SEED = 2**32 - 1
-
 
 logger = logging.getLogger(__name__)
 # fh = logging.FileHandler('./logger.out')
@@ -42,7 +40,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.CRITICAL)
+logger.setLevel(level=logging.DEBUG)
 
 
 class Net(nn.Module):
@@ -62,7 +60,7 @@ class Net(nn.Module):
         self.fc = nn.Sequential(
             nn.Linear(conv_out_size, 512),
             nn.ReLU(),
-            nn.Linear(512, n_actions)
+            nn.Linear(512, n_actions),
         )
 
     def _get_conv_out(self, shape):
@@ -118,8 +116,8 @@ class BaseModel(object):
         return var
 
     def create_weight_variable(self, name, shape, std):
-        # logger.debug("in create_weight_variable==========,shape:{0},name:{1},std:{2}".
-        #              format(shape, name, std))
+        logger.debug("in create_weight_variable,shape:{0},name:{1},std:{2}".
+                     format(shape, name, std))
         factor = (shape[-2] + shape[-1]) * np.prod(shape[:-2]) / 2
         scale_by = std * np.sqrt(factor)
         # logger.debug("in create_weight_variable,factor:{0},scale_by:{1}".
@@ -279,12 +277,12 @@ class BaseModel(object):
                 logger.error("in compute_weight_from_seeds,idx:{0}->kaiming_uniform".format(idx))
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
-                        nn.init.kaiming_uniform_(p.weight.data)
+                        nn.init.kaiming_uniform_(p.weight.data, nonlinearity='relu')
                         p.bias.data.zero_()
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
                     if isinstance(p, nn.Linear):
-                        nn.init.kaiming_uniform_(p.weight.data)
+                        nn.init.kaiming_uniform_(p.weight.data, nonlinearity='relu')
                         p.bias.data.zero_()
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
@@ -297,12 +295,12 @@ class BaseModel(object):
                 #     scale_by.append(p.data.numpy().flatten().copy())
                 for p in net.modules():
                     if isinstance(p, nn.Conv2d):
-                        nn.init.kaiming_normal_(p.weight.data)
+                        nn.init.kaiming_normal_(p.weight.data, nonlinearity='relu')
                         p.bias.data.zero_()
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
                     if isinstance(p, nn.Linear):
-                        nn.init.kaiming_normal_(p.weight.data)
+                        nn.init.kaiming_normal_(p.weight.data, nonlinearity='relu')
                         p.bias.data.zero_()
                         scale_by.append(p.weight.data.numpy().flatten().copy())
                         scale_by.append(p.bias.data.numpy().flatten().copy())
