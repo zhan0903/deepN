@@ -116,7 +116,7 @@ class BaseModel(object):
         return var
 
     def create_weight_variable(self, name, shape, std):
-        logger.debug("in create_weight_variable,shape:{0},name:{1},std:{2}".
+        logger.debug("in create_weight_variable~~~~~``````,shape:{0},name:{1},std:{2}".
                      format(shape, name, std))
         factor = (shape[-2] + shape[-1]) * np.prod(shape[:-2]) / 2
         scale_by = std * np.sqrt(factor)
@@ -325,7 +325,7 @@ class BaseModel(object):
                 scale_by = self.scale_by
 
             theta = noise.get(idx, self.num_params).copy() * scale_by  # self.scale_by
-            logger.debug("in compute_weights_from_seeds,ran_num:{0},theta[-100:]:{1}".format(ran_num, theta[-100:]))
+            # logger.debug("in compute_weights_from_seeds,ran_num:{0},theta[-100:]:{1}".format(ran_num, theta[-100:]))
 
             for mutation in seeds[1:]:
                 idx, power = mutation
