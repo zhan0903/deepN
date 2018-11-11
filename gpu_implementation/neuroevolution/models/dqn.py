@@ -32,14 +32,12 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.INFO)
-
-
+logger.setLevel(level=logging.DEBUG)
 
 
 class Model(BaseModel):
     def create_weight_variable(self, name, shape, std):
-        logger.debug("in create_weight_variable, 99999999999")
+        logger.debug("in Model, create_weight_variable,shape:{0},std:{1},name:{2}".format(shape, std, name))
         scale_by = std / np.sqrt(np.prod(shape[:-1]))
         logger.debug("in Model, create_weight_variable:{0},shape[:-1]:{1}".format(scale_by, shape[:-1]))
         return self.create_variable(name, shape, scale_by)
