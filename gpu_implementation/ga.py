@@ -128,7 +128,7 @@ def main(**exp):
     game = exp["game"]
 
     # for game in games:
-    writer = SummaryWriter(comment="-test_particle_version_2hours_game-%s" % game)
+    writer = SummaryWriter(comment="-test_original_gravitar_6hours_game-%s" % game)
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
@@ -184,7 +184,7 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps'] or state.time_elapsed/3600 > 2:
+            if state.timesteps_so_far >= exp['timesteps'] or state.time_elapsed/3600 > 6:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
