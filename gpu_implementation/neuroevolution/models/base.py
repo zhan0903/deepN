@@ -41,7 +41,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.CRITICAL)
+logger.setLevel(level=logging.DEBUG)
 
 
 class Net(nn.Module):
@@ -346,8 +346,11 @@ class BaseModel(object):
         zeros = random.randint(0, zero_count)
         ones = self.num_params - zeros
         mask_t = [0]*zeros+[1]*ones
+        logger.debug("in compute_mutation mask_t:{}".format(mask_t))
+
         random.shuffle(mask_t)
         mask = np.array(mask_t)
+        logger.debug("in compute_mutation mask:{}".format(mask))
 
         return parent_theta + mutation_power * noise.get(idx, self.num_params) * mask
 
