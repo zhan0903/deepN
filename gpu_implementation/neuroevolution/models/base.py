@@ -27,7 +27,7 @@ from gym_tensorflow.ops import indexed_matmul
 import logging
 from tensorflow.python.ops import random_ops
 from tensorflow.contrib.layers.python.layers import initializers
-import random
+import random,time
 
 MAX_SEED = 2**32 - 1
 
@@ -357,6 +357,15 @@ class BaseModel(object):
         logger.debug("in compute_mutation noise before mask:{}".format(noise.get(idx, self.num_params)[-100:]))
         after_mask = noise.get(idx, self.num_params) * mask
         logger.debug("in compute_mutation noise after mask:{}".format(after_mask[-100:]))
+        begin=time.time()
+        value_after_mask = noise.get(idx, self.num_params) * mask
+        logger.debug("in compute_mutation, * time:{}".format(time.time()-begin))
+        begin=time.time()
+        value_after_mask = np.multiply(noise.get(idx, self.num_params), mask)
+        logger.debug("in compute_mutation, mutiple time:{}".format(time.time()-begin))
+
+
+
 
         return parent_theta + mutation_power * noise.get(idx, self.num_params) * mask
 
