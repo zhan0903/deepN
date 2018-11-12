@@ -329,7 +329,6 @@ class BaseModel(object):
 
             for mutation in seeds[1:]:
                 idx, power = mutation
-                logger.debug("come mutation")
                 theta = self.compute_mutation(noise, theta, idx, power)
             return theta
 
@@ -363,6 +362,7 @@ class BaseModel(object):
         # # after_mask = noise.get(idx, self.num_params) * mask
         # # logger.debug("in compute_mutation noise after mask:{}".format(after_mask[-100:]))
         # # # begin=time.time()
+        logger.debug("in compute_mutation:noise{}".format(noise[-10:]))
         value_after_mask = noise.get(idx, self.num_params) * mask
         # # logger.debug("in compute_mutation, * time:{}".format(time.time()-begin))
         # # begin=time.time()

@@ -34,7 +34,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.DEBUG)
 
 
 class SharedNoiseTable(object):
@@ -48,7 +48,7 @@ class SharedNoiseTable(object):
         logger.debug("in sharednoisetable, self.noise:{0},size of self.noise:{1}".format(self.noise, len(self.noise)))
         assert self.noise.dtype == np.float32
         self.noise[:] = np.random.RandomState(seed).randn(count)  # 64-bit to 32-bit conversion here
-        logger.debug("in sharednoisetable, after 64 to 32, self.noise:{0},size of self.noise:{1}".format(self.noise, len(self.noise)))
+        logger.debug("in sharednoisetable, after 64 to 32, self.noise:{0},size of self.noise:{1}".format(self.noise[-10:], len(self.noise)))
         print('Sampled {} bytes'.format(self.noise.size * 4))
 
     def get(self, i, dim):
