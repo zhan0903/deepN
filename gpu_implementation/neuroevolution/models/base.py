@@ -362,7 +362,7 @@ class BaseModel(object):
         # # after_mask = noise.get(idx, self.num_params) * mask
         # # logger.debug("in compute_mutation noise after mask:{}".format(after_mask[-100:]))
         # # # begin=time.time()
-        logger.debug("in compute_mutation:noise{}".format(noise[-100:]))
+        logger.debug("in compute_mutation:noise{}".format(noise.noise[-100:]))
         value_after_mask = noise.get(idx, self.num_params) * mask
         # # logger.debug("in compute_mutation, * time:{}".format(time.time()-begin))
         # # begin=time.time()
