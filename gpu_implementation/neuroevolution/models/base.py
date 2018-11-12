@@ -363,7 +363,7 @@ class BaseModel(object):
         # begin=time.time()
         # value_after_mask = np.multiply(noise.get(idx, self.num_params), mask)
         # logger.debug("in compute_mutation, mutiple time:{}".format(time.time()-begin))
-        return parent_theta + mutation_power * value_after_mask
+        return parent_theta + mutation_power * noise.get(idx, self.num_params) # value_after_mask
 
     def load(self, sess, i, theta, seeds):
         # logger.debug("come in load,theta:{}".format(theta))
