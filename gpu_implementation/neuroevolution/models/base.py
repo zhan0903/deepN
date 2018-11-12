@@ -341,7 +341,8 @@ class BaseModel(object):
         theta = self.compute_mutation(noise, parent_theta, idx, mutation_power)
         return theta, seeds
 
-    def compute_mutation(self, noise, parent_theta, idx, mutation_power):
+    def compute_mutation(self, noise, parent_theta, idx, mutation_power, mask = None):
+        a = 0
         # zero_count = self.num_params//2
         # zeros = random.randint(0, zero_count)
         # ones = self.num_params - zeros
