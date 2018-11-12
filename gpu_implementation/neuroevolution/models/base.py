@@ -344,9 +344,9 @@ class BaseModel(object):
     def compute_mutation(self, noise, parent_theta, idx, mutation_power, mask = None):
         # a = 0
         zero_count = self.num_params//2
-        # zeros = random.randint(0, zero_count)
-        # ones = self.num_params - zeros
-        # mask_t = [0]*zeros+[1]*ones
+        zeros = random.randint(0, zero_count)
+        ones = self.num_params - zeros
+        mask_t = [0]*zeros+[1]*ones
         # # logger.debug("in compute_mutation mask_t:{}".format(mask_t))
         #
         # random.shuffle(mask_t)
