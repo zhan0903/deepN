@@ -334,7 +334,7 @@ class BaseModel(object):
             return theta
 
     def mutate(self, parent, rs, noise, mutation_power):
-        assert False
+        # assert False
         parent_theta, parent_seeds = parent
         idx = noise.sample_index(rs, self.num_params)
         seeds = parent_seeds + ((idx, mutation_power), )
@@ -343,9 +343,9 @@ class BaseModel(object):
 
     def compute_mutation(self, noise, parent_theta, idx, mutation_power):
         zero_count = self.num_params//2
-        # zeros = random.randint(zero_count)
-        one_count = self.num_params - zero_count
-        mask_t = [0]*zero_count+[1]*one_count
+        zeros = random.randint(0, zero_count)
+        ones = self.num_params - zeros
+        mask_t = [0]*zeros+[1]*ones
         random.shuffle(mask_t)
         mask = np.array(mask_t)
 
