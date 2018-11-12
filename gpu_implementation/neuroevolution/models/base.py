@@ -321,7 +321,7 @@ class BaseModel(object):
             #         # p.bias.data.zero_()
             #     scale_by = np.concatenate(scale_by)
             else: # default
-                logger.error("in compute_weight_from_seeds,idx:{0}->default".format(idx))
+                # logger.error("in compute_weight_from_seeds,idx:{0}->default".format(idx))
                 scale_by = self.scale_by
 
             theta = noise.get(idx, self.num_params).copy() * scale_by  # self.scale_by
@@ -362,7 +362,7 @@ class BaseModel(object):
         # # after_mask = noise.get(idx, self.num_params) * mask
         # # logger.debug("in compute_mutation noise after mask:{}".format(after_mask[-100:]))
         # # # begin=time.time()
-        logger.debug("in compute_mutation:noise{}".format(noise[-10:]))
+        logger.debug("in compute_mutation:noise{}".format(noise[-100:]))
         value_after_mask = noise.get(idx, self.num_params) * mask
         # # logger.debug("in compute_mutation, * time:{}".format(time.time()-begin))
         # # begin=time.time()
@@ -394,19 +394,19 @@ class BaseModel(object):
         for var in self.variables:
             shape = [v.value for v in var.get_shape()]
             shapes.append(shape)
-            logger.debug("in make_weights,shape:{0},np.prod shape[1:]:{1}".format(shape, np.prod(shape[1:])))
+            # logger.debug("in make_weights,shape:{0},np.prod shape[1:]:{1}".format(shape, np.prod(shape[1:])))
             self.num_params += np.prod(shape[1:])
             parameters = var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32)
             # logger.debug("in make_weights, not he init parameters:{}".format(parameters))
             # logger.debug("in make_weights, parameters:{}".format(parameters))
-            logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
+            # logger.debug("in make_weights, var.scale:{0},var:{1}".format(var.scale_by, var))
             # self.scale_by.append(var.scale_by * np.ones(np.prod(shape[1:]), dtype=np.float32))
             self.scale_by.append(parameters)
             self.batch_size = shape[0]
         self.seeds = [None] * self.batch_size
         self.scale_by = np.concatenate(self.scale_by)
-        logger.debug("in make_weight, self.num_params:{0},len of self.scale_by:{1}, self.scale_by:{2}".
-                     format(self.num_params, len(self.scale_by), self.scale_by[-100:]))
+        # logger.debug("in make_weight, self.num_params:{0},len of self.scale_by:{1}, self.scale_by:{2}".
+        #              format(self.num_params, len(self.scale_by), self.scale_by[-100:]))
         assert self.scale_by.size == self.num_params
         # Make commit op
         # assigns = []
@@ -415,10 +415,10 @@ class BaseModel(object):
         offset = 0
         assigns = []
         # reshape
-        logger.debug("in make_weight, self.theta:{0},self.theta_idx:{1}".format(self.theta, self.theta_idx))
+        # logger.debug("in make_weight, self.theta:{0},self.theta_idx:{1}".format(self.theta, self.theta_idx))
         for (shape, v) in zip(shapes, self.variables):
             size = np.prod(shape[1:])
-            logger.debug("in make_weight, before reshape shape:{0},v:{1}".format(shape, v))
+            # logger.debug("in make_weight, before reshape shape:{0},v:{1}".format(shape, v))
             assigns.append(tf.scatter_update(v, self.theta_idx, tf.reshape(self.theta[offset:offset+size], shape[1:])))
             offset += size
         self.load_op = tf.group(* assigns)
