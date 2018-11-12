@@ -346,11 +346,14 @@ class BaseModel(object):
         zeros = random.randint(0, zero_count)
         ones = self.num_params - zeros
         mask_t = [0]*zeros+[1]*ones
-        logger.debug("in compute_mutation mask_t:{}".format(mask_t))
+        # logger.debug("in compute_mutation mask_t:{}".format(mask_t))
 
         random.shuffle(mask_t)
+        logger.debug("in compute_mutation mask_t:{}".format(mask_t[-100:]))
+
         mask = np.array(mask_t)
-        logger.debug("in compute_mutation mask:{}".format(mask))
+        logger.debug("in compute_mutation mask:{}".format(mask[-100:]))
+        logger.debug("in compute_mutation len of mask:{}".format(len(mask)))
 
         return parent_theta + mutation_power * noise.get(idx, self.num_params) * mask
 
