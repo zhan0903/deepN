@@ -349,7 +349,7 @@ class BaseModel(object):
         mask_t = [0]*zeros+[1]*ones
         # # logger.debug("in compute_mutation mask_t:{}".format(mask_t))
         #
-        # random.shuffle(mask_t)
+        random.shuffle(mask_t)
         # logger.debug("in compute_mutation mask_t:{}".format(mask_t[-100:]))
         #
         # mask = np.array(mask_t)
