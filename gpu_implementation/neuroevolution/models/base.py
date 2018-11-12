@@ -27,6 +27,7 @@ from gym_tensorflow.ops import indexed_matmul
 import logging
 from tensorflow.python.ops import random_ops
 from tensorflow.contrib.layers.python.layers import initializers
+import random
 
 MAX_SEED = 2**32 - 1
 
@@ -333,6 +334,7 @@ class BaseModel(object):
             return theta
 
     def mutate(self, parent, rs, noise, mutation_power):
+        assert False
         parent_theta, parent_seeds = parent
         idx = noise.sample_index(rs, self.num_params)
         seeds = parent_seeds + ((idx, mutation_power), )
@@ -340,7 +342,14 @@ class BaseModel(object):
         return theta, seeds
 
     def compute_mutation(self, noise, parent_theta, idx, mutation_power):
-        return parent_theta + mutation_power * noise.get(idx, self.num_params)
+        zero_count = self.num_params//2
+        # zeros = random.randint(zero_count)
+        one_count = self.num_params - zero_count
+        mask_t = [0]*zero_count+[1]*one_count
+        random.shuffle(mask_t)
+        mask = np.array(mask_t)
+
+        return parent_theta + mutation_power * noise.get(idx, self.num_params) * mask
 
     def load(self, sess, i, theta, seeds):
         # logger.debug("come in load,theta:{}".format(theta))
