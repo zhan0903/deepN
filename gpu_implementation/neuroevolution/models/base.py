@@ -352,8 +352,8 @@ class BaseModel(object):
         # # logger.debug("in compute_mutation mask_t:{}".format(mask_t[-100:]))
         # #
         # p = [0.7, 0.3]  # 0->0.7,1->0.3
-        np.random.seed(idx)
-        mask = np.random.choice(2, self.num_params, p=[0.6, 0.4]) # # 0->0.7,1->0.3
+        # np.random.seed(idx)
+        # mask = np.random.choice(2, self.num_params, p=[0.6, 0.4]) # # 0->0.7,1->0.3
         # mask = np.array(mask_t)
 
         # # logger.debug("in compute_mutation mask:{}".format(mask[-100:]))
@@ -362,13 +362,13 @@ class BaseModel(object):
         # # after_mask = noise.get(idx, self.num_params) * mask
         # # logger.debug("in compute_mutation noise after mask:{}".format(after_mask[-100:]))
         # # # begin=time.time()
-        logger.debug("in compute_mutation:noise{}".format(noise.noise[-100:]))
-        value_after_mask = noise.get(idx, self.num_params) * mask
+        logger.debug("in compute_mutation:noise{}".format(noise.noise[-20:]))
+        # value_after_mask = noise.get(idx, self.num_params) * mask
         # # logger.debug("in compute_mutation, * time:{}".format(time.time()-begin))
         # # begin=time.time()
         # # value_after_mask = np.multiply(noise.get(idx, self.num_params), mask)
         # # logger.debug("in compute_mutation, mutiple time:{}".format(time.time()-begin))
-        return parent_theta + mutation_power * value_after_mask
+        return parent_theta + mutation_power * noise.get(idx, self.num_params)
 
     def load(self, sess, i, theta, seeds):
         # logger.debug("come in load,theta:{}".format(theta))
