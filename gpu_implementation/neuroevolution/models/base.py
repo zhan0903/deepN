@@ -41,7 +41,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.CRITICAL)
+logger.setLevel(level=logging.DEBUG)
 
 
 class Net(nn.Module):
@@ -117,8 +117,8 @@ class BaseModel(object):
         return var
 
     def create_weight_variable(self, name, shape, std):
-        logger.debug("in create_weight_variable~~~~~``````,shape:{0},name:{1},std:{2}".
-                     format(shape, name, std))
+        # logger.debug("in create_weight_variable~~~~~``````,shape:{0},name:{1},std:{2}".
+        #              format(shape, name, std))
         factor = (shape[-2] + shape[-1]) * np.prod(shape[:-2]) / 2
         scale_by = std * np.sqrt(factor)
         # logger.debug("in create_weight_variable,factor:{0},scale_by:{1}".
@@ -130,12 +130,12 @@ class BaseModel(object):
 
     def conv(self, x, kernel_size, num_outputs, name, stride=1, padding="SAME", bias=True, std=1.0):
         assert len(x.get_shape()) == 5 # Policies x Batch x Height x Width x Feature
-        logger.debug("in conv, x.shape".format(x.get_shape))
+        # logger.debug("in conv, x.shape".format(x.get_shape))
         with tf.variable_scope(name):
             # logger.debug("in base conv88888888888")
             w = self.create_weight_variable('w', std=std,
                                             shape=(kernel_size, kernel_size, int(x.get_shape()[-1].value), num_outputs))
-            logger.debug("in conv,w:{}".format(w))
+            # logger.debug("in conv,w:{}".format(w))
             w = tf.reshape(w, [-1, kernel_size *kernel_size * int(x.get_shape()[-1].value), num_outputs])
 
             x_reshape = tf.reshape(x, (-1, x.get_shape()[2], x.get_shape()[3], x.get_shape()[4]))
@@ -164,10 +164,10 @@ class BaseModel(object):
             w = self.create_weight_variable('w', std=std, shape=(x.get_shape()[-1].value, size))
             if self.indices is None:
                 ret = tf.matmul(x, w)
-                logger.debug("in dense,indices is None,indices:{0},ret:{1}".format(self.indices, ret))
+                # logger.debug("in dense,indices is None,indices:{0},ret:{1}".format(self.indices, ret))
             else:
                 ret = indexed_matmul(x, w, self.indices)
-                logger.debug("in dense,indices is not None,indices:{0},ret:{1}".format(self.indices, ret))
+                # logger.debug("in dense,indices is not None,indices:{0},ret:{1}".format(self.indices, ret))
             self.description += "Dense layer {} with input shape {} and output shape {}\n".format(name, x.get_shape(), ret.get_shape())
             if bias:
                 b = self.create_bias_variable('b', (1, size, ))
@@ -178,15 +178,15 @@ class BaseModel(object):
                 return ret
 
     def flattenallbut0(self, x):
-        logger.debug("in flattenallbut0, tf.shape(x)[1]:{0},np.prod(x.get_shape()[2:]:{1}，x.get_shape():{2}".
-                     format(tf.shape(x)[1], np.prod(x.get_shape()[2:]), x.get_shape()))
-        logger.debug("in flattenallbut0, x:{}".format(x))
+        # logger.debug("in flattenallbut0, tf.shape(x)[1]:{0},np.prod(x.get_shape()[2:]:{1}，x.get_shape():{2}".
+        #              format(tf.shape(x)[1], np.prod(x.get_shape()[2:]), x.get_shape()))
+        # logger.debug("in flattenallbut0, x:{}".format(x))
 
         return tf.reshape(x, [-1, tf.shape(x)[1], np.prod(x.get_shape()[2:])])
 
     def make_net(self, x, num_actions, indices=None, batch_size=1, ref_batch=None):
         with tf.variable_scope('Model') as scope:
-            logger.debug("in make_net, why++++++++")
+            # logger.debug("in make_net, why++++++++")
             self.description = "Input shape: {}. Number of actions: {}\n".format(x.get_shape(), num_actions)
             self.scope = scope
             self.num_actions = num_actions
@@ -196,37 +196,37 @@ class BaseModel(object):
             self.indices = indices
             self.graph = tf.get_default_graph()
             a = self._make_net(x, num_actions)
-            logger.debug("in make_net, a:{}".format(a))
+            # logger.debug("in make_net, a:{}".format(a))
             return tf.reshape(a, (-1, num_actions))
 
     def _make_net(self, x, num_actions):
-        logger.debug("why come here")
+        # logger.debug("why come here")
         raise NotImplementedError()
 
     def initialize(self):
         self.make_weights()
 
     def randomize(self, rs, noise):
-        logger.debug("randomize:rs:{0},noise:{1}".format(rs, noise))
+        # logger.debug("randomize:rs:{0},noise:{1}".format(rs, noise))
         seeds = (noise.sample_index(rs, self.num_params), )
-        logger.debug("randomnize:seeds:{0}".format(seeds))
+        # logger.debug("randomnize:seeds:{0}".format(seeds))
         return self.compute_weights_from_seeds(noise, seeds), seeds
 
     def compute_weights_from_seeds(self, noise, seeds, cache=None):
         # self.count = self.count+1
         # logger.error("in compute_weight_from_seeds:len of cache:{0},seeds:{1}".format(len(cache), seeds))
         if cache:
-            logger.error("in compute_weights_from_seeds,cache:{0},seeds:{1}".format(len(cache), seeds))
+            # logger.error("in compute_weights_from_seeds,cache:{0},seeds:{1}".format(len(cache), seeds))
             cache_seeds = [o[1] for o in cache]
             if seeds in cache_seeds:
-                logger.debug("in compute_weights_from_seeds,cache,fisrt!!!!")
+                # logger.debug("in compute_weights_from_seeds,cache,fisrt!!!!")
                 return cache[cache_seeds.index(seeds)][0]
             elif seeds[:-1] in cache_seeds:
-                logger.debug("in compute_weights_from_seeds,cache,second!!!!")
+                # logger.debug("in compute_weights_from_seeds,cache,second!!!!")
                 theta = cache[cache_seeds.index(seeds[:-1])][0]
                 return self.compute_mutation(noise, theta, *seeds[-1])
             elif len(seeds) == 1:
-                logger.debug("in compute_weights_from_seeds,cache,third!!!!")
+                # logger.debug("in compute_weights_from_seeds,cache,third!!!!")
                 return self.compute_weights_from_seeds(noise, seeds)
             else:
                 raise NotImplementedError()
