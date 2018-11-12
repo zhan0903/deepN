@@ -358,7 +358,7 @@ class BaseModel(object):
         after_mask = noise.get(idx, self.num_params) * mask
         logger.debug("in compute_mutation noise after mask:{}".format(after_mask[-100:]))
         # begin=time.time()
-        value_after_mask = noise.get(idx, self.num_params) * mask
+        value_after_mask = noise.get(idx, self.num_params) # * mask
         # logger.debug("in compute_mutation, * time:{}".format(time.time()-begin))
         # begin=time.time()
         # value_after_mask = np.multiply(noise.get(idx, self.num_params), mask)
