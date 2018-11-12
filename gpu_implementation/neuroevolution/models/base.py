@@ -41,7 +41,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.DEBUG)
+logger.setLevel(level=logging.CRITICAL)
 
 
 class Net(nn.Module):
@@ -353,7 +353,8 @@ class BaseModel(object):
         # # logger.debug("in compute_mutation mask_t:{}".format(mask_t[-100:]))
         # #
         # p = [0.7, 0.3]  # 0->0.7,1->0.3
-        mask = np.random.choice(2, self.num_params, p=[0.7, 0.3]) # # 0->0.7,1->0.3
+        np.random.seed(idx)
+        mask = np.random.choice(2, self.num_params, p=[0.5, 0.5]) # # 0->0.7,1->0.3
         # mask = np.array(mask_t)
 
         # # logger.debug("in compute_mutation mask:{}".format(mask[-100:]))
