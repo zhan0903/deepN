@@ -39,7 +39,7 @@ import tensorflow as tf
 import csv
 
 logger = logging.getLogger(__name__)
-fh = logging.FileHandler('./log/logger%(asctime)s.out')
+fh = logging.FileHandler('./log/logger%s.out' % time.time())
 formatter = logging.Formatter('In ga.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
