@@ -31,17 +31,17 @@ import random,time
 
 MAX_SEED = 2**32 - 1
 
-logger = logging.getLogger(__name__)
-# fh = logging.FileHandler('./logger.out')
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-# fh.setFormatter(formatter)
-# logger.addHandler(fh)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-logger.addHandler(console_handler)
-
-logger.setLevel(level=logging.INFO)
+# logger = logging.getLogger(__name__)
+# # fh = logging.FileHandler('./logger.out')
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# # fh.setFormatter(formatter)
+# # logger.addHandler(fh)
+#
+# console_handler = logging.StreamHandler()
+# console_handler.setFormatter(formatter)
+# logger.addHandler(console_handler)
+#
+# logger.setLevel(level=logging.INFO)
 
 
 class Net(nn.Module):
@@ -98,6 +98,7 @@ class BaseModel(object):
         self.indices = None
         self.variables = []
         self.description = ""
+        # self.logger = logger
         # self.count = 0
 
     @property
@@ -253,43 +254,12 @@ class BaseModel(object):
         return theta, seeds
 
     def compute_mutation(self, noise, parent_theta, idx, mutation_power):
-        # a = 0
-        # zero_count = self.num_params//2
-        # zeros = random.randint(0, zero_count)
-        # ones = self.num_params - zeros
-        # mask_t = [0]*zeros+[1]*ones
-        # # # logger.debug("in compute_mutation mask_t:{}".format(mask_t))
-        # #
-        # # random.shuffle(mask_t)
-        # # logger.debug("in compute_mutation mask_t:{}".format(mask_t[-100:]))
-        # #
-        # p = [0.7, 0.3]  # 0->0.7,1->0.3
-        # np.random.seed(idx)
-        # mask = np.random.choice(2, self.num_params, p=[0.6, 0.4]) # # 0->0.7,1->0.3
-        # mask = np.array(mask_t)
-
-        # # logger.debug("in compute_mutation mask:{}".format(mask[-100:]))
-        # # logger.debug("in compute_mutation len of mask:{}".format(len(mask)))
-        # # logger.debug("in compute_mutation noise before mask:{}".format(noise.get(idx, self.num_params)[-100:]))
-        # # after_mask = noise.get(idx, self.num_params) * mask
-        # # logger.debug("in compute_mutation noise after mask:{}".format(after_mask[-100:]))
-        # # # begin=time.time()
-        logger.debug("in compute_mutation:noise{}".format(noise.noise[-20:]))
-        # value_after_mask = noise.get(idx, self.num_params) * mask
-        # # logger.debug("in compute_mutation, * time:{}".format(time.time()-begin))
-        # # begin=time.time()
-        # # value_after_mask = np.multiply(noise.get(idx, self.num_params), mask)
-        # # logger.debug("in compute_mutation, mutiple time:{}".format(time.time()-begin))
         return parent_theta + mutation_power * noise.get(idx, self.num_params)
 
     def load(self, sess, i, theta, seeds):
-        # logger.debug("come in load,theta:{}".format(theta))
         if self.seeds[i] == seeds:
-            # logger.debug("in load, return false!!!!!!!!!!!!!~~~~~~~~~~~~")
             return False
         sess.run(self.load_op, {self.theta: theta, self.theta_idx: i})
-        # logger.debug("in load,theta:{0},self.theta_idx:{1},i:{2}".
-        #              format(theta, self.theta_idx, i))
         self.seeds[i] = seeds
         return True
 

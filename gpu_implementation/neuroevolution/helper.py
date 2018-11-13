@@ -22,23 +22,21 @@ import threading
 from queue import Queue
 import numpy as np
 import math
-import logging
 
-logger = logging.getLogger(__name__)
-fh = logging.FileHandler('./logger.out')
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter)
-logger.addHandler(fh)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-logger.addHandler(console_handler)
-
-logger.setLevel(level=logging.INFO)
-
+# logger = logging.getLogger(__name__)
+# fh = logging.FileHandler('./logger.out')
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# fh.setFormatter(formatter)
+# logger.addHandler(fh)
+#
+# console_handler = logging.StreamHandler()
+# console_handler.setFormatter(formatter)
+# logger.addHandler(console_handler)
+#
+# logger.setLevel(level=logging.DEBUG)
 
 class SharedNoiseTable(object):
-    def __init__(self):
+    def __init__(self, code_type, logger):
         import ctypes, multiprocessing
         seed = 123
         count = 250000000  # 1 gigabyte of 32-bit numbers. Will actually sample 2 gigabytes below.
@@ -47,8 +45,11 @@ class SharedNoiseTable(object):
         self.noise = np.ctypeslib.as_array(self._shared_mem.get_obj())
         # logger.debug("in sharednoisetable, self.noise:{0},size of self.noise:{1}".format(self.noise, len(self.noise)))
         assert self.noise.dtype == np.float32
-        np.random.seed(seed)
-        mask = np.random.choice(2, count, p=[0.5, 0.5]) # # 0->0.6,1->0.3
+        if code_type is "mask":
+            np.random.seed(seed)
+            mask = np.random.choice(2, count, p=[0.6, 0.4]) # # 0->0.6,1->0.3
+        else:
+            mask = 1
 
         self.noise[:] = np.random.RandomState(seed).randn(count) * mask  # 64-bit to 32-bit conversion here
         logger.debug("in sharednoisetable, after 64 to 32, self.noise:{0},size of self.noise:{1}".format(self.noise[-20:], len(self.noise)))

@@ -48,7 +48,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.DEBUG)
 
 
 class TrainingState(object):
@@ -127,16 +127,17 @@ def main(**exp):
     Model = neuroevolution.models.__dict__[exp['model']]
     all_tstart = time.time()
     game = exp["game"]
+    code_type = exp["code_type"]
 
     # for game in games:
-    writer = SummaryWriter(comment="-debug_gravitar_mean_median-%s" % game)
+    writer = SummaryWriter(comment="-%s-%s" % (code_type, game))
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
 
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
     with WorkerSession(worker) as sess:
-        noise = SharedNoiseTable()
+        noise = SharedNoiseTable(code_type, logger)
         rs = np.random.RandomState()
         cached_parents = []
         results = []
@@ -185,7 +186,7 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 6:
+            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 2:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
