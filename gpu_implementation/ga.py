@@ -128,7 +128,7 @@ def main(**exp):
     game = exp["game"]
 
     # for game in games:
-    writer = SummaryWriter(comment="-test_mask_version_gravitar_6hours_game-%s" % game)
+    writer = SummaryWriter(comment="-debug_pong_mean_median-%s" % game)
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
