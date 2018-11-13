@@ -107,6 +107,7 @@ class Offspring(object):
 
     @property
     def fitness(self):
+        assert len(self.rewards) == 1
         return np.mean(self.rewards)
 
     @property
@@ -184,7 +185,7 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps'] or state.time_elapsed/3600 > 6:
+            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 6:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
