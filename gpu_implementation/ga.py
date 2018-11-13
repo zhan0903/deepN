@@ -231,8 +231,9 @@ def main(**exp):
                                            for x in range(exp['validation_threshold'])]
             _, population_validation, population_validation_len = zip(*worker.monitor_eval_repeated(validation_tasks, max_frames=state.tslimit * 4, num_episodes=exp['num_validation_episodes']))
 
-            logger.info("len population_validation first:{0},len population_validation[0]".
+            logger.info("len population_validation first:{0},len population_validation[0]:{1}".
                         format(len(population_validation), len(population_validation[0])))
+            logger.info("population_validation[0]:{}".format(population_validation[0]))
             population_validation = [np.median(x) for x in population_validation]
             population_validation_len = [np.sum(x) for x in population_validation_len]
 
