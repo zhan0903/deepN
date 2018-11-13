@@ -230,6 +230,8 @@ def main(**exp):
             validation_tasks = [(worker.model.compute_weights_from_seeds(noise, validation_population[x].seeds, cache=cached_parents), validation_population[x].seeds)
                                            for x in range(exp['validation_threshold'])]
             _, population_validation, population_validation_len = zip(*worker.monitor_eval_repeated(validation_tasks, max_frames=state.tslimit * 4, num_episodes=exp['num_validation_episodes']))
+
+            logger.debug("population_validation:{}".format(population_validation))
             population_validation = [np.median(x) for x in population_validation]
             population_validation_len = [np.sum(x) for x in population_validation_len]
 
@@ -277,8 +279,7 @@ def main(**exp):
             # writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
             with open('./runs/%s.csv' % game, mode='a') as input_file:
                 input_writer = csv.writer(input_file, delimiter=',')
-                input_writer.writerow([state.timesteps_so_far, state.time_elapsed/3600,
-                                       np.median(population_elite_evals), state.it])
+                input_writer.writerow([state.timesteps_so_far, np.median(population_elite_evals), state.it])
 
             if np.median(population_validation) > state.curr_solution_val:
                 state.curr_solution = state.elite.seeds
