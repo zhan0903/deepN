@@ -10,5 +10,6 @@
     "mutation_power": 0.002,
     "selection_threshold": 20,
     "code_type":"original",
+    "debug":0,
     "comments":"1 means original,0 means mask"
 }
