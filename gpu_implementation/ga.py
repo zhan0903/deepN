@@ -39,7 +39,7 @@ import tensorflow as tf
 import csv
 
 logger = logging.getLogger(__name__)
-fh = logging.FileHandler('./logger.out')
+fh = logging.FileHandler('./log/logger%(asctime)s.out')
 formatter = logging.Formatter('In ga.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
@@ -231,7 +231,7 @@ def main(**exp):
                                            for x in range(exp['validation_threshold'])]
             _, population_validation, population_validation_len = zip(*worker.monitor_eval_repeated(validation_tasks, max_frames=state.tslimit * 4, num_episodes=exp['num_validation_episodes']))
 
-            logger.debug("population_validation:{}".format(population_validation))
+            logger.info("population_validation first:{}".format(population_validation))
             population_validation = [np.median(x) for x in population_validation]
             population_validation_len = [np.sum(x) for x in population_validation_len]
 
@@ -255,7 +255,7 @@ def main(**exp):
             state.timesteps_so_far += timesteps_this_iter
             state.validation_timesteps_so_far += validation_timesteps
 
-            logger.info("population_validation:{}".format(population_validation))
+            logger.info("population_validation second:{}".format(population_validation))
 
             # Log
             tlogger.record_tabular('TruncatedPopulationRewMean', np.mean([a.fitness for a in validation_population]))
