@@ -46,7 +46,7 @@ class SharedNoiseTable(object):
         # logger.debug("in sharednoisetable, self.noise:{0},size of self.noise:{1}".format(self.noise, len(self.noise)))
         assert self.noise.dtype == np.float32
         logger.debug("code_type:{}".format(code_type))
-        if code_type is "mask":
+        if str(code_type) is "mask":
             np.random.seed(seed)
             mask = np.random.choice(2, count, p=[0.6, 0.4]) # # 0->0.6,1->0.3
         else:
