@@ -10,5 +10,5 @@
     "mutation_power": 0.002,
     "selection_threshold": 10,
     "code_type":"mask",
-    "debug":1
+    "debug":0
 }
