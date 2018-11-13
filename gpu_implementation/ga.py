@@ -48,7 +48,7 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-logger.setLevel(level=logging.DEBUG)
+logger.setLevel(level=logging.INFO)
 
 
 class TrainingState(object):
@@ -128,6 +128,12 @@ def main(**exp):
     all_tstart = time.time()
     game = exp["game"]
     code_type = exp["code_type"]
+    debug = exp["debug"]
+
+    if debug:
+        logger.setLevel(level=logging.DEBUG)
+    else:
+        logger.setLevel(level=logging.INFO)
 
     # for game in games:
     writer = SummaryWriter(comment="-%s-%s" % (code_type, game))
