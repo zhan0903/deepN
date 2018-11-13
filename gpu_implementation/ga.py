@@ -207,6 +207,8 @@ def main(**exp):
             results = results[:exp['population_size']]
             assert len(results) == exp['population_size']
             rewards = np.array([a.fitness for a in results])
+            logger.debug("rewards:{}".format(rewards))
+
             population_timesteps = sum([a.training_steps for a in results])
 
             state.population = sorted(results, key=lambda x: x.fitness, reverse=True)
