@@ -193,7 +193,7 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 0.5:
+            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 6:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
@@ -341,7 +341,7 @@ def main(**exp):
                 cached_parents.clear()
                 cached_parents.extend(new_parents)
                 tlogger.info("Done caching parents")
-            if state.it % 2 == 0:
+            if state.it % 10 == 0:
                 p = min(0.9, p+0.1)
                 noise = SharedNoiseTable(code_type, logger, p)
     return float(state.curr_solution_test), {'val': float(state.curr_solution_val)}
