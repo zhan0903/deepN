@@ -1,5 +1,5 @@
 {
-    "game": "gravitar",
+    "game": "enduro",
     "model": "LargeModel",
     "num_validation_episodes": 30,
     "num_test_episodes": 200,
@@ -8,5 +8,7 @@
     "timesteps": 1.5e9,
     "validation_threshold": 10,
     "mutation_power": 0.002,
-    "selection_threshold": 20
+    "selection_threshold": 20,
+     "code_type":"mask",
+    "debug":0
 }

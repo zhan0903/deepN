@@ -38,18 +38,6 @@ from tensorboardX import SummaryWriter
 import tensorflow as tf
 import csv
 
-logger = logging.getLogger(__name__)
-fh = logging.FileHandler('./log/logger%s.out' % time.time())
-formatter = logging.Formatter('In ga.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter)
-logger.addHandler(fh)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-logger.addHandler(console_handler)
-
-# logger.setLevel(level=logging.INFO)
-
 
 class TrainingState(object):
     def __init__(self, exp):
@@ -129,6 +117,17 @@ def main(**exp):
     game = exp["game"]
     code_type = exp["code_type"]
     debug = exp["debug"]
+
+    logger = logging.getLogger(__name__)
+    localtime = time.asctime(time.localtime(time.time()))
+    fh = logging.FileHandler('./log/%s-%s-%s.out' % (localtime, game, code_type))
+    formatter = logging.Formatter('In ga.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
 
     if debug:
         logger.setLevel(level=logging.DEBUG)
