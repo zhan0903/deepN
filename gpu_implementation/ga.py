@@ -117,6 +117,7 @@ def main(**exp):
     game = exp["game"]
     code_type = exp["code_type"]
     debug = exp["debug"]
+    test_time = exp["test_time"]
 
     logger = logging.getLogger(__name__)
     localtime = time.asctime(time.localtime(time.time()))
@@ -135,7 +136,7 @@ def main(**exp):
         logger.setLevel(level=logging.INFO)
 
     # for game in games:
-    writer = SummaryWriter(comment="-%s-%s" % (code_type, game))
+    writer = SummaryWriter(comment="-%s-%s-%sh" % (code_type, game, test_time))
 
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
@@ -192,7 +193,7 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 6:
+            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > test_time:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)

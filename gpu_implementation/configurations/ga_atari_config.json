@@ -9,6 +9,7 @@
     "validation_threshold": 10,
     "mutation_power": 0.002,
     "selection_threshold": 20,
-     "code_type":"mask",
+    "code_type":"mask",
+    "test_time":6,
     "debug":0
 }
