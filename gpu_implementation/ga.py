@@ -141,6 +141,8 @@ def main(**exp):
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
 
+    # mutation_strenght =
+
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
     with WorkerSession(worker) as sess:
         noise = SharedNoiseTable(code_type, logger)
@@ -192,7 +194,7 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 2:
+            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > 0.5:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
@@ -286,7 +288,7 @@ def main(**exp):
 
             writer.add_scalar("best_agent_score_%s" % game, np.median(population_elite_evals), state.timesteps_so_far)
             # writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
-            with open('./runs/%s.csv' % game, mode='a') as input_file:
+            with open('./runs/%s-%s.csv' % (code_type, game), mode='a') as input_file:
                 input_writer = csv.writer(input_file, delimiter=',')
                 input_writer.writerow([state.timesteps_so_far, np.median(population_elite_evals), state.it])
 
@@ -340,7 +342,7 @@ def main(**exp):
                 cached_parents.clear()
                 cached_parents.extend(new_parents)
                 tlogger.info("Done caching parents")
-
+        # noise = SharedNoiseTable(code_type, logger, mutation_strength)
     return float(state.curr_solution_test), {'val': float(state.curr_solution_val)}
 
 
