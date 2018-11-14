@@ -141,11 +141,10 @@ def main(**exp):
     def make_env(b):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
 
-    # mutation_strenght =
-
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
+    p = 0.1
     with WorkerSession(worker) as sess:
-        noise = SharedNoiseTable(code_type, logger)
+        noise = SharedNoiseTable(code_type, logger, p)
         rs = np.random.RandomState()
         cached_parents = []
         results = []
@@ -342,7 +341,9 @@ def main(**exp):
                 cached_parents.clear()
                 cached_parents.extend(new_parents)
                 tlogger.info("Done caching parents")
-        # noise = SharedNoiseTable(code_type, logger, mutation_strength)
+            if state.it % 2 == 0:
+                p = min(0.9, p+0.1)
+                noise = SharedNoiseTable(code_type, logger, p)
     return float(state.curr_solution_test), {'val': float(state.curr_solution_val)}
 
 
