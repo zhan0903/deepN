@@ -8,5 +8,9 @@
     "timesteps": 1.5e9,
     "validation_threshold": 10,
     "mutation_power": 0.002,
-    "selection_threshold": 20
+    "selection_threshold": 20,
+    "code_type":"mask",
+    "test_time":6,
+    "debug":0,
+    "comments":"1 means original,0 means mask"
 }

@@ -1,5 +1,5 @@
 {
-    "game": "gravitar",
+    "game": "zaxxon",
     "model": "LargeModel",
     "num_validation_episodes": 30,
     "num_test_episodes": 200,
@@ -10,6 +10,7 @@
     "mutation_power": 0.002,
     "selection_threshold": 20,
     "code_type":"mask",
+    "test_time":6,
     "debug":0,
     "comments":"1 means original,0 means mask"
 

@@ -242,7 +242,7 @@ def main(**exp):
             logger.info("len population_validation first:{0},len population_validation[0]:{1}".
                         format(len(population_validation), len(population_validation[0])))
             logger.info("population_validation[0]:{}".format(population_validation[0]))
-            population_validation = [np.median(x) for x in population_validation]
+            population_validation = [np.mean(x) for x in population_validation]
             population_validation_len = [np.sum(x) for x in population_validation_len]
 
             time_elapsed_this_iter = time.time() - tstart_iteration
@@ -255,10 +255,6 @@ def main(**exp):
             _, population_elite_evals, population_elite_evals_timesteps = worker.monitor_eval_repeated([(elite_theta,
                          state.elite.seeds)], max_frames=None, num_episodes=exp['num_test_episodes'])[0]
 
-            # if np.mean(population_elite_evals) > best_value:
-            #     state.elite = validation_population[population_elite_idx]
-            #     best_value = np.mean(population_elite_evals)
-
             # Log Results
             validation_timesteps = sum(population_validation_len)
             timesteps_this_iter = population_timesteps + validation_timesteps
@@ -269,10 +265,8 @@ def main(**exp):
 
             # Log
             tlogger.record_tabular('TruncatedPopulationRewMean', np.mean([a.fitness for a in validation_population]))
-            tlogger.record_tabular('TruncatedPopulationRewMedian', np.median([a.fitness for a in validation_population]))
 
             tlogger.record_tabular('TruncatedPopulationValidationRewMean', np.mean(population_validation))
-            tlogger.record_tabular('TruncatedPopulationValidationRewmedian', np.median(population_validation))
 
             tlogger.record_tabular('TruncatedPopulationEliteValidationRewMean', np.max(population_validation))
 
@@ -280,21 +274,20 @@ def main(**exp):
             tlogger.record_tabular('TruncatedPopulationEliteSeeds', state.elite.seeds)
 
             tlogger.record_tabular('TruncatedPopulationEliteTestRewMean', np.mean(population_elite_evals))
-            tlogger.record_tabular('TruncatedPopulationEliteTestRewmedian', np.median(population_elite_evals))
 
             tlogger.record_tabular('TruncatedPopulationEliteTestEpCount', len(population_elite_evals))
             tlogger.record_tabular('TruncatedPopulationEliteTestEpLenSum', np.sum(population_elite_evals_timesteps))
 
-            writer.add_scalar("best_agent_score_%s" % game, np.median(population_elite_evals), state.timesteps_so_far)
+            writer.add_scalar("best_agent_score_%s" % game, np.mean(population_elite_evals), state.timesteps_so_far)
             # writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
             with open('./runs/%s-%s.csv' % (code_type, game), mode='a') as input_file:
                 input_writer = csv.writer(input_file, delimiter=',')
-                input_writer.writerow([state.timesteps_so_far, np.median(population_elite_evals), state.it])
+                input_writer.writerow([state.timesteps_so_far, np.mean(population_elite_evals), state.it])
 
-            if np.median(population_validation) > state.curr_solution_val:
+            if np.mean(population_validation) > state.curr_solution_val:
                 state.curr_solution = state.elite.seeds
-                state.curr_solution_val = np.median(population_validation)
-                state.curr_solution_test = np.median(population_elite_evals)
+                state.curr_solution_val = np.mean(population_validation)
+                state.curr_solution_test = np.mean(population_elite_evals)
 
             tlogger.record_tabular('ValidationTimestepsThisIter', validation_timesteps)
             tlogger.record_tabular('ValidationTimestepsSoFar', state.validation_timesteps_so_far)
