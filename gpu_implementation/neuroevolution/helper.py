@@ -45,16 +45,16 @@ class SharedNoiseTable(object):
         self.noise = np.ctypeslib.as_array(self._shared_mem.get_obj())
         # logger.debug("in sharednoisetable, self.noise:{0},size of self.noise:{1}".format(self.noise, len(self.noise)))
         assert self.noise.dtype == np.float32
-        logger.debug("p_input:{0}".format(p_input))
+        logger.info("p_input:{0}".format(p_input))
         if code_type == "mask":
             # np.random.seed(seed)
             mask = np.random.choice(2, count, p=[p_input, 1-p_input])  # 0->p_input, 1->1-p_input
         else:
             mask = 1
 
-        logger.debug("mask is:{}".format(mask))
+        logger.info("mask is:{}".format(mask))
         self.noise[:] = np.random.RandomState(seed).randn(count) * mask  # 64-bit to 32-bit conversion here
-        logger.debug("in sharednoisetable, after 64 to 32, self.noise:{0},size of self.noise:{1}".format(self.noise[-20:], len(self.noise)))
+        logger.info("in sharednoisetable, after 64 to 32, self.noise:{0},size of self.noise:{1}".format(self.noise[-20:], len(self.noise)))
         print('Sampled {} bytes'.format(self.noise.size * 4))
 
     def get(self, i, dim):
