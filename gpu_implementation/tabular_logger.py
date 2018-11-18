@@ -114,7 +114,7 @@ def CURRENT():
     return __CURRENT
 
 class TabularLogger(object):
-    def __init__(self, dir="./logs", format='{asctime} {message}\n', datefmt='%m/%d/%Y %I:%M:%S %p'):
+    def __init__(self, dir="./runs/logs", format='{asctime} {message}\n', datefmt='%m/%d/%Y %I:%M:%S %p'):
         self.format = format
         self.datefmt = datefmt
         self.name2val = OrderedDict()  # values this iteration
