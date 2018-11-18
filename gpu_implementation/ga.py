@@ -162,7 +162,7 @@ def main(**exp):
         tstart = time.time()
 
         try:
-            load_file = os.path.join(log_dir, 'snapshot.pkl')
+            load_file = os.path.join(log_dir, 'snapshot-%s.pkl' % game)
             with open(load_file, 'rb+') as file:
                 state = pickle.load(file)
             tlogger.info("Loaded iteration {} from {}".format(state.it, load_file))
@@ -311,7 +311,7 @@ def main(**exp):
                     tlogger.info('Increased threshold to {}'.format(state.tslimit))
 
             os.makedirs(log_dir, exist_ok=True)
-            save_file = os.path.join(log_dir, 'snapshot.pkl')
+            save_file = os.path.join(log_dir, 'snapshot-%s.pkl' % game)
             with open(save_file, 'wb+') as file:
                 pickle.dump(state, file)
             #copyfile(save_file, os.path.join(log_dir, 'snapshot_gen{:04d}.pkl'.format(state.it)))
