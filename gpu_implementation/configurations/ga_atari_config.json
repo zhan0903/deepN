@@ -1,15 +1,15 @@
 {
-    "game": "enduro",
+    "game": "venture",
     "model": "LargeModel",
     "num_validation_episodes": 30,
     "num_test_episodes": 200,
     "population_size": 1000,
     "episode_cutoff_mode": 5000,
-    "timesteps": 1.5e9,
+    "timesteps": 1.2e8,
     "validation_threshold": 10,
     "mutation_power": 0.002,
     "selection_threshold": 20,
     "code_type":"mask",
-    "test_time":6,
+    "test_time":8,
     "debug":0
 }
