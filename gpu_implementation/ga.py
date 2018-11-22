@@ -118,6 +118,7 @@ def main(**exp):
     code_type = exp["code_type"]
     debug = exp["debug"]
     test_time = exp["test_time"]
+    best_score = float('-inf')
 
     logger = logging.getLogger(__name__)
     localtime = time.asctime(time.localtime(time.time()))
@@ -142,7 +143,7 @@ def main(**exp):
         return gym_tensorflow.make(game=exp["game"], batch_size=b)
 
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
-    p = 0.1
+    p = 0
     with WorkerSession(worker) as sess:
         noise = SharedNoiseTable(code_type, logger, p)
         rs = np.random.RandomState()
@@ -193,7 +194,7 @@ def main(**exp):
 
         while True:
             tstart_iteration = time.time()
-            if state.timesteps_so_far >= exp['timesteps'] or (time.time()-all_tstart)/3600 > test_time:
+            if state.timesteps_so_far >= exp['timesteps']:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
                 break
             frames_computed_so_far = sess.run(worker.steps_counter)
@@ -265,24 +266,21 @@ def main(**exp):
 
             # Log
             tlogger.record_tabular('TruncatedPopulationRewMean', np.mean([a.fitness for a in validation_population]))
-
             tlogger.record_tabular('TruncatedPopulationValidationRewMean', np.mean(population_validation))
-
             tlogger.record_tabular('TruncatedPopulationEliteValidationRewMean', np.max(population_validation))
-
             tlogger.record_tabular("TruncatedPopulationEliteIndex", population_elite_idx)
             tlogger.record_tabular('TruncatedPopulationEliteSeeds', state.elite.seeds)
-
             tlogger.record_tabular('TruncatedPopulationEliteTestRewMean', np.mean(population_elite_evals))
-
             tlogger.record_tabular('TruncatedPopulationEliteTestEpCount', len(population_elite_evals))
             tlogger.record_tabular('TruncatedPopulationEliteTestEpLenSum', np.sum(population_elite_evals_timesteps))
 
             writer.add_scalar("best_agent_score_%s" % game, np.mean(population_elite_evals), state.timesteps_so_far)
-            # writer.add_scalar("Iteration_%s" % game, state.it, state.timesteps_so_far)
             with open('./runs/%s-%s.csv' % (code_type, game), mode='a') as input_file:
                 input_writer = csv.writer(input_file, delimiter=',')
                 input_writer.writerow([state.timesteps_so_far, np.mean(population_elite_evals), state.it])
+
+            if np.mean(population_elite_evals) > best_score:
+                best_score = np.mean(population_elite_evals)
 
             if np.mean(population_validation) > state.curr_solution_val:
                 state.curr_solution = state.elite.seeds
@@ -334,9 +332,15 @@ def main(**exp):
                 cached_parents.clear()
                 cached_parents.extend(new_parents)
                 tlogger.info("Done caching parents")
-            if state.it % 10 == 0:
+
+            if state.timesteps_so_far % 1.25e7 == 0 and not debug:
                 p = min(0.9, p+0.1)
                 noise = SharedNoiseTable(code_type, logger, p)
+
+    with open('./runs/best_score.csv', mode='a') as input_file:
+        input_writer = csv.writer(input_file, delimiter=',')
+        input_writer.writerow([game, best_score])
+
     return float(state.curr_solution_test), {'val': float(state.curr_solution_val)}
 
 
@@ -344,5 +348,4 @@ if __name__ == "__main__":
     with open(sys.argv[-1], 'r') as f:
         exp = json.loads(f.read())
 
-    # games = exp["games"].split(',')
     main(**exp)

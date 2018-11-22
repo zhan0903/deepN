@@ -229,15 +229,77 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             idx = seeds[0]
-            # seed = np.random.randint(MAX_SEED)
-            # torch.manual_seed(idx)
-            # shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
+            torch.manual_seed(idx)
             # add 5 particle
-            # ran_num = idx % 5  # np.random.randint(1, 7)
-            # logger.error("in compute_weight_from_seeds else, idx:{0}, ran_num:{1}, seeds:{2}".
-            #              format(idx, ran_num, seeds))
+            ran_num = idx % 5
+            scale_by = []
+            shape_out = [v.value for v in self.variables[-1].get_shape()][-1]
+            net = Net((4, 84, 84), shape_out)
+            if ran_num == 0:  # xavier_normal
+                # logger.error("in compute_weight_from_seeds,idx:{0}->xavier_normal".format(idx))
+                for p in net.modules():
+                    if isinstance(p, nn.Conv2d):
+                        nn.init.xavier_normal_(p.weight.data)
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                    if isinstance(p, nn.Linear):
+                        nn.init.xavier_normal_(p.weight.data)
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                scale_by = np.concatenate(scale_by)
+            elif ran_num == 1:  # xavier_uniform
+                # logger.error("in compute_weight_from_seeds,idx:{0}->xavier_uniform".format(idx))
+                for p in net.modules():
+                    if isinstance(p, nn.Conv2d):
+                        nn.init.xavier_uniform_(p.weight.data, gain=nn.init.calculate_gain('relu'))
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                    if isinstance(p, nn.Linear):
+                        nn.init.xavier_uniform_(p.weight.data, gain=nn.init.calculate_gain('relu'))
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                scale_by = np.concatenate(scale_by)
+            elif ran_num == 2:  # kaiming_uniform
+                # logger.error("in compute_weight_from_seeds,idx:{0}->kaiming_uniform".format(idx))
+                for p in net.modules():
+                    if isinstance(p, nn.Conv2d):
+                        nn.init.kaiming_uniform_(p.weight.data, mode='fan_in', nonlinearity='relu')
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                    if isinstance(p, nn.Linear):
+                        nn.init.kaiming_uniform_(p.weight.data, mode='fan_in', nonlinearity='relu')
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                    # nn.init.kaiming_uniform_(p.data, mode='fan_in', nonlinearity='relu')
+                    # p.bias.data.zero_()
+                scale_by = np.concatenate(scale_by)
+            elif ran_num == 3:  # kaiming_normal
+                # logger.error("in compute_weight_from_seeds,idx:{0}->kaiming_normal".format(idx))
+                # for p in net.parameters():
+                #     scale_by.append(p.data.numpy().flatten().copy())
+                for p in net.modules():
+                    if isinstance(p, nn.Conv2d):
+                        nn.init.kaiming_normal_(p.weight.data, mode='fan_in', nonlinearity='relu')
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                    if isinstance(p, nn.Linear):
+                        nn.init.kaiming_normal_(p.weight.data, mode='fan_in', nonlinearity='relu')
+                        p.bias.data.zero_()
+                        scale_by.append(p.weight.data.numpy().flatten().copy())
+                        scale_by.append(p.bias.data.numpy().flatten().copy())
+                scale_by = np.concatenate(scale_by)
+            else:  # default
+                # logger.error("in compute_weight_from_seeds,idx:{0}->default".format(idx))
+                scale_by = self.scale_by
 
-            theta = noise.get(idx, self.num_params).copy() * self.scale_by  # self.scale_by
+            theta = noise.get(idx, self.num_params).copy() * scale_by  # self.scale_by
             # logger.debug("in compute_weights_from_seeds,ran_num:{0},theta[-100:]:{1}".format(ran_num, theta[-100:]))
 
             for mutation in seeds[1:]:

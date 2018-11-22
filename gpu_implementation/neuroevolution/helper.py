@@ -51,7 +51,6 @@ class SharedNoiseTable(object):
             mask = np.random.choice(2, count, p=[p_input, 1-p_input])  # 0->p_input, 1->1-p_input
         else:
             mask = 1
-
         logger.debug("mask is:{}".format(mask))
         self.noise[:] = np.random.RandomState(seed).randn(count) * mask  # 64-bit to 32-bit conversion here
         logger.debug("in sharednoisetable, after 64 to 32, self.noise:{0},size of self.noise:{1}".format(self.noise[-20:], len(self.noise)))
