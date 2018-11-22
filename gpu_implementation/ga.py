@@ -119,6 +119,7 @@ def main(**exp):
     debug = exp["debug"]
     test_time = exp["test_time"]
     best_score = float('-inf')
+    count = 1
 
     logger = logging.getLogger(__name__)
     localtime = time.asctime(time.localtime(time.time()))
@@ -333,7 +334,8 @@ def main(**exp):
                 cached_parents.extend(new_parents)
                 tlogger.info("Done caching parents")
 
-            if state.timesteps_so_far % 1.25e7 == 0 and not debug:
+            if state.timesteps_so_far // 1.25e7 >= count and not debug:
+                count = count+1
                 p = min(0.9, p+0.1)
                 noise = SharedNoiseTable(code_type, logger, p)
 
