@@ -338,9 +338,8 @@ def main(**exp):
                 cached_parents.extend(new_parents)
                 tlogger.info("Done caching parents")
 
-            if state.timesteps_so_far // 2.5e6 >= count and not debug: # 2.5e7->2e6
+            if state.timesteps_so_far // 2.5e7 >= count and not debug: # 2.5e7->2e6
                 judge = True
-                print("count:", count)
                 count = count+1
                 p = min(0.9, p+0.2)
                 noise = SharedNoiseTable(code_type, logger, p)

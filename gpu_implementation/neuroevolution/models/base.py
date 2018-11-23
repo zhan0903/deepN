@@ -229,6 +229,7 @@ class BaseModel(object):
                 raise NotImplementedError()
         else:
             if judge:
+                print("should not come here!!!!!")
                 assert False
             idx = seeds[0]
             torch.manual_seed(idx)

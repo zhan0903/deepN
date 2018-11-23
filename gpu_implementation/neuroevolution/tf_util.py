@@ -25,7 +25,7 @@ import tabular_logger as tlogger
 def get_available_gpus():
     from tensorflow.python.client import device_lib
     local_device_protos = device_lib.list_local_devices()
-    print("in tf_util local_device_protos", local_device_protos)
+    # print("in tf_util local_device_protos", local_device_protos)
     # set only use 2 GPUs
     return [x.name for x in local_device_protos if x.device_type == 'GPU']
 
