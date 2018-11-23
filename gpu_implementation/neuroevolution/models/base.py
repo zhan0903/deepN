@@ -224,6 +224,8 @@ class BaseModel(object):
                 return self.compute_mutation(noise, theta, *seeds[-1])
             elif len(seeds) == 1:
                 # logger.debug("in compute_weights_from_seeds,cache,third!!!!")
+                print("why come here")
+                print("cache:",cache)
                 return self.compute_weights_from_seeds(noise, seeds)
             else:
                 raise NotImplementedError()
