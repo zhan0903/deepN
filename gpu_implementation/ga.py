@@ -109,6 +109,9 @@ class OffspringCached(object):
 
 
 def main(**exp):
+    os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+
     log_dir = tlogger.log_dir()
     tlogger.info(json.dumps(exp, indent=4, sort_keys=True))
     tlogger.info('Logging to: {}'.format(log_dir))
