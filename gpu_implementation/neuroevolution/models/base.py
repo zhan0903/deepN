@@ -209,7 +209,7 @@ class BaseModel(object):
         # logger.debug("randomnize:seeds:{0}".format(seeds))
         return self.compute_weights_from_seeds(noise, seeds), seeds
 
-    def compute_weights_from_seeds(self, noise, seeds, cache=None):
+    def compute_weights_from_seeds(self, noise, seeds, cache=None, judge=False):
         # self.count = self.count+1
         # logger.error("in compute_weight_from_seeds:len of cache:{0},seeds:{1}".format(len(cache), seeds))
         if cache:
@@ -228,6 +228,8 @@ class BaseModel(object):
             else:
                 raise NotImplementedError()
         else:
+            if judge:
+                assert False
             idx = seeds[0]
             torch.manual_seed(idx)
             # add 5 particle

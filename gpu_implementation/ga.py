@@ -120,6 +120,7 @@ def main(**exp):
     test_time = exp["test_time"]
     best_score = float('-inf')
     count = 1
+    judge = False
 
     logger = logging.getLogger(__name__)
     localtime = time.asctime(time.localtime(time.time()))
@@ -183,13 +184,13 @@ def main(**exp):
             cached_parents.clear()
             if state.elite in state.population[:exp['selection_threshold']]:
                 cached_parents.extend(
-                    [(worker.model.compute_weights_from_seeds(noise, o.seeds), o.seeds) for o in
+                    [(worker.model.compute_weights_from_seeds(noise, o.seeds, judge=judge), o.seeds) for o in
                      state.population[:exp['selection_threshold']]])
             else:
                 cached_parents.append(
-                    (worker.model.compute_weights_from_seeds(noise, state.elite.seeds), state.elite.seeds))
+                    (worker.model.compute_weights_from_seeds(noise, state.elite.seeds, judge=judge), state.elite.seeds))
                 cached_parents.extend(
-                    [(worker.model.compute_weights_from_seeds(noise, o.seeds), o.seeds) for o in
+                    [(worker.model.compute_weights_from_seeds(noise, o.seeds, judge=judge), o.seeds) for o in
                      state.population[:exp['selection_threshold'] - 1]])
             tlogger.info("Done caching parents")
 
@@ -237,7 +238,7 @@ def main(**exp):
 
             # logger.debug("cached_parents:{0}, len of cached_parents:{1}".format(cached_parents, len(cached_parents)))
 
-            validation_tasks = [(worker.model.compute_weights_from_seeds(noise, validation_population[x].seeds, cache=cached_parents), validation_population[x].seeds)
+            validation_tasks = [(worker.model.compute_weights_from_seeds(noise, validation_population[x].seeds, cache=cached_parents, judge=judge), validation_population[x].seeds)
                                            for x in range(exp['validation_threshold'])]
             _, population_validation, population_validation_len = zip(*worker.monitor_eval_repeated(validation_tasks, max_frames=state.tslimit * 4, num_episodes=exp['num_validation_episodes']))
 
@@ -253,7 +254,7 @@ def main(**exp):
             population_elite_idx = np.argmax(population_validation)
             state.elite = validation_population[population_elite_idx]
 
-            elite_theta = worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents)
+            elite_theta = worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents, judge=judge)
             _, population_elite_evals, population_elite_evals_timesteps = worker.monitor_eval_repeated([(elite_theta,
                          state.elite.seeds)], max_frames=None, num_episodes=exp['num_test_episodes'])[0]
 
@@ -325,18 +326,19 @@ def main(**exp):
                 tlogger.info("Caching parents")
                 new_parents = []
                 if state.elite in state.population[:exp['selection_threshold']]:
-                    new_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds, cache=cached_parents), o.seeds) for o in state.population[:exp['selection_threshold']]])
+                    new_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds, cache=cached_parents, judge=judge), o.seeds) for o in state.population[:exp['selection_threshold']]])
                 else:
-                    new_parents.append((worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents), state.elite.seeds))
-                    new_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds, cache=cached_parents), o.seeds) for o in state.population[:exp['selection_threshold']-1]])
+                    new_parents.append((worker.model.compute_weights_from_seeds(noise, state.elite.seeds, cache=cached_parents, judge=judge), state.elite.seeds))
+                    new_parents.extend([(worker.model.compute_weights_from_seeds(noise, o.seeds, cache=cached_parents, judge=judge), o.seeds) for o in state.population[:exp['selection_threshold']-1]])
 
                 cached_parents.clear()
                 cached_parents.extend(new_parents)
                 tlogger.info("Done caching parents")
 
-            if state.timesteps_so_far // 1.25e7 >= count and not debug:
+            if state.timesteps_so_far // 2.5e7 >= count and not debug:
+                judge = True
                 count = count+1
-                p = min(0.9, p+0.1)
+                p = min(0.9, p+0.2)
                 noise = SharedNoiseTable(code_type, logger, p)
 
     with open('./runs/best_score.csv', mode='a') as input_file:
