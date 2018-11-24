@@ -126,8 +126,8 @@ def main(**exp):
     judge = False
 
     logger = logging.getLogger(__name__)
-    localtime = time.asctime(time.localtime(time.time()))
-    fh = logging.FileHandler('./runs/%s-%s-%s.out' % (localtime, game, code_type))
+    # localtime = time.asctime(time.localtime(time.time()))
+    fh = logging.FileHandler('./runs/logger%s-%s.out' % (game, code_type))
     formatter = logging.Formatter('In ga.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
