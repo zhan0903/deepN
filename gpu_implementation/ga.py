@@ -125,16 +125,16 @@ def main(**exp):
     count = 1
     judge = False
 
-    # logger = logging.getLogger(__name__)
-    # localtime = time.asctime(time.localtime(time.time()))
-    # fh = logging.FileHandler('./runs/%s-%s-%s.out' % (localtime, game, code_type))
-    # formatter = logging.Formatter('In ga.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    # fh.setFormatter(formatter)
-    # logger.addHandler(fh)
-    #
-    # console_handler = logging.StreamHandler()
-    # console_handler.setFormatter(formatter)
-    # logger.addHandler(console_handler)
+    logger = logging.getLogger(__name__)
+    localtime = time.asctime(time.localtime(time.time()))
+    fh = logging.FileHandler('./runs/%s-%s-%s.out' % (localtime, game, code_type))
+    formatter = logging.Formatter('In ga.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
 
     if debug:
         logger.setLevel(level=logging.DEBUG)
@@ -150,7 +150,7 @@ def main(**exp):
     worker = ConcurrentWorkers(make_env, Model, batch_size=64)
     p = 0
     with WorkerSession(worker) as sess:
-        noise = SharedNoiseTable(code_type, logger, p)
+        noise = SharedNoiseTable(code_type, tlogger, p)
         rs = np.random.RandomState()
         cached_parents = []
         results = []
