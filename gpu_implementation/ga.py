@@ -342,7 +342,7 @@ def main(**exp):
                 judge = True
                 count = count+1
                 p = min(0.9, p+0.2)
-                noise = SharedNoiseTable(code_type, logger, p)
+                noise = SharedNoiseTable(code_type, tlogger, p)
 
     with open('./runs/best_score.csv', mode='a') as input_file:
         input_writer = csv.writer(input_file, delimiter=',')
