@@ -164,14 +164,16 @@ def main(**exp):
         tlogger.info('Start timing')
         tstart = time.time()
 
-        try:
-            load_file = os.path.join(log_dir, 'snapshot-%s.pkl' % game)
-            with open(load_file, 'rb+') as file:
-                state = pickle.load(file)
-            tlogger.info("Loaded iteration {} from {}".format(state.it, load_file))
-        except FileNotFoundError:
-            tlogger.info('Failed to load snapshot')
-            state = TrainingState(exp)
+        # try:
+        #     load_file = os.path.join(log_dir, 'snapshot-%s.pkl' % game)
+        #     with open(load_file, 'rb+') as file:
+        #         state = pickle.load(file)
+        #     tlogger.info("Loaded iteration {} from {}".format(state.it, load_file))
+        # except FileNotFoundError:
+        #     tlogger.info('Failed to load snapshot')
+        #     state = TrainingState(exp)
+
+        state = TrainingState(exp)
 
         # False
         if 'load_population' in exp:
@@ -310,12 +312,12 @@ def main(**exp):
                     state.tslimit = min(state.tslimit * state.tslimit_incr_ratio, state.tslimit_max)
                     tlogger.info('Increased threshold to {}'.format(state.tslimit))
 
-            os.makedirs(log_dir, exist_ok=True)
-            save_file = os.path.join(log_dir, 'snapshot-%s.pkl' % game)
-            with open(save_file, 'wb+') as file:
-                pickle.dump(state, file)
-            #copyfile(save_file, os.path.join(log_dir, 'snapshot_gen{:04d}.pkl'.format(state.it)))
-            tlogger.info("Saved iteration {} to {}".format(state.it, save_file))
+            # os.makedirs(log_dir, exist_ok=True)
+            # save_file = os.path.join(log_dir, 'snapshot-%s.pkl' % game)
+            # with open(save_file, 'wb+') as file:
+            #     pickle.dump(state, file)
+            #
+            # tlogger.info("Saved iteration {} to {}".format(state.it, save_file))
 
             if state.timesteps_so_far >= exp['timesteps']:
                 tlogger.info('Training terminated after {} timesteps'.format(state.timesteps_so_far))
