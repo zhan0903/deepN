@@ -109,9 +109,6 @@ class OffspringCached(object):
 
 
 def main(**exp):
-    os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
-
     log_dir = tlogger.log_dir()
     tlogger.info(json.dumps(exp, indent=4, sort_keys=True))
     tlogger.info('Logging to: {}'.format(log_dir))
@@ -127,7 +124,7 @@ def main(**exp):
 
     logger = logging.getLogger(__name__)
     # localtime = time.asctime(time.localtime(time.time()))
-    fh = logging.FileHandler('./runs/logger%s-%s.out' % (game, code_type))
+    fh = logging.FileHandler('./runs/logger-%s-%s.out' % (game, code_type))
     formatter = logging.Formatter('In ga.py, %(asctime)s - %(name)s - %(levelname)s - %(message)s')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
@@ -245,9 +242,9 @@ def main(**exp):
                                            for x in range(exp['validation_threshold'])]
             _, population_validation, population_validation_len = zip(*worker.monitor_eval_repeated(validation_tasks, max_frames=state.tslimit * 4, num_episodes=exp['num_validation_episodes']))
 
-            logger.info("len population_validation first:{0},len population_validation[0]:{1}".
+            logger.debug("len population_validation first:{0},len population_validation[0]:{1}".
                         format(len(population_validation), len(population_validation[0])))
-            logger.info("population_validation[0]:{}".format(population_validation[0]))
+            logger.debug("population_validation[0]:{}".format(population_validation[0]))
             population_validation = [np.mean(x) for x in population_validation]
             population_validation_len = [np.sum(x) for x in population_validation_len]
 
@@ -267,7 +264,7 @@ def main(**exp):
             state.timesteps_so_far += timesteps_this_iter
             state.validation_timesteps_so_far += validation_timesteps
 
-            logger.info("population_validation second:{}".format(population_validation))
+            logger.debug("population_validation second:{}".format(population_validation))
 
             # Log
             tlogger.record_tabular('TruncatedPopulationRewMean', np.mean([a.fitness for a in validation_population]))
