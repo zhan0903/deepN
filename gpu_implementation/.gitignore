@@ -1,0 +1,4 @@
+**/*.pyc
+logger.out
+**/gpu_qcis5
+gym_tensorflow/atari-py
