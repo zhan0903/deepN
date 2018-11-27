@@ -1,0 +1,290 @@
+In ga.py, 2018-11-25 00:20:57,439 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 00:20:57,440 - __main__ - INFO - population_validation[0]:[630. 693. 651. 693. 315. 441. 651. 609. 651. 336. 651. 483. 714. 693.
+ 630. 672. 630. 231. 315. 609. 525. 693. 714. 651. 672. 693. 231. 651.
+ 672. 672.]
+In ga.py, 2018-11-25 00:21:53,371 - __main__ - INFO - population_validation second:[582.4, 642.2, 579.1667, 506.8, 506.8, 580.93335, 648.5, 570.4667, 648.5, 648.2]
+In ga.py, 2018-11-25 00:28:22,791 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 00:28:22,792 - __main__ - INFO - population_validation[0]:[651. 693. 672. 651. 651. 714. 672. 630. 672. 651. 630. 504. 504. 693.
+ 651. 462. 609. 609. 714. 672. 378. 651. 693. 672. 567. 630. 651. 546.
+ 651. 630.]
+In ga.py, 2018-11-25 00:29:26,985 - __main__ - INFO - population_validation second:[625.8, 652.4, 640.13336, 650.3, 592.76666, 554.4, 565.8333, 633.5, 617.0333, 576.6667]
+In ga.py, 2018-11-25 00:35:12,216 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 00:35:12,218 - __main__ - INFO - population_validation[0]:[735. 693. 483. 399. 651. 651. 588. 714. 525. 630. 567. 609. 441. 609.
+ 693. 714. 378. 735. 651. 609. 630. 756. 609. 462. 630. 609. 651. 546.
+ 189. 651.]
+In ga.py, 2018-11-25 00:36:09,765 - __main__ - INFO - population_validation second:[593.6, 551.6667, 614.6, 577.73334, 654.13336, 627.5, 582.36664, 615.26666, 555.0333, 646.13336]
+In ga.py, 2018-11-25 00:41:41,296 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 00:41:41,298 - __main__ - INFO - population_validation[0]:[672. 703. 722. 672. 672. 703. 640. 630. 651. 567. 462. 525. 661. 609.
+ 483. 682. 847. 692. 713. 609. 651. 682. 714. 546. 724. 693. 315. 764.
+ 525. 692.]
+In ga.py, 2018-11-25 00:42:43,493 - __main__ - INFO - population_validation second:[640.7, 648.2, 533.1667, 607.8333, 598.9, 654.8, 633.4667, 653.43335, 592.0, 609.3]
+In ga.py, 2018-11-25 00:48:22,778 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 00:48:22,779 - __main__ - INFO - population_validation[0]:[525. 735. 682. 766. 567. 630. 651. 651. 630. 630. 588. 756. 682. 651.
+ 693. 693. 462. 651. 651. 630. 651. 630. 567. 651. 567. 714. 630. 588.
+ 483. 588.]
+In ga.py, 2018-11-25 00:49:21,232 - __main__ - INFO - population_validation second:[633.1, 615.0333, 578.13336, 621.6, 614.9, 565.1667, 634.9667, 584.63336, 541.73334, 612.4667]
+In ga.py, 2018-11-25 00:54:36,310 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 00:54:36,311 - __main__ - INFO - population_validation[0]:[651. 336. 546. 693. 714. 651. 651. 483. 609. 315. 693. 315. 693. 525.
+ 630. 630. 745. 693. 588. 315. 714. 378. 483. 672. 609. 630. 714. 672.
+ 703. 766.]
+In ga.py, 2018-11-25 00:55:42,340 - __main__ - INFO - population_validation second:[593.9, 591.6, 546.63336, 622.1667, 609.4, 616.5, 551.43335, 485.1, 624.9, 624.36664]
+In ga.py, 2018-11-25 01:00:58,887 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:00:58,889 - __main__ - INFO - population_validation[0]:[483. 357. 273. 651. 609. 734. 420. 378. 357. 682. 483. 273. 744. 630.
+ 273. 724. 630. 462. 420. 609. 756. 567. 609. 714. 462. 672. 189. 734.
+ 776. 713.]
+In ga.py, 2018-11-25 01:02:01,331 - __main__ - INFO - population_validation second:[546.13336, 581.56665, 585.9, 567.93335, 601.5, 614.06665, 594.76666, 635.93335, 584.13336, 551.5333]
+In ga.py, 2018-11-25 01:07:40,207 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:07:40,209 - __main__ - INFO - population_validation[0]:[630. 693. 672. 588. 651. 693. 630. 672. 609. 672. 630. 441. 651. 336.
+ 672. 378. 588. 672. 651. 651. 630. 588. 651. 693. 420. 609. 651. 525.
+ 672. 777.]
+In ga.py, 2018-11-25 01:08:35,990 - __main__ - INFO - population_validation second:[613.2, 584.8333, 563.6667, 598.26666, 625.8, 521.1, 600.3333, 604.86664, 594.1, 621.76666]
+In ga.py, 2018-11-25 01:13:58,963 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:13:58,964 - __main__ - INFO - population_validation[0]:[693. 567. 567. 420. 588. 588. 588. 399. 651. 651. 567. 672. 651. 672.
+ 504. 651. 693. 651. 504. 714. 672. 441. 756. 672. 672. 525. 651. 630.
+ 609. 651.]
+In ga.py, 2018-11-25 01:14:57,926 - __main__ - INFO - population_validation second:[609.0, 576.13336, 637.5, 594.1, 555.5333, 562.4, 634.13336, 613.5, 563.13336, 637.1]
+In ga.py, 2018-11-25 01:20:19,674 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:20:19,676 - __main__ - INFO - population_validation[0]:[546. 693. 672. 567. 661. 671. 609. 672. 818. 755. 775. 315. 462. 714.
+ 756. 630. 672. 682. 567. 692. 714. 609. 661. 588. 462. 588. 651. 714.
+ 672. 651.]
+In ga.py, 2018-11-25 01:21:15,433 - __main__ - INFO - population_validation second:[641.3, 562.93335, 604.0, 604.76666, 618.8, 628.2, 580.23334, 620.8333, 646.0, 549.4667]
+In ga.py, 2018-11-25 01:26:21,003 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:26:21,005 - __main__ - INFO - population_validation[0]:[399. 651. 672. 525. 766. 504. 504. 735. 651. 651. 672. 609. 714. 714.
+ 692. 651. 713. 630. 630. 693. 693. 672. 630. 588. 693. 630. 703. 672.
+ 630. 693.]
+In ga.py, 2018-11-25 01:27:15,365 - __main__ - INFO - population_validation second:[646.0, 560.3, 548.0333, 571.1667, 617.4, 599.8, 625.26666, 628.0, 609.7, 571.1667]
+In ga.py, 2018-11-25 01:32:29,898 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:32:29,899 - __main__ - INFO - population_validation[0]:[567. 714. 651. 693. 735. 294. 588. 483. 651. 609. 714. 567. 693. 567.
+ 693. 777. 693. 651. 441. 651. 609. 546. 630. 483. 483. 766. 693. 735.
+ 682. 703.]
+In ga.py, 2018-11-25 01:33:24,689 - __main__ - INFO - population_validation second:[625.4, 589.06665, 559.6, 619.13336, 610.2, 647.6667, 558.86664, 582.9, 583.4, 592.86664]
+In ga.py, 2018-11-25 01:39:16,762 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:39:16,763 - __main__ - INFO - population_validation[0]:[441. 336. 462. 609. 672. 609. 661. 735. 609. 672. 693. 651. 756. 630.
+ 651. 651. 546. 714. 630. 630. 504. 703. 651. 630. 630. 714. 525. 567.
+ 703. 651.]
+In ga.py, 2018-11-25 01:40:18,815 - __main__ - INFO - population_validation second:[621.2, 579.86664, 604.06665, 621.8333, 639.0, 600.13336, 640.36664, 622.1, 656.8333, 599.4]
+In ga.py, 2018-11-25 01:45:39,179 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:45:39,181 - __main__ - INFO - population_validation[0]:[630. 714. 735. 661. 567. 703. 693. 693. 609. 672. 651. 483. 682. 714.
+ 609. 567. 609. 588. 735. 651. 672. 714. 755. 672. 189. 724. 609. 525.
+ 766. 651.]
+In ga.py, 2018-11-25 01:46:39,964 - __main__ - INFO - population_validation second:[641.43335, 630.7, 615.86664, 572.9, 611.5333, 617.9667, 618.76666, 623.13336, 581.93335, 601.0333]
+In ga.py, 2018-11-25 01:52:04,141 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:52:04,144 - __main__ - INFO - population_validation[0]:[672. 672. 651. 692. 567. 609. 745. 693. 651. 630. 640. 714. 546. 693.
+ 588. 609. 399. 630. 819. 693. 672. 630. 735. 661. 724. 672. 755. 693.
+ 651. 735.]
+In ga.py, 2018-11-25 01:53:01,952 - __main__ - INFO - population_validation second:[661.36664, 617.26666, 653.23334, 628.93335, 619.73334, 607.1, 569.76666, 608.1, 577.1, 614.56665]
+In ga.py, 2018-11-25 01:58:32,928 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 01:58:32,929 - __main__ - INFO - population_validation[0]:[ 651.  651.  630.  714.  735.  819.  189.  755.  504.  546.  693.  609.
+  588.  672.  567.  672.  745.  252.  609.  420.  808.  630.  609.  672.
+ 1029.  399.  693.  567.  756.  567.]
+In ga.py, 2018-11-25 01:59:25,462 - __main__ - INFO - population_validation second:[625.0333, 495.93332, 552.1667, 570.9667, 584.93335, 603.3333, 621.86664, 601.4, 637.4, 649.13336]
+In ga.py, 2018-11-25 02:04:48,238 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 02:04:48,239 - __main__ - INFO - population_validation[0]:[703. 661. 672. 483. 441. 630. 651. 703. 399. 588. 798. 693. 567. 630.
+ 693. 808. 703. 703. 672. 630. 755. 567. 651. 713. 829. 755. 724. 609.
+ 651. 798.]
+In ga.py, 2018-11-25 02:05:47,716 - __main__ - INFO - population_validation second:[662.6667, 561.7, 631.93335, 557.76666, 607.93335, 636.1, 633.6, 565.76666, 535.93335, 638.63336]
+In ga.py, 2018-11-25 02:11:20,710 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 02:11:20,711 - __main__ - INFO - population_validation[0]:[588. 682. 714. 630. 735. 745. 796. 703. 693. 441. 713. 766. 672. 609.
+ 630. 703. 734. 703. 672. 692. 651. 692. 567. 745. 703. 651. 441. 714.
+ 630. 567.]
+In ga.py, 2018-11-25 02:12:14,240 - __main__ - INFO - population_validation second:[666.06665, 576.0333, 637.43335, 586.9667, 628.0, 608.6, 533.93335, 663.4667, 597.1667, 597.5]
+In ga.py, 2018-11-25 02:17:46,588 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 02:17:46,590 - __main__ - INFO - population_validation[0]:[399. 672. 630. 672. 796. 672. 765. 839. 724. 672. 399. 504. 525. 630.
+ 850. 609. 661. 807. 504. 734. 630. 546. 651. 682. 651. 567. 693. 588.
+ 672. 651.]
+In ga.py, 2018-11-25 02:18:51,581 - __main__ - INFO - population_validation second:[646.5, 567.4667, 594.76666, 651.76666, 607.8, 666.06665, 638.86664, 641.1667, 616.1, 659.7]
+In ga.py, 2018-11-25 02:24:25,407 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 02:24:25,409 - __main__ - INFO - population_validation[0]:[693. 672. 588. 567. 661. 693. 703. 807. 567. 672. 630. 817. 357. 546.
+ 703. 588. 567. 693. 651. 661. 567. 588. 693. 504. 525. 713. 672. 765.
+ 682. 672.]
+In ga.py, 2018-11-25 02:25:27,963 - __main__ - INFO - population_validation second:[640.56665, 627.93335, 569.3, 557.2, 594.36664, 637.9667, 626.1, 638.73334, 531.0, 635.13336]
+In ga.py, 2018-11-25 02:30:56,512 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 02:30:56,514 - __main__ - INFO - population_validation[0]:[776. 504. 462. 682. 869. 672. 703. 797. 609. 378. 651. 651. 546. 848.
+ 661. 504. 294. 734. 609. 672. 703. 630. 661. 399. 692. 682. 755. 775.
+ 546. 567.]
+In ga.py, 2018-11-25 02:31:53,947 - __main__ - INFO - population_validation second:[634.4, 605.76666, 602.26666, 623.6, 580.06665, 614.43335, 582.76666, 642.26666, 623.1667, 598.86664]
+In ga.py, 2018-11-25 02:37:33,945 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 02:37:33,946 - __main__ - INFO - population_validation[0]:[525. 462. 651. 672. 525. 630. 420. 672. 441. 826. 546. 724. 546. 483.
+ 651. 713. 609. 693. 713. 734. 755. 745. 756. 483. 724. 651. 714. 724.
+ 462. 661.]
+In ga.py, 2018-11-25 02:38:37,640 - __main__ - INFO - population_validation second:[630.36664, 599.0, 608.9, 614.43335, 578.7, 599.9667, 538.86664, 653.43335, 640.0, 618.4]
+In ga.py, 2018-11-25 02:44:21,304 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 02:44:21,306 - __main__ - INFO - population_validation[0]:[630. 693. 672. 567. 630. 462. 189. 713. 693. 775. 483. 734. 567. 651.
+ 231. 693. 693. 672. 546. 462. 504. 462. 651. 849. 640. 682. 609. 567.
+ 682. 546.]
+In ga.py, 2018-11-25 02:45:25,095 - __main__ - INFO - population_validation second:[598.26666, 654.76666, 627.1667, 560.43335, 576.6, 635.8, 614.4667, 638.06665, 599.73334, 590.9]
+In ga.py, 2018-11-25 02:51:06,230 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 02:51:06,231 - __main__ - INFO - population_validation[0]:[630. 661. 681. 441. 755. 609. 630. 483. 693. 682. 713. 567. 763. 672.
+ 630. 525. 827. 724. 672. 703. 546. 651. 588. 765. 692. 651. 714. 755.
+ 745. 168.]
+In ga.py, 2018-11-25 02:52:04,606 - __main__ - INFO - population_validation second:[644.5333, 685.9, 619.36664, 627.06665, 675.56665, 623.8, 541.4667, 635.2, 605.5, 559.63336]
+In ga.py, 2018-11-25 02:58:25,380 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 02:58:25,382 - __main__ - INFO - population_validation[0]:[462. 567. 525. 775. 672. 828. 764. 672. 567. 504. 764. 609. 483. 651.
+ 630. 609. 126. 651. 630. 776. 546. 735. 745. 724. 672. 651. 828. 713.
+ 724. 672.]
+In ga.py, 2018-11-25 02:59:23,214 - __main__ - INFO - population_validation second:[642.5, 593.63336, 636.5, 644.6, 620.2, 639.93335, 647.43335, 624.86664, 536.5, 617.0]
+In ga.py, 2018-11-25 03:05:08,357 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 03:05:08,358 - __main__ - INFO - population_validation[0]:[651. 836. 682. 546. 588. 609. 734. 745. 483. 734. 651. 797. 525. 734.
+ 714. 630. 765. 766. 609. 724. 609. 745. 546. 672. 462. 825. 693. 378.
+ 441. 692.]
+In ga.py, 2018-11-25 03:06:09,532 - __main__ - INFO - population_validation second:[652.86664, 611.26666, 622.2, 633.4667, 681.7, 634.86664, 586.23334, 642.9667, 624.26666, 576.9667]
+In ga.py, 2018-11-25 03:12:08,920 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 03:12:08,922 - __main__ - INFO - population_validation[0]:[630. 703. 745. 682. 714. 755. 714. 609. 723. 672. 609. 609. 755. 744.
+ 796. 672. 651. 661. 651. 693. 692. 714. 724. 796. 766. 609. 567. 672.
+ 336. 682.]
+In ga.py, 2018-11-25 03:13:31,141 - __main__ - INFO - population_validation second:[678.2, 630.9667, 609.9667, 564.43335, 646.86664, 679.63336, 679.5, 627.6667, 524.23334, 538.4]
+In ga.py, 2018-11-25 03:19:29,614 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 03:19:29,616 - __main__ - INFO - population_validation[0]:[630. 693. 682. 899. 651. 378. 567. 786. 483. 525. 588. 765. 712. 399.
+ 672. 189. 609. 692. 399. 712. 399. 588. 848. 609. 734. 703. 849. 630.
+ 567. 899.]
+In ga.py, 2018-11-25 03:20:35,552 - __main__ - INFO - population_validation second:[628.56665, 621.5, 625.93335, 589.0, 622.76666, 635.4667, 633.6667, 547.2, 641.9667, 671.93335]
+In ga.py, 2018-11-25 03:26:32,660 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 03:26:32,661 - __main__ - INFO - population_validation[0]:[378. 839. 661. 399. 775. 567. 609. 693. 672. 682. 630. 797. 462. 651.
+ 609. 784. 567. 755. 651. 692. 525. 661. 661. 651. 776. 764. 252. 755.
+ 734. 734.]
+In ga.py, 2018-11-25 03:27:32,357 - __main__ - INFO - population_validation second:[646.2, 558.8, 629.9667, 623.93335, 655.26666, 640.43335, 607.2, 643.7, 675.06665, 621.9]
+In ga.py, 2018-11-25 03:33:32,874 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 03:33:32,876 - __main__ - INFO - population_validation[0]:[609. 661. 546. 692. 661. 441. 734. 567. 795. 630. 441. 483. 588. 462.
+ 703. 713. 650. 420. 724. 682. 682. 661. 671. 672. 661. 745. 703. 462.
+ 630. 441.]
+In ga.py, 2018-11-25 03:34:44,441 - __main__ - INFO - population_validation second:[617.6667, 720.9667, 595.8333, 599.13336, 647.4667, 659.26666, 564.1667, 549.7, 643.8, 681.9]
+In ga.py, 2018-11-25 03:40:39,300 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 03:40:39,302 - __main__ - INFO - population_validation[0]:[672. 776. 399. 672. 661. 609. 399. 775. 462. 378. 661. 775. 796. 713.
+ 724. 796. 713. 682. 661. 682. 546. 546. 609. 651. 714. 682. 588. 651.
+ 630. 672.]
+In ga.py, 2018-11-25 03:41:42,501 - __main__ - INFO - population_validation second:[643.1667, 648.8333, 644.43335, 612.06665, 635.93335, 643.63336, 636.63336, 660.1667, 581.63336, 649.63336]
+In ga.py, 2018-11-25 03:47:23,179 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 03:47:23,180 - __main__ - INFO - population_validation[0]:[765. 546. 724. 693. 682. 588. 672. 837. 661. 672. 766. 640. 735. 682.
+ 807. 189. 756. 682. 630. 724. 682. 630. 703. 735. 651. 796. 743. 786.
+ 483. 776.]
+In ga.py, 2018-11-25 03:48:22,033 - __main__ - INFO - population_validation second:[681.2, 647.36664, 643.5333, 655.8, 630.0, 637.3333, 590.8, 595.63336, 547.4667, 644.1667]
+In ga.py, 2018-11-25 03:53:55,676 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 03:53:55,677 - __main__ - INFO - population_validation[0]:[651. 661. 777. 859. 651. 702. 609. 808. 693. 651. 630. 713. 868. 693.
+ 693. 630. 745. 724. 703. 672. 441. 672. 828. 630. 755. 756. 714. 399.
+ 651. 682.]
+In ga.py, 2018-11-25 03:55:00,729 - __main__ - INFO - population_validation second:[688.7, 662.26666, 655.7, 623.8, 599.26666, 654.9667, 611.2, 665.8333, 659.9667, 607.86664]
+In ga.py, 2018-11-25 04:00:39,294 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 04:00:39,295 - __main__ - INFO - population_validation[0]:[ 795.  797. 1036.  651.  714.  525.  682.  702.  630.  546.  693.  630.
+  693.  798.  713.  693.  525. 1520.  671.  630.  651.  546.  682.  734.
+  483.  682.  651.  651.  630.  828.]
+In ga.py, 2018-11-25 04:01:42,901 - __main__ - INFO - population_validation second:[706.06665, 597.93335, 679.86664, 631.4667, 677.3, 607.8333, 649.63336, 595.26666, 637.93335, 595.36664]
+In ga.py, 2018-11-25 04:07:26,859 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 04:07:26,860 - __main__ - INFO - population_validation[0]:[724. 651. 682. 651. 546. 735. 836. 651. 483. 764. 609. 744. 630. 651.
+ 252. 651. 766. 785. 441.  84. 672. 588. 567. 858. 504. 745. 630. 609.
+ 735. 745.]
+In ga.py, 2018-11-25 04:08:29,891 - __main__ - INFO - population_validation second:[632.9667, 678.56665, 623.13336, 658.7, 660.43335, 612.3, 675.06665, 646.06665, 640.3, 567.7]
+In ga.py, 2018-11-25 04:14:25,637 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 04:14:25,639 - __main__ - INFO - population_validation[0]:[672. 682. 703. 567. 795. 462. 567. 713. 672. 630. 672. 766. 630. 640.
+ 880. 837. 189. 745. 807. 630. 682. 525. 827. 713. 672. 785. 776. 765.
+ 651. 661.]
+In ga.py, 2018-11-25 04:15:19,991 - __main__ - INFO - population_validation second:[677.2, 645.13336, 681.6, 665.6667, 628.36664, 623.3333, 638.1, 639.86664, 633.4667, 647.8333]
+In ga.py, 2018-11-25 04:21:05,423 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 04:21:05,425 - __main__ - INFO - population_validation[0]:[682. 609. 881. 651. 567. 713. 766. 672. 682. 588. 888. 755. 462. 630.
+ 399. 879. 651. 504. 995. 888. 881. 703. 672. 723. 734. 273. 567. 672.
+ 754. 691.]
+In ga.py, 2018-11-25 04:22:17,665 - __main__ - INFO - population_validation second:[684.4, 673.9667, 641.23334, 673.9667, 662.4, 632.06665, 622.8, 631.9, 684.6667, 665.86664]
+In ga.py, 2018-11-25 04:27:57,536 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 04:27:57,538 - __main__ - INFO - population_validation[0]:[588. 745. 735. 776. 651. 847. 630. 714. 756. 703. 827. 755. 399. 755.
+ 723. 189. 817. 588. 462. 567. 745. 630. 441. 692. 441. 735. 682. 911.
+ 651. 588.]
+In ga.py, 2018-11-25 04:28:50,050 - __main__ - INFO - population_validation second:[658.1, 671.8, 618.4667, 672.8, 647.5333, 634.36664, 636.23334, 663.4667, 663.73334, 707.2]
+In ga.py, 2018-11-25 04:34:23,296 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 04:34:23,298 - __main__ - INFO - population_validation[0]:[661. 672. 630. 682. 735. 630. 880. 630. 850. 693. 651. 661. 755. 703.
+ 483. 755. 651. 755. 714. 765. 713. 724. 693. 724. 651. 682. 567. 787.
+ 504. 567.]
+In ga.py, 2018-11-25 04:35:36,332 - __main__ - INFO - population_validation second:[685.6, 643.5, 663.3333, 652.0, 700.26666, 596.86664, 659.2, 600.26666, 641.4, 659.6667]
+In ga.py, 2018-11-25 04:41:27,277 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 04:41:27,278 - __main__ - INFO - population_validation[0]:[714. 441. 189. 858. 869. 525. 672. 525. 701. 692. 692. 546. 660. 712.
+ 588. 630. 787. 609. 546. 630. 630. 775. 796. 713. 650. 723. 776. 776.
+ 651. 806.]
+In ga.py, 2018-11-25 04:42:27,413 - __main__ - INFO - population_validation second:[662.73334, 633.6667, 674.9667, 683.0, 655.4667, 694.26666, 604.8, 666.63336, 624.43335, 650.0333]
+In ga.py, 2018-11-25 04:47:55,088 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 04:47:55,089 - __main__ - INFO - population_validation[0]:[693. 703. 630. 764. 713. 703. 787. 651. 724. 743. 724. 724. 735. 609.
+ 672. 609. 357. 776. 651. 735. 724. 713. 525. 462. 713. 630. 745. 483.
+ 672. 671.]
+In ga.py, 2018-11-25 04:48:58,084 - __main__ - INFO - population_validation second:[668.0333, 704.76666, 629.2, 618.36664, 681.26666, 682.6, 680.5333, 575.3333, 628.2, 679.5333]
+In ga.py, 2018-11-25 04:54:34,356 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 04:54:34,358 - __main__ - INFO - population_validation[0]:[672. 651. 630. 609. 462. 640. 807. 764. 723. 420. 776. 702. 588. 712.
+ 703. 546. 693. 671. 735. 849. 661. 734. 661. 567. 567. 672. 818. 724.
+ 818. 797.]
+In ga.py, 2018-11-25 04:55:34,703 - __main__ - INFO - population_validation second:[679.06665, 654.76666, 690.36664, 678.8333, 686.1667, 626.4667, 714.4, 647.4667, 661.3333, 637.7]
+In ga.py, 2018-11-25 05:01:05,431 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:01:05,432 - __main__ - INFO - population_validation[0]:[714. 724. 829. 735. 462. 147. 630. 724. 483. 567. 588. 745. 273. 723.
+ 672. 462. 609. 630. 797. 879. 651. 682. 609. 651. 849. 567. 912. 504.
+ 766. 745.]
+In ga.py, 2018-11-25 05:01:58,774 - __main__ - INFO - population_validation second:[644.3, 663.0, 628.5333, 643.0, 623.9667, 615.3333, 671.36664, 627.3333, 727.4, 675.23334]
+In ga.py, 2018-11-25 05:07:20,513 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:07:20,514 - __main__ - INFO - population_validation[0]:[724. 651. 766. 753. 672. 630. 797. 609. 525. 754. 693. 672. 838. 714.
+ 609. 755. 745. 786. 859. 588. 714. 776. 336. 984. 724. 672. 672. 651.
+ 797. 756.]
+In ga.py, 2018-11-25 05:08:15,126 - __main__ - INFO - population_validation second:[707.4, 687.0, 610.2, 700.63336, 580.7, 673.9, 644.2, 644.8333, 697.63336, 625.8333]
+In ga.py, 2018-11-25 05:13:27,561 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:13:27,562 - __main__ - INFO - population_validation[0]:[797. 672. 630. 661. 829. 546. 744. 713. 630. 693. 756. 765. 733. 724.
+ 766. 734. 735. 714. 609. 766. 964. 588. 787. 818. 693. 609. 818. 672.
+ 651. 724.]
+In ga.py, 2018-11-25 05:14:25,229 - __main__ - INFO - population_validation second:[718.0333, 642.5, 733.6, 640.26666, 653.8333, 586.4, 688.9667, 670.6667, 659.23334, 615.3]
+In ga.py, 2018-11-25 05:19:38,265 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:19:38,266 - __main__ - INFO - population_validation[0]:[588. 609. 693. 672. 724. 766. 672. 713. 567. 766. 735. 776. 672. 504.
+ 807. 672. 693. 849. 703. 714. 672. 724. 787. 399. 735. 808. 693. 630.
+ 755. 682.]
+In ga.py, 2018-11-25 05:20:34,883 - __main__ - INFO - population_validation second:[692.6667, 637.9667, 652.63336, 663.5333, 646.8333, 601.23334, 606.43335, 640.8333, 659.5333, 627.2]
+In ga.py, 2018-11-25 05:26:07,677 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:26:07,679 - __main__ - INFO - population_validation[0]:[ 588.  714.  765.  786.  693.  651.  693.  703.  588.  651.  630.  651.
+  672.  630.  682.  808.  735. 1102.  630.  796.  744.  745.  651.  651.
+  630.  744.  630.  630.  693.  714.]
+In ga.py, 2018-11-25 05:27:08,635 - __main__ - INFO - population_validation second:[700.0, 603.5333, 682.36664, 641.4667, 672.0333, 648.23334, 561.1667, 548.36664, 597.6667, 614.3333]
+In ga.py, 2018-11-25 05:32:22,317 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:32:22,318 - __main__ - INFO - population_validation[0]:[672. 745. 703. 838. 744. 672. 609. 609. 651. 651. 609. 724. 703. 766.
+ 682. 588. 672. 682. 870. 714. 630. 682. 808. 735. 567. 818. 765. 723.
+ 734. 483.]
+In ga.py, 2018-11-25 05:33:19,593 - __main__ - INFO - population_validation second:[694.9667, 670.13336, 608.4, 612.73334, 602.76666, 666.5333, 578.06665, 625.8333, 604.43335, 616.8333]
+In ga.py, 2018-11-25 05:38:25,662 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:38:25,663 - __main__ - INFO - population_validation[0]:[588. 714. 672. 672. 588. 682. 787. 483. 796. 776. 588. 724. 672. 766.
+ 651. 588. 786. 693. 806. 651. 786. 483. 724. 525. 848. 796. 630. 786.
+ 661. 692.]
+In ga.py, 2018-11-25 05:39:39,043 - __main__ - INFO - population_validation second:[687.13336, 656.3, 667.4667, 516.63336, 604.73334, 683.13336, 659.43335, 680.7, 649.4, 640.8333]
+In ga.py, 2018-11-25 05:44:53,111 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:44:53,113 - __main__ - INFO - population_validation[0]:[546. 630. 859. 776. 693. 672. 609. 630. 588. 630. 567. 714. 525. 609.
+ 798. 609. 588. 588. 755. 796. 766. 900. 630. 724. 849. 651. 441. 766.
+ 682. 714.]
+In ga.py, 2018-11-25 05:45:51,271 - __main__ - INFO - population_validation second:[676.8333, 622.1667, 625.76666, 654.43335, 672.76666, 623.43335, 594.06665, 673.3333, 647.7, 635.63336]
+In ga.py, 2018-11-25 05:51:06,423 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:51:06,424 - __main__ - INFO - population_validation[0]:[504. 630. 754. 724. 483. 661. 713. 869. 745. 744. 672. 630. 714. 588.
+ 651. 714. 693. 703. 651. 672. 692. 672. 651. 462. 567. 651. 754. 890.
+ 546. 420.]
+In ga.py, 2018-11-25 05:52:01,927 - __main__ - INFO - population_validation second:[660.6667, 659.9667, 673.7, 662.93335, 581.1, 583.9667, 664.73334, 571.4667, 593.6667, 586.3333]
+In ga.py, 2018-11-25 05:57:24,227 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 05:57:24,228 - __main__ - INFO - population_validation[0]:[651. 827. 818. 609. 189. 504. 693. 808. 567. 806. 420. 462. 807. 399.
+ 567. 743. 609. 828. 399. 609. 775. 399. 630. 609. 786. 630. 567. 806.
+ 869. 713.]
+In ga.py, 2018-11-25 05:58:26,888 - __main__ - INFO - population_validation second:[636.63336, 668.9, 603.23334, 592.8, 657.1667, 648.8333, 653.6, 628.76666, 635.6667, 621.73334]
+In ga.py, 2018-11-25 06:03:49,092 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 06:03:49,093 - __main__ - INFO - population_validation[0]:[943. 525. 693. 651. 713. 661. 672. 703. 682. 787. 693. 588. 818. 766.
+ 797. 693. 703. 630. 567. 724. 672. 609. 702. 871. 745. 399. 682. 838.
+ 525. 483.]
+In ga.py, 2018-11-25 06:04:48,473 - __main__ - INFO - population_validation second:[684.5, 676.73334, 660.56665, 662.26666, 667.7, 635.6, 664.76666, 625.8, 632.5, 620.06665]
+In ga.py, 2018-11-25 06:10:19,521 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 06:10:19,523 - __main__ - INFO - population_validation[0]:[ 525.  588.  723.  525.  651.  588.  693.  651.  818.  651.  735.  525.
+  702.  567.  756.  651.  567.  504.  734.  672. 1110.  756.  462.  672.
+  744.  420.  786.  745.  504.  713.]
+In ga.py, 2018-11-25 06:11:15,628 - __main__ - INFO - population_validation second:[657.93335, 650.2, 646.5, 670.7, 558.7, 614.1, 633.8333, 643.0333, 643.1, 647.8]
+In ga.py, 2018-11-25 06:16:33,223 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 06:16:33,225 - __main__ - INFO - population_validation[0]:[609. 399. 315. 838. 546. 734. 462. 609. 525. 745. 796. 609. 504. 462.
+ 546. 723. 588. 806. 483. 866. 838. 693. 849. 682. 829. 462. 828. 765.
+ 441. 755.]
+In ga.py, 2018-11-25 06:17:27,856 - __main__ - INFO - population_validation second:[643.56665, 591.8333, 630.3333, 633.06665, 638.6, 629.6667, 663.26666, 620.36664, 568.4, 607.4]
+In ga.py, 2018-11-25 06:22:41,738 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 06:22:41,740 - __main__ - INFO - population_validation[0]:[828. 735. 609. 210. 798. 890. 630. 546. 609. 734. 315. 774. 734. 714.
+ 681. 661. 703. 734. 745. 702. 210. 546. 734. 441. 441. 703. 462. 630.
+ 703. 692.]
+In ga.py, 2018-11-25 06:23:40,040 - __main__ - INFO - population_validation second:[630.4667, 626.63336, 622.73334, 611.93335, 601.6667, 559.76666, 626.8, 643.9, 619.0333, 640.1667]
+In ga.py, 2018-11-25 06:28:54,180 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 06:28:54,181 - __main__ - INFO - population_validation[0]:[441. 609. 546. 420. 609. 682. 964. 315. 567. 567. 483. 682. 504. 775.
+ 943. 807. 357. 315. 504. 817. 939. 755. 672. 682. 252. 609. 797. 189.
+ 609. 441.]
+In ga.py, 2018-11-25 06:29:49,996 - __main__ - INFO - population_validation second:[595.06665, 623.56665, 646.1667, 716.1, 669.6667, 659.26666, 616.73334, 590.1667, 635.56665, 677.9]
+In ga.py, 2018-11-25 06:34:54,149 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-25 06:34:54,150 - __main__ - INFO - population_validation[0]:[755. 692. 462. 880. 660. 765. 609. 954. 775. 713. 630. 693. 818. 714.
+ 796. 504. 504. 869. 827. 651. 681. 546. 765. 609. 848. 672. 693. 630.
+ 588. 462.]
+In ga.py, 2018-11-25 06:35:49,348 - __main__ - INFO - population_validation second:[692.1667, 633.23334, 604.3333, 596.8, 630.4667, 603.6, 569.76666, 676.76666, 636.1667, 609.43335]
