@@ -1,0 +1,5 @@
+**/*.pyc
+**/gpu_qcis5/
+gym_tensorflow/
+/runs
+../gpu_qcis5/
