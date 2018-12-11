@@ -1,7 +1,7 @@
 {
     "game": "venture",
     "model": "LargeModel",
-    "num_validation_episodes": 30,
+    "num_validation_episodes": 10,
     "num_test_episodes": 200,
     "population_size": 1000,
     "episode_cutoff_mode": 5000,
