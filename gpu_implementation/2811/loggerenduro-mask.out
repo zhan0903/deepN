@@ -1,0 +1,26 @@
+In ga.py, 2018-11-26 19:22:41,184 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-26 19:22:41,186 - __main__ - INFO - population_validation[0]:[26.  8. 28. 28.  0. 18. 14.  1. 12. 14. 21. 25.  1. 12. 15. 17.  9.  9.
+ 12. 25.  8. 15. 21. 28. 12. 19. 17. 25. 25. 15.]
+In ga.py, 2018-11-26 19:24:06,828 - __main__ - INFO - population_validation second:[16.0, 26.9, 19.6, 27.166666, 27.466667, 32.0, 31.733334, 10.9, 22.1, 21.033333]
+In ga.py, 2018-11-26 19:31:04,171 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-26 19:31:04,229 - __main__ - INFO - population_validation[0]:[93. 44.  0. 43. 24. 43. 44. 21. 37. 13. 11. 22. 29. 35. 19. 22. 22. 46.
+ 31. 35. 13. 30. 13. 16. 16. 30. 13. 13. 19. 13.]
+In ga.py, 2018-11-26 19:32:27,644 - __main__ - INFO - population_validation second:[27.0, 32.066666, 31.666666, 20.466667, 30.066668, 27.133333, 24.466667, 28.233334, 30.833334, 28.333334]
+In ga.py, 2018-11-26 19:42:40,221 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-26 19:42:40,314 - __main__ - INFO - population_validation[0]:[30. 29. 33. 41. 54. 35. 32. 82. 26. 54. 13. 41. 13. 29. 33. 14. 24. 24.
+ 32. 32. 32. 21. 29. 24. 33. 26. 30. 21. 32. 13.]
+In ga.py, 2018-11-26 19:43:57,103 - __main__ - INFO - population_validation second:[31.066668, 33.333332, 26.566668, 30.566668, 25.266666, 21.833334, 22.733334, 32.266666, 29.9, 20.666666]
+In ga.py, 2018-11-26 19:55:35,429 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-26 19:55:35,488 - __main__ - INFO - population_validation[0]:[103.  26.  29.  21.  40.  34.  36.   8.   9.  42.  21.   9.  33. 103.
+  25.  29. 103.  33.   9.  20.  44.  39.  20.  60.  33.  60.  37.  60.
+  29.  25.]
+In ga.py, 2018-11-26 19:57:12,956 - __main__ - INFO - population_validation second:[38.0, 25.266666, 22.266666, 29.933332, 27.2, 26.266666, 25.2, 25.5, 29.8, 27.533333]
+In ga.py, 2018-11-26 20:08:56,347 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-26 20:08:56,433 - __main__ - INFO - population_validation[0]:[ 39. 103.   9.  36.   2.  21.  34. 103.  23.  36.  42.   3.  20.  23.
+  40.  15.  29.  26.  42.  34.   7.  29.  15.  39.   9.  15.  25.  37.
+  43.  33.]
+In ga.py, 2018-11-26 20:10:28,685 - __main__ - INFO - population_validation second:[31.066668, 27.7, 27.2, 28.1, 33.0, 31.733334, 26.3, 30.866667, 25.533333, 24.466667]
+In ga.py, 2018-11-26 20:22:24,042 - __main__ - INFO - len population_validation first:10,len population_validation[0]:30
+In ga.py, 2018-11-26 20:22:24,134 - __main__ - INFO - population_validation[0]:[29. 12. 28. 32. 36. 29. 28. 12.  2. 30. 29. 42. 30. 30. 28. 85. 28. 32.
+ 29. 12.  2. 12. 23. 28. 24. 30. 18. 34. 18. 42.]
+In ga.py, 2018-11-26 20:24:03,332 - __main__ - INFO - population_validation second:[27.133333, 30.433332, 25.966667, 20.433332, 31.933332, 28.5, 28.833334, 25.633333, 28.266666, 27.6]
