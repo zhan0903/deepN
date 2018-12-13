@@ -9,12 +9,12 @@ games = ['air_raid', 'alien', 'amidar', 'assault', 'asterix', 'asteroids', 'atla
         'centipede', 'chopper_command', 'crazy_climber', 'demon_attack', 'double_dunk',
         'elevator_action', 'enduro', 'fishing_derby', 'freeway', 'frostbite', 'gopher', 'gravitar',
         'hero', 'ice_hockey', 'jamesbond', 'journey_escape', 'kangaroo', 'krull', 'kung_fu_master',
-        'montezuma_revenge', 'ms_pacman', 'name_this_game', 'phoenix', 'pitfall', 'pong', 'pooyan',
+        'montezuma_revenge', 'ms_pacman', 'name_this_game', 'phoenix', 'pitfall', 'openai-2018-12-13-16-27-52-777176', 'pooyan',
         'private_eye', 'qbert', 'riverraid', 'road_runner', 'robotank', 'seaquest', 'skiing',
         'solaris', 'space_invaders', 'star_gunner', 'tennis', 'time_pilot', 'tutankham', 'up_n_down',
         'venture', 'video_pinball', 'wizard_of_wor', 'yars_revenge', 'zaxxon']
 
-screen_size = {'name_this_game': (210, 160), 'hero': (210, 160), 'space_invaders': (210, 160), 'qbert': (210, 160), 'solaris': (210, 160), 'asteroids': (210, 160), 'pooyan': (250, 160), 'gopher': (250, 160), 'video_pinball': (250, 160), 'alien': (210, 160), 'krull': (210, 160), 'beam_rider': (210, 160), 'battle_zone': (210, 160), 'double_dunk': (250, 160), 'skiing': (250, 160), 'frostbite': (210, 160), 'pong': (210, 160), 'freeway': (210, 160), 'jamesbond': (210, 160), 'tutankham': (250, 160), 'asterix': (210, 160), 'boxing': (210, 160), 'seaquest': (210, 160), 'riverraid': (210, 160), 'elevator_action': (210, 160), 'breakout': (210, 160), 'bank_heist': (250, 160), 'journey_escape': (230, 160), 'pitfall': (210, 160), 'ice_hockey': (210, 160), 'atlantis': (210, 160), 'amidar': (250, 160), 'zaxxon': (210, 160), 'tennis': (250, 160), 'kangaroo': (210, 160), 'robotank': (210, 160), 'kung_fu_master': (210, 160), 'chopper_command': (210, 160), 'assault': (250, 160), 'demon_attack': (210, 160), 'berzerk': (210, 160), 'crazy_climber': (210, 160), 'up_n_down': (210, 160), 'wizard_of_wor': (250, 160), 'yars_revenge': (210, 160), 'carnival': (250, 160), 'montezuma_revenge': (210, 160), 'road_runner': (210, 160), 'ms_pacman': (210, 160), 'gravitar': (210, 160), 'star_gunner': (210, 160), 'fishing_derby': (210, 160), 'private_eye': (210, 160), 'centipede': (250, 160), 'venture': (210, 160), 'bowling': (210, 160), 'phoenix': (210, 160), 'time_pilot': (210, 160), 'air_raid': (250, 160), 'enduro': (210, 160)}
+screen_size = {'name_this_game': (210, 160), 'hero': (210, 160), 'space_invaders': (210, 160), 'qbert': (210, 160), 'solaris': (210, 160), 'asteroids': (210, 160), 'pooyan': (250, 160), 'gopher': (250, 160), 'video_pinball': (250, 160), 'alien': (210, 160), 'krull': (210, 160), 'beam_rider': (210, 160), 'battle_zone': (210, 160), 'double_dunk': (250, 160), 'skiing': (250, 160), 'frostbite': (210, 160), 'openai-2018-12-13-16-27-52-777176': (210, 160), 'freeway': (210, 160), 'jamesbond': (210, 160), 'tutankham': (250, 160), 'asterix': (210, 160), 'boxing': (210, 160), 'seaquest': (210, 160), 'riverraid': (210, 160), 'elevator_action': (210, 160), 'breakout': (210, 160), 'bank_heist': (250, 160), 'journey_escape': (230, 160), 'pitfall': (210, 160), 'ice_hockey': (210, 160), 'atlantis': (210, 160), 'amidar': (250, 160), 'zaxxon': (210, 160), 'tennis': (250, 160), 'kangaroo': (210, 160), 'robotank': (210, 160), 'kung_fu_master': (210, 160), 'chopper_command': (210, 160), 'assault': (250, 160), 'demon_attack': (210, 160), 'berzerk': (210, 160), 'crazy_climber': (210, 160), 'up_n_down': (210, 160), 'wizard_of_wor': (250, 160), 'yars_revenge': (210, 160), 'carnival': (250, 160), 'montezuma_revenge': (210, 160), 'road_runner': (210, 160), 'ms_pacman': (210, 160), 'gravitar': (210, 160), 'star_gunner': (210, 160), 'fishing_derby': (210, 160), 'private_eye': (210, 160), 'centipede': (250, 160), 'venture': (210, 160), 'bowling': (210, 160), 'phoenix': (210, 160), 'time_pilot': (210, 160), 'air_raid': (250, 160), 'enduro': (210, 160)}
 
 
 class AtariEnv(TensorFlowEnv):
@@ -189,7 +189,7 @@ game_actions = {
     "name_this_game": 6,
     "phoenix": 8,
     "pitfall": 18,
-    "pong": 6,
+    "openai-2018-12-13-16-27-52-777176": 6,
     "pooyan": 6,
     "private_eye": 18,
     "qbert": 6,
