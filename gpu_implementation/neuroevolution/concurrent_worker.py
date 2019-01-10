@@ -28,19 +28,6 @@ from .distributed_helpers import AsyncWorker, WorkerHub, AsyncTaskHub
 import logging
 
 
-logger = logging.getLogger(__name__)
-# fh = logging.FileHandler('./logger.out')
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-# fh.setFormatter(formatter)
-# logger.addHandler(fh)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-logger.addHandler(console_handler)
-
-logger.setLevel(level=logging.INFO)
-
-
 class RLEvalutionWorker(AsyncWorker):
     def __init__(self, make_env_f, model, batch_size, device='/cpu:0', ref_batch=None):
         self.batch_size = batch_size
