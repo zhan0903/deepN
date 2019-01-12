@@ -18119,3 +18119,30 @@ Number of parameteres: 4052658
 01/12/2019 08:45:11 PM Num timesteps: 4948828 per second: 3493.0 num episodes: 809
 01/12/2019 08:45:16 PM Num timesteps: 4966203 per second: 3438.0 num episodes: 812
 01/12/2019 08:45:21 PM Num timesteps: 4982864 per second: 3298.0 num episodes: 872
+01/12/2019 08:45:26 PM Done evaluating 1000 episodes in 735.05 seconds
+01/12/2019 08:45:26 PM Evaluate population
+01/12/2019 08:45:31 PM Num timesteps: 5009309 per second: 2662.0 num episodes: 0
+01/12/2019 08:45:36 PM Num timesteps: 5026087 per second: 3345.0 num episodes: 0
+01/12/2019 08:45:41 PM Num timesteps: 5042837 per second: 3338.0 num episodes: 0
+01/12/2019 08:45:46 PM Num timesteps: 5059556 per second: 3331.0 num episodes: 0
+01/12/2019 08:45:51 PM Num timesteps: 5076430 per second: 3365.0 num episodes: 0
+01/12/2019 08:45:56 PM Num timesteps: 5092892 per second: 3279.0 num episodes: 1
+01/12/2019 08:46:01 PM Num timesteps: 5108857 per second: 3182.0 num episodes: 1
+01/12/2019 08:46:06 PM Num timesteps: 5124844 per second: 3186.0 num episodes: 1
+01/12/2019 08:46:11 PM Num timesteps: 5140769 per second: 3173.0 num episodes: 1
+01/12/2019 08:46:16 PM Num timesteps: 5156696 per second: 3176.0 num episodes: 1
+01/12/2019 08:46:21 PM Num timesteps: 5172590 per second: 3167.0 num episodes: 1
+01/12/2019 08:46:26 PM Num timesteps: 5188602 per second: 3192.0 num episodes: 1
+01/12/2019 08:46:31 PM Num timesteps: 5204522 per second: 3173.0 num episodes: 1
+01/12/2019 08:46:36 PM Num timesteps: 5220414 per second: 3168.0 num episodes: 1
+01/12/2019 08:46:41 PM Num timesteps: 5236317 per second: 3170.0 num episodes: 1
+01/12/2019 08:46:46 PM Num timesteps: 5252120 per second: 3151.0 num episodes: 1
+01/12/2019 08:46:51 PM Num timesteps: 5268168 per second: 3199.0 num episodes: 1
+01/12/2019 08:46:56 PM Num timesteps: 5284161 per second: 3188.0 num episodes: 1
+01/12/2019 08:47:01 PM Num timesteps: 5300032 per second: 3166.0 num episodes: 1
+01/12/2019 08:47:06 PM Num timesteps: 5316149 per second: 3212.0 num episodes: 1
+01/12/2019 08:47:11 PM Num timesteps: 5332082 per second: 3175.0 num episodes: 1
+01/12/2019 08:47:16 PM Num timesteps: 5348141 per second: 3200.0 num episodes: 1
+01/12/2019 08:47:21 PM Num timesteps: 5364358 per second: 3234.0 num episodes: 2
+01/12/2019 08:47:26 PM Num timesteps: 5380842 per second: 3286.0 num episodes: 2
+01/12/2019 08:47:32 PM Num timesteps: 5397270 per second: 3273.0 num episodes: 2
