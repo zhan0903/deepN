@@ -18109,3 +18109,13 @@ Number of parameteres: 4052658
 01/12/2019 08:44:20 PM Num timesteps: 4662516 per second: 7108.0 num episodes: 516
 01/12/2019 08:44:25 PM Num timesteps: 4698463 per second: 7082.0 num episodes: 516
 01/12/2019 08:44:30 PM Num timesteps: 4734371 per second: 7081.0 num episodes: 516
+01/12/2019 08:44:35 PM Num timesteps: 4770359 per second: 7097.0 num episodes: 528
+01/12/2019 08:44:40 PM Num timesteps: 4805886 per second: 7007.0 num episodes: 579
+01/12/2019 08:44:46 PM Num timesteps: 4841105 per second: 6944.0 num episodes: 605
+01/12/2019 08:44:51 PM Num timesteps: 4873375 per second: 6359.0 num episodes: 683
+01/12/2019 08:44:56 PM Num timesteps: 4894986 per second: 4261.0 num episodes: 745
+01/12/2019 08:45:01 PM Num timesteps: 4913155 per second: 3589.0 num episodes: 745
+01/12/2019 08:45:06 PM Num timesteps: 4931145 per second: 3557.0 num episodes: 767
+01/12/2019 08:45:11 PM Num timesteps: 4948828 per second: 3493.0 num episodes: 809
+01/12/2019 08:45:16 PM Num timesteps: 4966203 per second: 3438.0 num episodes: 812
+01/12/2019 08:45:21 PM Num timesteps: 4982864 per second: 3298.0 num episodes: 872
