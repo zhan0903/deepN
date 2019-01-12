@@ -18,8 +18,6 @@ THE SOFTWARE.
 """
 
 import tensorflow as tf
-import torch.nn as nn
-import torch
 import numpy as np
 import math
 import tabular_logger as tlogger
@@ -44,50 +42,50 @@ MAX_SEED = 2**32 - 1
 # logger.setLevel(level=logging.INFO)
 
 
-class Net(nn.Module):
-    def __init__(self, input_shape, n_actions):
-        super(Net, self).__init__()
+# class Net(nn.Module):
+#     def __init__(self, input_shape, n_actions):
+#         super(Net, self).__init__()
+#
+#         self.conv = nn.Sequential(
+#             nn.Conv2d(input_shape[0], 32, kernel_size=8, stride=4),
+#             nn.ReLU(),
+#             nn.Conv2d(32, 64, kernel_size=4, padding=2, stride=2),
+#             nn.ReLU(),
+#             nn.Conv2d(64, 64, kernel_size=3, padding=1, stride=1),
+#             nn.ReLU()
+#         )
+#
+#         conv_out_size = self._get_conv_out(input_shape)
+#         self.fc = nn.Sequential(
+#             nn.Linear(conv_out_size, 512),
+#             nn.ReLU(),
+#             nn.Linear(512, n_actions),
+#         )
+#
+#     def _get_conv_out(self, shape):
+#         o = self.conv(torch.zeros(1, *shape))
+#         return int(np.prod(o.size()))
+#
+#     def forward(self, x):
+#         fx = x.float() / 256
+#         conv_out = self.conv(fx).view(fx.size()[0], -1)
+#         return self.fc(conv_out)
 
-        self.conv = nn.Sequential(
-            nn.Conv2d(input_shape[0], 32, kernel_size=8, stride=4),
-            nn.ReLU(),
-            nn.Conv2d(32, 64, kernel_size=4, padding=2, stride=2),
-            nn.ReLU(),
-            nn.Conv2d(64, 64, kernel_size=3, padding=1, stride=1),
-            nn.ReLU()
-        )
 
-        conv_out_size = self._get_conv_out(input_shape)
-        self.fc = nn.Sequential(
-            nn.Linear(conv_out_size, 512),
-            nn.ReLU(),
-            nn.Linear(512, n_actions),
-        )
-
-    def _get_conv_out(self, shape):
-        o = self.conv(torch.zeros(1, *shape))
-        return int(np.prod(o.size()))
-
-    def forward(self, x):
-        fx = x.float() / 256
-        conv_out = self.conv(fx).view(fx.size()[0], -1)
-        return self.fc(conv_out)
-
-
-def init_weight(shape, type):
-    w = torch.empty(shape)
-    if type == "xavier_normal":
-        nn.init.xavier_normal_(w)
-    if type == "xavier_uniform":
-        nn.init.xavier_uniform_(w, gain=nn.init.calculate_gain('relu'))
-    if type == "kaiming_uniform":
-        nn.init.kaiming_uniform_(w, mode='fan_in', nonlinearity='relu')
-    if type == "kaiming_normal":
-        nn.init.kaiming_normal_(w, mode='fan_out', nonlinearity='relu')
-    if type == "orthogonal":
-        nn.init.orthogonal_(w)
-
-    return w.numpy().flatten()
+# def init_weight(shape, type):
+#     w = torch.empty(shape)
+#     if type == "xavier_normal":
+#         nn.init.xavier_normal_(w)
+#     if type == "xavier_uniform":
+#         nn.init.xavier_uniform_(w, gain=nn.init.calculate_gain('relu'))
+#     if type == "kaiming_uniform":
+#         nn.init.kaiming_uniform_(w, mode='fan_in', nonlinearity='relu')
+#     if type == "kaiming_normal":
+#         nn.init.kaiming_normal_(w, mode='fan_out', nonlinearity='relu')
+#     if type == "orthogonal":
+#         nn.init.orthogonal_(w)
+#
+#     return w.numpy().flatten()
 
 
 class BaseModel(object):
